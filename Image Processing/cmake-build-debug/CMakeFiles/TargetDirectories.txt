@@ -1,0 +1,4 @@
+/Users/simonlaursen/Dropbox/AAU/3Semester/Semester Project/Prototype/P3_AAU_Medialogy_Image_Processing/Image Processing/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/simonlaursen/Dropbox/AAU/3Semester/Semester Project/Prototype/P3_AAU_Medialogy_Image_Processing/Image Processing/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/simonlaursen/Dropbox/AAU/3Semester/Semester Project/Prototype/P3_AAU_Medialogy_Image_Processing/Image Processing/cmake-build-debug/CMakeFiles/ImageProcessing.dir
+/Users/simonlaursen/Dropbox/AAU/3Semester/Semester Project/Prototype/P3_AAU_Medialogy_Image_Processing/Image Processing/cmake-build-debug/CMakeFiles/OpenCVTest.dir
