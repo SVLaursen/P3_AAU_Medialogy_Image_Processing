@@ -9,18 +9,13 @@ using namespace cv;
 using namespace std;
 
 //Variables
-
 Mat original;
-Mat* originalPt = &original;
-//Number of shapes Variable
-int numberOfShapesExpected = 1;
-int numberOfShapes = 0;
 
 //Define countour vector
 vector<vector<Point> > contours;
 
 //Function declarations
-Mat ImageCapture(Mat original);
+Mat imageProcess(Mat original);
 
 
 //Main function
@@ -32,14 +27,14 @@ int main(int argv, char** argc)
 	//namedWindow("Webcam");
 	while (videoStream.isOpened()) {
 		videoStream >> image;
-		imshow("Webcam", ImageCapture(image));
+		imshow("Webcam", imageProcess(image));
 		waitKey(1);
 	}
 	
 	return(0);	
 }
 
-Mat ImageCapture(Mat original) {
+Mat imageProcess(Mat original) {
 	//imshow("original", original);
 	//Variables for binary conversion
 	double thr1 = 800;
