@@ -342,8 +342,10 @@ ASALocalRun/
 DerivedData/
 
 #Cmake files 
-*.CMakeCache.txt
+CMakeCache.txt
+CMakeLists.txt
 *.CMakeFiles
+*.cmake
 CMakeScripts
 Testing
 Makefile
