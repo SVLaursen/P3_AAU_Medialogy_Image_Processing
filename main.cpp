@@ -93,7 +93,6 @@ bool OutputActive(Mat output){
 //Main function
 int main(int argv, char** argc)
 {
-
     while (true) {
         if(!OutputActive(output)) break;
         imshow("Output", ImageDetection());
