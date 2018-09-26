@@ -1,4 +1,3 @@
 /Users/simonlaursen/Dropbox/AAU/3Semester/Semester Project/Prototype/P3_AAU_Medialogy_Image_Processing/cmake-build-debug/CMakeFiles/rebuild_cache.dir
 /Users/simonlaursen/Dropbox/AAU/3Semester/Semester Project/Prototype/P3_AAU_Medialogy_Image_Processing/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/simonlaursen/Dropbox/AAU/3Semester/Semester Project/Prototype/P3_AAU_Medialogy_Image_Processing/cmake-build-debug/CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir
 /Users/simonlaursen/Dropbox/AAU/3Semester/Semester Project/Prototype/P3_AAU_Medialogy_Image_Processing/cmake-build-debug/CMakeFiles/ThirdSemesterProject.dir

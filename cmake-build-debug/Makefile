@@ -111,19 +111,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named P3_AAU_Medialogy_Image_Processing
-
-# Build rule for target.
-P3_AAU_Medialogy_Image_Processing: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 P3_AAU_Medialogy_Image_Processing
-.PHONY : P3_AAU_Medialogy_Image_Processing
-
-# fast build rule for target.
-P3_AAU_Medialogy_Image_Processing/fast:
-	$(MAKE) -f CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/build.make CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/build
-.PHONY : P3_AAU_Medialogy_Image_Processing/fast
-
-#=============================================================================
 # Target rules for targets named ThirdSemesterProject
 
 # Build rule for target.
@@ -142,7 +129,6 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) -f CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/build.make CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/main.cpp.o
 	$(MAKE) -f CMakeFiles/ThirdSemesterProject.dir/build.make CMakeFiles/ThirdSemesterProject.dir/main.cpp.o
 .PHONY : main.cpp.o
 
@@ -152,7 +138,6 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) -f CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/build.make CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/main.cpp.i
 	$(MAKE) -f CMakeFiles/ThirdSemesterProject.dir/build.make CMakeFiles/ThirdSemesterProject.dir/main.cpp.i
 .PHONY : main.cpp.i
 
@@ -162,7 +147,6 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) -f CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/build.make CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/main.cpp.s
 	$(MAKE) -f CMakeFiles/ThirdSemesterProject.dir/build.make CMakeFiles/ThirdSemesterProject.dir/main.cpp.s
 .PHONY : main.cpp.s
 
@@ -174,7 +158,6 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... P3_AAU_Medialogy_Image_Processing"
 	@echo "... ThirdSemesterProject"
 	@echo "... main.o"
 	@echo "... main.i"

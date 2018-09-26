@@ -343,9 +343,8 @@ DerivedData/
 
 #Cmake files 
 CMakeCache.txt
-CMakeLists.txt
-*.CMakeFiles
-*.cmake
+CMakeList.txt
+CMakeFiles
 CMakeScripts
 Testing
 Makefile

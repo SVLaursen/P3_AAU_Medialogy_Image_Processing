@@ -8,5 +8,3 @@ set(SOURCE_FILES main.cpp)
 add_executable(ThirdSemesterProject ${SOURCE_FILES})
 include_directories(${OpenCV_INCLUDE_DIRS})
 target_link_libraries( ThirdSemesterProject ${OpenCV_LIBS} )
-
-add_executable(P3_AAU_Medialogy_Image_Processing main.cpp)

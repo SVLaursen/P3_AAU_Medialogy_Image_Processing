@@ -3,7 +3,6 @@
 #include "opencv2/opencv.hpp"
 #include <stdint.h>
 #include <thread>
-#include <process.h>
 #include <cstdlib>
 
 //Namespaces

@@ -65,50 +65,13 @@ CMAKE_SOURCE_DIR = "/Users/simonlaursen/Dropbox/AAU/3Semester/Semester Project/P
 CMAKE_BINARY_DIR = "/Users/simonlaursen/Dropbox/AAU/3Semester/Semester Project/Prototype/P3_AAU_Medialogy_Image_Processing/cmake-build-debug"
 
 #=============================================================================
-# Target rules for target CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir
-
-# All Build rule for target.
-CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/all:
-	$(MAKE) -f CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/build.make CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/depend
-	$(MAKE) -f CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/build.make CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/Users/simonlaursen/Dropbox/AAU/3Semester/Semester Project/Prototype/P3_AAU_Medialogy_Image_Processing/cmake-build-debug/CMakeFiles" --progress-num=1,2 "Built target P3_AAU_Medialogy_Image_Processing"
-.PHONY : CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/all
-
-# Include target in all.
-all: CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/all
-
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/simonlaursen/Dropbox/AAU/3Semester/Semester Project/Prototype/P3_AAU_Medialogy_Image_Processing/cmake-build-debug/CMakeFiles" 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/simonlaursen/Dropbox/AAU/3Semester/Semester Project/Prototype/P3_AAU_Medialogy_Image_Processing/cmake-build-debug/CMakeFiles" 0
-.PHONY : CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/rule
-
-# Convenience name for target.
-P3_AAU_Medialogy_Image_Processing: CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/rule
-
-.PHONY : P3_AAU_Medialogy_Image_Processing
-
-# clean rule for target.
-CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/clean:
-	$(MAKE) -f CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/build.make CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/clean
-.PHONY : CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/P3_AAU_Medialogy_Image_Processing.dir/clean
-
-.PHONY : clean
-
-#=============================================================================
 # Target rules for target CMakeFiles/ThirdSemesterProject.dir
 
 # All Build rule for target.
 CMakeFiles/ThirdSemesterProject.dir/all:
 	$(MAKE) -f CMakeFiles/ThirdSemesterProject.dir/build.make CMakeFiles/ThirdSemesterProject.dir/depend
 	$(MAKE) -f CMakeFiles/ThirdSemesterProject.dir/build.make CMakeFiles/ThirdSemesterProject.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/Users/simonlaursen/Dropbox/AAU/3Semester/Semester Project/Prototype/P3_AAU_Medialogy_Image_Processing/cmake-build-debug/CMakeFiles" --progress-num=3,4 "Built target ThirdSemesterProject"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/Users/simonlaursen/Dropbox/AAU/3Semester/Semester Project/Prototype/P3_AAU_Medialogy_Image_Processing/cmake-build-debug/CMakeFiles" --progress-num=1,2 "Built target ThirdSemesterProject"
 .PHONY : CMakeFiles/ThirdSemesterProject.dir/all
 
 # Include target in all.
