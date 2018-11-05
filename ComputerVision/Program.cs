@@ -1,5 +1,6 @@
 ﻿using System;
 
+
 namespace ComputerVision
 {
     internal class Program
