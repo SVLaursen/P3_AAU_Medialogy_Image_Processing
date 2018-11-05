@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Numerics;
 using System.Collections;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Threading;
+using System.Threading.Tasks;
 using Emgu.CV;
 using Emgu.CV.Structure;
 
@@ -8,14 +12,14 @@ namespace Blob
 {
     public class BlobDetector
     {
-        private ArrayList blobs = new ArrayList();
-        private ArrayList colors;
+        private List<Blob> blobs = new List<Blob>();
+        private List<Vector3> colors;
 
         private int cThreshold;
         private int dThreshold;
 
         //Public Constructor. Requires an ArrayList of Vector3 Objects, containing color values in HSV Format, a color threshold and a distance threshold.
-        public BlobDetector(ArrayList _colors, int _cThreshold, int _dThreshold)
+        public BlobDetector(List<Vector3> _colors, int _cThreshold, int _dThreshold)
         {
             colors = _colors;
             cThreshold = _cThreshold;
@@ -24,12 +28,12 @@ namespace Blob
 
 
         //Detects all Blobs in an image that has a color within the specified threshold for the colors provided in the colors arraylist given on construct
-        //then returns an ArrayList of Blob Objects.
-        ArrayList detectBlobs(Mat _img)
+        //then returns an List of Blob Objects.
+        List<Blob> detectBlobs(Mat _img)
         {
             Image<Hsv, Byte> imgC = _img.ToImage<Hsv, Byte>();
             //Iterate through pixels in image, looking for pixels with specific colours.
-            foreach (Vector3 _c in colors)
+            Parallel.ForEach(colors, _c =>
             {
                 for (int x = 0; x < imgC.Width; x++)
                 {
@@ -78,7 +82,7 @@ namespace Blob
                         }
                     }
                 }
-            }
+            });
             return blobs;
         }
     }
