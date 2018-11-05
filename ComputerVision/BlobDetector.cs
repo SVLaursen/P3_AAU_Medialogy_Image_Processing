@@ -4,6 +4,7 @@ using System.Collections;
 using Emgu.CV;
 using Emgu.CV.Structure;
 
+
 public class BlobDetector
 {
     private ArrayList blobs = new ArrayList();
