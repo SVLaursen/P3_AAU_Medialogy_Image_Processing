@@ -6,12 +6,9 @@ namespace ShapeDetector
     {   
         public static void Main(string[] args)
         {
-            var img = Image.FromFile("test.jpg");
-
-            if (img != null)
-            {
-                
-            }
+            ImageHandler imageHandler = new ImageHandler();
+            Bitmap _img = imageHandler.loadImage("test.jpg");
+            imageHandler.showImage("test", _img);
         }
     }
 }
