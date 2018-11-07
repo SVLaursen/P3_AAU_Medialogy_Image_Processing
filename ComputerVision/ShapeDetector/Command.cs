@@ -16,7 +16,10 @@ namespace ShapeDetector
         {
             
         }
-        
-        
+
+        private void SetColors(string input)
+        {
+            
+        }
     }
 }
