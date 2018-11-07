@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,10 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Drawing;
 using System.Windows.Forms;
+=======
+﻿using System.Drawing;
+using System.Windows;
+>>>>>>> 0d446f1825d72ece78dbae231ec7513391b8a449
 
 namespace ShapeDetector
 {   
