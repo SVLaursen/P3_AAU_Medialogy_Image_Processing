@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Drawing;
-using System.Windows.Forms;
 
 namespace ShapeDetector
 {
@@ -52,27 +51,18 @@ namespace ShapeDetector
             _form.ShowDialog();
         }
 
-        //Creates a PictureBox with the supplied Bitmap
-        public PictureBox ImageToPbox(Bitmap image)
-        {
-            PictureBox pbox = new PictureBox();
-            pbox.SizeMode = PictureBoxSizeMode.AutoSize;
-            pbox.Image = image;
-
-            return pbox;
-        }
-
         //Turns all pixels with a distance, to the colors in the supplied list of colors, higher than the supplied threshold, to black.
         public Bitmap Threshold(Bitmap img, List<Color> c, int t)
         {
             Bitmap _img = img;
             Color black = Color.FromArgb(255, 0, 0, 0);
-            for(int y = 0; y < img.Height; y++)
+            for(int y = 0; y < _img.Height; y++)
             {
-                for(int x = 0; x < img.Width; x++)
+                for(int x = 0; x < _img.Width; x++)
                 {
                     foreach(Color _c in c ){
-                        Color _cc = img.GetPixel(x, y);
+                        Color _cc = 
+                            _img.GetPixel(x, y);
                         if(DeltaE(_c, _cc) > t)
                         {
                             _img.SetPixel(x, y, black);

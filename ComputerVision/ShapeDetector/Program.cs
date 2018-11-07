@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,10 +6,8 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Drawing;
 using System.Windows.Forms;
-=======
 ﻿using System.Drawing;
 using System.Windows;
->>>>>>> 0d446f1825d72ece78dbae231ec7513391b8a449
 
 namespace ShapeDetector
 {   
@@ -30,13 +27,14 @@ namespace ShapeDetector
             Bitmap _img = imageHandler.LoadImage("test2.png");
             CCHandler CC = new CCHandler(_c, _img);
 
-            //Bitmap _timg = imageHandler.Threshold(_img, _c, 10);
+            //Bitmap _timg = CC.BackgroundThreshold(_img, 255);
             _b = CC.Detect(_img, 150);
             Console.WriteLine(_b.Count);
             Blob.DrawBlobs(_img, _b);
-            imageHandler.ShowImage("Blobs", _img);
+            //imageHandler.ShowImage("Blobs", _img);
+            _img.Save("blobs.bmp");
             Console.ReadKey();
-
+            
         }
     }
 }
