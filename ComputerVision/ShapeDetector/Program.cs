@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
-﻿using System.Drawing;
 using System.Windows;
+using System.IO;
 
 namespace ShapeDetector
 {   
@@ -11,8 +10,14 @@ namespace ShapeDetector
     {   
         public static void Main(string[] args)
         {
-            CommandConsole.Run();   
-        }
+            String root = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            String rootPath = Path.GetFullPath(Path.Combine(root, ".."));
+            List<Color> _c = new List<Color>();
+            List<Blob> _b = new List<Blob>();
+            Color red = Color.FromArgb(255, 255, 0, 0);
+            _c.Add(Color.Red);
+            _c.Add(Color.Blue);
+            _c.Add(Color.Green);
 
         public void StartProgram()
         {
@@ -29,11 +34,12 @@ namespace ShapeDetector
             //CCHandler CC = new CCHandler(_c, _img);
 
             //Bitmap _timg = CC.BackgroundThreshold(_img, 255);
-            //_b = CC.Detect(_img, 150);
-            //Console.WriteLine(_b.Count);
-            //Blob.DrawBlobs(_img, _b);
-            //imageHandler.ShowImage("Blobs", _img);
-            //_img.Save("blobs.bmp");
+            _b = CC.Detect(_img, 150);
+            Console.WriteLine(_b.Count);
+            Blob.DrawBlobs(_img, _b);
+            _img.Save(rootPath+ "/Export/blob.bmp");
+            Console.ReadKey();
+            
         }
     }
 }
