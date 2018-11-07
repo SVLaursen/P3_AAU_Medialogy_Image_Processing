@@ -1,9 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 using System.Drawing;
 using System.Windows;
 using System.IO;
@@ -25,7 +21,7 @@ namespace ShapeDetector
 
 
             ImageHandler imageHandler = new ImageHandler();
-            Bitmap _img = imageHandler.LoadImage("test2.png");
+            Bitmap _img = imageHandler.LoadImage("test.png");
             CCHandler CC = new CCHandler(_c, _img);
 
             //Bitmap _timg = CC.BackgroundThreshold(_img, 255);

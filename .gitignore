@@ -4,7 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # VS Project files
-*.sln
+##*.sln
 *.vcxproj
 *.vcxproj.filters
 
@@ -341,7 +341,7 @@ ASALocalRun/
 *.xcodeproj/
 DerivedData/
 
-#Cmake files 
+#Cmake files
 CMakeCache.txt
 CMakeList.txt
 CMakeFiles
@@ -495,7 +495,7 @@ UpgradeLog*.htm
 *.txt~
 *.swp
 *.swo
- 
+
 # svn
 .svn
 
