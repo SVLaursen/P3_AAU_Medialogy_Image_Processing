@@ -25,32 +25,6 @@ namespace ShapeDetector
             }
         }
 
-        //Displays Image in a new Window
-        public void ShowImage (String windowName, Bitmap image)
-        {
-            if(windowName == null)
-            {
-                Console.WriteLine("Window Name is empty. Using Default name");
-                windowName = "Window";
-            }
-            if(image == null)
-            {
-                Console.WriteLine("Image is Null. Terminating");
-                return;
-            }
-            Form _form = new Form();
-            _form.Text = windowName;
-            _form.AutoSize = true;
-            
-
-            PictureBox pbox = new PictureBox();
-            pbox.SizeMode = PictureBoxSizeMode.AutoSize;
-            pbox.Image = image;
-
-            _form.Controls.Add(pbox);
-            _form.ShowDialog();
-        }
-
         //Turns all pixels with a distance, to the colors in the supplied list of colors, higher than the supplied threshold, to black.
         public Bitmap Threshold(Bitmap img, List<Color> c, int t)
         {

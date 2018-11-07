@@ -5,9 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Drawing;
-using System.Windows.Forms;
-﻿using System.Drawing;
 using System.Windows;
+using System.IO;
 
 namespace ShapeDetector
 {   
@@ -15,6 +14,8 @@ namespace ShapeDetector
     {   
         public static void Main(string[] args)
         {
+            String root = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            String rootPath = Path.GetFullPath(Path.Combine(root, ".."));
             List<Color> _c = new List<Color>();
             List<Blob> _b = new List<Blob>();
             Color red = Color.FromArgb(255, 255, 0, 0);
@@ -31,8 +32,7 @@ namespace ShapeDetector
             _b = CC.Detect(_img, 150);
             Console.WriteLine(_b.Count);
             Blob.DrawBlobs(_img, _b);
-            //imageHandler.ShowImage("Blobs", _img);
-            _img.Save("blobs.bmp");
+            _img.Save(rootPath+ "/Export/blob.bmp");
             Console.ReadKey();
             
         }
