@@ -8,21 +8,32 @@ namespace ShapeDetector
     {
         private static List<Color> _colors = new List<Color>();
         private static bool running;
+        private static string versionNumber = "0.1";
+        private static int threshold = 50;
+        private static String import = "image.png";
+        private static String export = "image.bmp";
         
         private static Dictionary<string, string> _command = new Dictionary<string, string>()
         {
-            {"-help", "displays all commands"},
-            {"-clear", "clears the console"},
-            {"-exit", "exit the program"},
-            {"-run", "runs the shape detection software"},
-            {"-colors", "set the colors for the detection software"},
-            {"-calibrate", "calibrates the software"}
+            {"-help", "Displays all commands"},
+            {"-clear", "Clears the console"},
+            {"-exit", "Exit the program"},
+            {"-calibrate", "Calibrates the software"},
+            {"-run", "Runs the shape detection software"},
+            {"-colors", "Sets the colors for the detection software"},
+            {"-import", "Sets the image import path"},
+            {"-export", "Sets the file export name."},
+            {"-threshold", "Sets the color threshold value"},
+            {"-debug", "Runs system with default debugging values"}
         };
 
         public static void Run()
         {
-            Console.WriteLine("Command Console up and running, please write your input.");
+            Console.Clear();
+            Header();
+            CurrentSettings();
             Console.WriteLine("For list of commands write '-help'.");
+            Console.Write(": ");
             running = true;
             
             while (running)
@@ -43,6 +54,7 @@ namespace ShapeDetector
                     break;
                 case "-clear":
                     Console.Clear();
+                    Run();
                     break;
                 case "-colors":
                     SetColors();
@@ -51,7 +63,19 @@ namespace ShapeDetector
                     Calibration();
                     break;
                 case "-run":
-                    Program.StartProgram();
+                    Program.StartProgram(_colors, threshold, import, export);
+                    break;
+                case "-import":
+                    Import();
+                    break;
+                case "-export":
+
+                    break;
+                case "-threshold":
+
+                    break;
+                case "-debug":
+                    Debug();
                     break;
                 default:
                     Console.WriteLine("--Invalid input--");
@@ -100,7 +124,7 @@ namespace ShapeDetector
 
         private static void DisplayHelp()
         {
-            Console.WriteLine("Below you'll find a list of commands and what they do:");
+            Console.WriteLine("List of Commands: ");
 
             foreach (var t in _command)
             {
@@ -111,6 +135,40 @@ namespace ShapeDetector
             Console.WriteLine("-- When setting the color in the color settings mode remember that");
             Console.WriteLine("you choose what color you want to set by writing '-color_#'.");
             Console.WriteLine("There are 6 colors to be set in total --");
+        }
+        public static void Header()
+        {
+            Console.WriteLine("MTA-18336 Image Processing Software; Version " + versionNumber);
+        }
+        public static void CurrentSettings()
+        {
+            Console.WriteLine("");
+            Console.WriteLine("Current Settings: ");
+            Console.WriteLine("Threshold: " + threshold);
+            Console.WriteLine("Import Path: " + import);
+            Console.WriteLine("Export File Name: " + export);
+            Console.WriteLine("");
+        }
+        public static void Import()
+        {
+            Console.Write("Set image import path: ");
+            import = Console.ReadLine();
+            Console.WriteLine("New image import path set to " + import);
+            Console.Write(": ");
+        }
+        public static void Debug()
+        {
+            Console.WriteLine("Running System Debug...");
+
+            //Add debug colors to the debug color list
+            List<Color> _c = new List<Color>();
+            _c.Add(Color.Red);
+            _c.Add(Color.Blue);
+            Color green = Color.FromArgb(000, 255, 000);
+            _c.Add(green);
+
+            Program.StartProgram(_c, 50, "test2.png", "debug");
+            Console.WriteLine("Debugging complete..");
         }
     }
 }
