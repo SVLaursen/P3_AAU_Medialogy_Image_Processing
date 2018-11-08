@@ -11,20 +11,22 @@ namespace ShapeDetector
 {
     class CCHandler
     {
-        ImageHandler imgH = new ImageHandler();
+        //Blob Detection Resources
         List<Color> _c;
         List<Blob> _b = new List<Blob>();
         Blob blob = null;
         Boolean[,] boo;
         Boolean[,] boo2;
 
+        //Public Constructor. Requires an image and a list of colors.
         public CCHandler(List<Color> c, Bitmap _img)
         {
             _c = c;
             boo = Binary(_img);
-            boo2 = boo;
+            boo2 = Binary(_img);
         }
 
+        //Creates a boolean array of the supplied image. Used for the grassfire algorithm
         public Boolean[,] Binary(Bitmap _img)
         {
             int h = _img.Height;
@@ -32,8 +34,11 @@ namespace ShapeDetector
             Boolean[,] b = new Boolean[h, w];
             return b;
         }
+
+        //Blob detection grassfire algorithm. The meat of the Blob detection. Finds colors within the threshold of our specified colors, and creates blobs accordingly.
         public void Grassfire(Bitmap img, int x, int y, Blob currentBlob, Color c, int t)
         {
+            double de = DeltaE(img.GetPixel(y, x), c);
             if (!boo[x, y])
             {
                 boo[x, y] = true;
@@ -47,10 +52,9 @@ namespace ShapeDetector
                     Console.WriteLine("New Blob!");
                     Console.WriteLine(c);
                 }
-
                 if (blob != null)
                 {
-                    if (ImageHandler.DeltaE(img.GetPixel(y, x), c) <= t)
+                    if (de <= t)
                     {
                         blob.Add(x, y);
                         if (x + 1 < img.Height && k == 0)
@@ -78,40 +82,8 @@ namespace ShapeDetector
                 }
             }
         }
-        public void ThrGrassfire(Bitmap img, int x, int y, Color c, int t)
-        {
-            if (!boo2[x, y])
-            {
-                boo2[x, y] = true;
-                int k = 0;
-                    if (ImageHandler.DeltaE(img.GetPixel(y, x), c) > t)
-                    {
-                        img.SetPixel(y, x, Color.Black);
-                        if (x + 1 < img.Height && k == 0)
-                        {
-                            ThrGrassfire(img, x + 1, y, c, t);
-                            k++;
-                        }
-                        if (y + 1 < img.Width && k == 1)
-                        {
-                            ThrGrassfire(img, x, y + 1, c, t);
-                            k++;
-                        }
-                        if (x - 1 >= 0 && k == 2)
-                        {
-                            ThrGrassfire(img, x - 1, y, c, t);
-                            k++;
-                        }
-                        if (y - 1 >= img.Width && k == 3)
-                        {
-                            ThrGrassfire(img, x, y + 1, c, t);
-                            k = 0;
-                        }
 
-                    }
-            }
-        }
-
+        //Blob Detection executer.
         public List<Blob> Detect(Bitmap img, int threshold)
         {
             for (int x = 0; x < img.Height; x++)
@@ -121,7 +93,7 @@ namespace ShapeDetector
                     Color clr = img.GetPixel(y, x);
                     foreach(Color c in _c)
                     {
-                        if(ImageHandler.DeltaE(clr, c) <= threshold)
+                        if(DeltaE(clr, c) <= threshold)
                         {
                             Grassfire(img, x, y, null, c, threshold);
                         }
@@ -131,24 +103,48 @@ namespace ShapeDetector
             return _b;
         }
 
+        //Removes any color that is not within the threshold of our specified colors.
         public Bitmap BackgroundThreshold(Bitmap img, int threshold)
         {
-            for (int x = 0; x < img.Height; x++)
+            Bitmap _img = new Bitmap(img);
+           
+            for (int y = 0; y < _img.Width; y++)
             {
-                for (int y = 0; y < img.Width; y++)
+                for (int x = 0; x < _img.Height; x++)
                 {
-                    Color clr = img.GetPixel(y, x);
+                    int k = _c.Count;
                     foreach (Color c in _c)
                     {
-                        if (ImageHandler.DeltaE(clr, c) > threshold)
+                        double de = DeltaE(_img.GetPixel(y, x), c);
+                        if (!boo2[x, y] && de <= threshold)
                         {
-                            //ThrGrassfire(img, x, y, c, threshold);
+                            boo2[x, y] = true;
+                            break;
+
+                        }
+                        if (!boo2[x, y] && de > threshold && k > 1)
+                        {
+                            k--;
+                            continue;
+                        }
+                        if (!boo2[x, y] && de > threshold && k <= 1){
                             img.SetPixel(y, x, Color.Black);
+                            boo2[x, y] = true;
+                            
                         }
                     }
                 }
             }
             return img;
+        }
+
+        //Uses the Euclidian Distance Formular to calculate distance between colors "Delta E"
+        public double DeltaE(Color c1, Color c2)
+        {
+            double deltaE = Math.Sqrt(Math.Pow(c1.R - c2.R, 2) + Math.Pow(c1.G - c2.G, 2) + Math.Pow(c1.B - c2.B, 2));
+
+            return deltaE;
+
         }
     }
 }

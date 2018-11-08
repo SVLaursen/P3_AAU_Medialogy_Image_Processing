@@ -85,7 +85,7 @@ namespace ShapeDetector
 
         public static void DrawBlobs(Bitmap _img, List<Blob> _b)
         {
-            Pen pen = new Pen(Color.Black, 5);
+            Pen pen = new Pen(Color.White, 5);
             var graphics = Graphics.FromImage(_img);
 
             foreach (Blob b in _b)
