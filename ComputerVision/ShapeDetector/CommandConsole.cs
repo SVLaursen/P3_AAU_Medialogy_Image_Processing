@@ -9,15 +9,15 @@ namespace ShapeDetector
         private static List<Color> _colors = new List<Color>();
         private static bool running;
         
-        private static List<Commands> _commands = new List<Commands>( new []
-            {
-                new Commands("-help","displays commands"),
-                new Commands("-exit", "exits application"),
-                new Commands("-run", "runs image detection"),
-                new Commands("-colors", "set colors"),
-                new Commands("-calibrate", "calibrate the camera and software"),
-                new Commands("-clear", "clears the console") 
-            });
+        private static Dictionary<string, string> _command = new Dictionary<string, string>()
+        {
+            {"-help", "displays all commands"},
+            {"-clear", "clears the console"},
+            {"-exit", "exit the program"},
+            {"-run", "runs the shape detection software"},
+            {"-colors", "set the colors for the detection software"},
+            {"-calibrate", "calibrates the software"}
+        };
 
         public static void Run()
         {
@@ -47,54 +47,71 @@ namespace ShapeDetector
                 case "-colors":
                     SetColors();
                     break;
+                case "-calibrate":
+                    Calibration();
+                    break;
+                case "-run":
+                    Program.StartProgram();
+                    break;
                 default:
                     Console.WriteLine("--Invalid input--");
                     break;
             }
         }
 
+        //This is the function used for manually adding colors to the list of detectable colors
+        //Let's hope we don't have to use and that we can automate as much as possible
         private static void SetColors()
         {
             var setting = true;
 
             while (setting)
             {
-                var input = Console.ReadLine();
-                
-                if (input == "-exit" || input == "-back")
-                {
-                    setting = false;
-                }
-                else
-                {
-                    Console.WriteLine("--Invalid input--");
-                }
+                Console.WriteLine("Please write the R-value");
+                if (Console.ReadLine() == "-back") setting = false;
+                var red = SetVal(Console.ReadLine());
+
+                Console.WriteLine("Please write the G-value");
+                var green = SetVal(Console.ReadLine());
+
+                Console.WriteLine("Please write the B-value");
+                var blue = SetVal(Console.ReadLine());
+
+                Console.WriteLine("Compiling color");
+                _colors.Add(Color.FromArgb(red, green, blue));
+                Console.WriteLine("COMPLETE - Returning to main menu");
+                setting = false;
+
             }
+
+            int SetVal(string input)
+            {
+                if (int.TryParse(input, out var value)) return value;
+                
+                Console.WriteLine("-- Invalid Input --");
+                Console.WriteLine("Value automatically signed to 0");
+                return 0;
+            }
+        }
+
+        private static void Calibration()
+        {
+            //TODO: Calibration code get called from here.
         }
 
         private static void DisplayHelp()
         {
             Console.WriteLine("Below you'll find a list of commands and what they do:");
-            
-            foreach (var t in _commands)
+
+            foreach (var t in _command)
             {
-                Console.WriteLine(t.Command + " -- " + t.Description);
+                Console.WriteLine(t.Key + " -- " + t.Value);
             }
+            
+            Console.WriteLine(" ");
+            Console.WriteLine("-- When setting the color in the color settings mode remember that");
+            Console.WriteLine("you choose what color you want to set by writing '-color_#'.");
+            Console.WriteLine("There are 6 colors to be set in total --");
         }
-    }
-
-    public struct Commands
-    {
-        private readonly string command;
-        private readonly string description;
-
-        public Commands(string command, string description)
-        {
-            this.command = command;
-            this.description = description;
-        }
-        
-        public string Command => command;
-        public string Description => description;
     }
 }

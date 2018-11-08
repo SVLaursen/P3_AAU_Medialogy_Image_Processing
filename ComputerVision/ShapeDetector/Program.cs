@@ -14,7 +14,7 @@ namespace ShapeDetector
         }
             
 
-        public void StartProgram()
+        public static void StartProgram()
         {
             //String root = System.Reflection.Assembly.GetExecutingAssembly().Location;
             //String rootPath = Path.GetFullPath(Path.Combine(root, ".."));
