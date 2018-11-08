@@ -9,12 +9,13 @@ using System.Drawing;
 
 namespace ShapeDetector
 {
-    class ImageHandler
+    internal class ImageHandler
     {
         //Returns a bitmap with the loaded image
         public static Bitmap LoadImage(String filepath)
         {
             Bitmap _bitmap = (Bitmap)Bitmap.FromFile(@filepath);
+            
             if(_bitmap != null)
             {
                 return _bitmap;

@@ -13,7 +13,7 @@ namespace ShapeDetector
         private static String import = "image.png";
         private static String export = "image.bmp";
         
-        private static Dictionary<string, string> _command = new Dictionary<string, string>()
+        private static readonly Dictionary<string, string> _command = new Dictionary<string, string>()
         {
             {"-help", "Displays all commands"},
             {"-clear", "Clears the console"},
@@ -84,7 +84,7 @@ namespace ShapeDetector
         }
 
         //This is the function used for manually adding colors to the list of detectable colors
-        //Let's hope we don't have to use and that we can automate as much as possible
+        //Let's hope we don't have to use it and that we can automate as much as possible
         private static void SetColors()
         {
             var setting = true;
