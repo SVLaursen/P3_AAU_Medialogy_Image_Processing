@@ -68,7 +68,6 @@ namespace ShapeDetector
             while (setting)
             {
                 Console.WriteLine("Please write the R-value");
-                if (Console.ReadLine() == "-back") setting = false;
                 var red = SetVal(Console.ReadLine());
 
                 Console.WriteLine("Please write the G-value");
