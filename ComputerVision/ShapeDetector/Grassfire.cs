@@ -10,13 +10,7 @@ namespace ShapeDetector
     class Grassfire
     {
         private Converter _converter = new Converter();
-
-        //Runs a grassfire algorithm on an image, and returns an int channel with BLOBS
-        int[,] RunGrassfire(Bitmap img, int blackThreshold, int colorThreshold)
-        {
-            return RunGrassfire(img, 0, img.Width, 0, img.Height, blackThreshold, colorThreshold, false);
-        }
-
+       
         //TODO: Modify blackThresholdi(ing) so that it takes a range instead of a hard crop. 
         //TODO: This system will look for bright objects, we want the opposite. For quick fix, flip signs where blackThreshold is used. Range modification will also do.
         //Runs a grassfire algorithm within an area of an image, and returns an int channel with BLOBS. If returnOnlyAreaOfInterest is true, the result is only the size of the area examined, else the result is the same size as the original image.
@@ -37,9 +31,9 @@ namespace ShapeDetector
                 //NOTE: objectCounter increases by 20 each time; an arbitrary number. We could use anything here, really.
                 var objectCounter = 0;
 
-                for (var y = yMin; y <= yMax; y++)
+                for (var y = yMin; y < yMax; y++)
                 {
-                    for (var x = xMin; y <= xMax; x++)
+                    for (var x = xMin; y < xMax; x++)
                     {
                         float pixelIntensity = intensity[x, y];
                         if (pixelIntensity > blackThreshold)
@@ -53,11 +47,13 @@ namespace ShapeDetector
                 void CheckConnectivity(int x, int y, float color)
                 {
                     //NOTE: Recursive calls use the original color (intensity) that started the recursion. Theoretically, it wouldn't be able to handle gradients..?
-                    //Set current information - Current intensity pixel is set to zero to avoid registering it multiple times, and current result pixel is givven current object number
+                    //Set current information - Current intensity pixel is set to zero to avoid registering it multiple times, and current result pixel is given current object number
                     intensity[x, y] = 0;
-                    result[x, y] = objectCounter;
+                    result[
+                        returnOnlyAreaOfInterest ? x - xMin : x,
+                        returnOnlyAreaOfInterest ? y - yMin : y] = objectCounter;
 
-                    //Check neighbors: right, top, left, bottom
+                    //Check neighbors
                     //right
                     if (x + 1 < xMax)
                     {
@@ -67,23 +63,41 @@ namespace ShapeDetector
                             CheckConnectivity(x + 1, y, color);
                         }
                     }
-                    //top
+                    //bottom
                     if (y + 1 < yMax)
                     {
-                        float top = intensity[x, y + 1];
-                        if (top <= color + colorThreshold && top >= color - colorThreshold)
+                        float bottom = intensity[x, y + 1];
+                        if (bottom > color + colorThreshold && bottom > color - colorThreshold)
                         {
                             CheckConnectivity(x, y + 1, color);
                         }
                     }
                     //left
-                    //TODO: left check
-
-                    //down
-                    //TODO:bottom check
-
+                    if (x - 1 < xMin)
+                    {
+                        float left = intensity[x - 1, y];
+                        if (left <= color + colorThreshold && left >= color - colorThreshold)
+                        {
+                            CheckConnectivity(colorThreshold - 1, y, color);
+                        }
+                    }
+                    //top
+                    if (y - 1 < yMin)
+                    {
+                        float top = intensity[x, y - 1];
+                        if (top <= color + colorThreshold && top >= color - colorThreshold)
+                        {
+                            CheckConnectivity(x, y + 1, color);
+                        }
+                    }
                 }
             }
+        }
+
+        //Runs a grassfire algorithm on an entire image, and returns an int channel with BLOBS
+        public int[,] RunGrassfire(Bitmap img, int blackThreshold, int colorThreshold)
+        {
+            return RunGrassfire(img, 0, img.Width, 0, img.Height, blackThreshold, colorThreshold, false);
         }
     }
 }
