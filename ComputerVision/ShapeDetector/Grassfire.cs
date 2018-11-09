@@ -34,6 +34,7 @@ namespace ShapeDetector
             //Looks for pixels with greater intensity than the threshold
             void FindAllObjects()
             {
+                //NOTE: objectCounter increases by 20 each time; an arbitrary number. We could use anything here, really.
                 var objectCounter = 0;
 
                 for (var y = yMin; y <= yMax; y++)
