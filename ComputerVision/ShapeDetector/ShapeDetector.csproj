@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="CCHandler.cs" />
     <Compile Include="Blob.cs" />
+    <Compile Include="ColorDetector.cs" />
     <Compile Include="CommandConsole.cs" />
     <Compile Include="ImageHandler.cs" />
     <Compile Include="Converter.cs" />

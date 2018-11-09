@@ -13,7 +13,7 @@ namespace ShapeDetector
         }
 
 
-        private float[,] GetHue(Bitmap img)
+        public float[,] GetHue(Bitmap img)
         {
             var value = GetValue(img);
             var src = Split(img);
@@ -52,7 +52,7 @@ namespace ShapeDetector
             return hue;
         }
 
-        private int[,] GetValue(Bitmap img)
+        public int[,] GetValue(Bitmap img)
         {
             var src = Split(img);
             var value = new int[img.Height, img.Width];
@@ -69,7 +69,7 @@ namespace ShapeDetector
             return value;
         }
 
-        private float[,] GetSaturation(Bitmap img)
+        public float[,] GetSaturation(Bitmap img)
         {
             var src = Split(img);
             var value = GetValue(img);
@@ -89,6 +89,26 @@ namespace ShapeDetector
             }
             
             return saturation;
+        }
+
+        public float[,] GetIntensity(Bitmap img)
+        {
+            var src = Split(img);
+            var intensity = new float[img.Height, img.Width];
+
+            for (var y = 0; y < img.Height; y++)
+            {
+                for (var x = 0; x < img.Width; x++)
+                {
+                    var red = src.channel_one[y, x];
+                    var green = src.channel_two[y, x];
+                    var blue = src.channel_three[y, x];
+
+                    intensity[y, x] = 1 / 3 + (red + green + blue);
+                }
+            }
+
+            return intensity;
         }
 
         public ImageChannels Split(Bitmap img)
