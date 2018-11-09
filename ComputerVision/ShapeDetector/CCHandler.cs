@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 using System.Drawing;
 
 
@@ -14,9 +10,9 @@ namespace ShapeDetector
         //Blob Detection Resources
         List<Color> _c;
         List<Blob> _b = new List<Blob>();
-        Blob blob = null;
-        Boolean[,] boo;
-        Boolean[,] boo2;
+        Blob blob;
+        bool[,] boo;
+        bool[,] boo2;
 
         //Public Constructor. Requires an image and a list of colors.
         public CCHandler(List<Color> c, Bitmap _img)
@@ -27,7 +23,7 @@ namespace ShapeDetector
         }
 
         //Creates a boolean array of the supplied image. Used for the grassfire algorithm
-        public Boolean[,] Binary(Bitmap _img)
+        private bool[,] Binary(Bitmap _img)
         {
             int h = _img.Height;
             int w = _img.Width;
@@ -36,7 +32,7 @@ namespace ShapeDetector
         }
 
         //Blob detection grassfire algorithm. The meat of the Blob detection. Finds colors within the threshold of our specified colors, and creates blobs accordingly.
-        public void Grassfire(Bitmap img, int x, int y, Blob currentBlob, Color c, int t)
+        private void Grassfire(Bitmap img, int x, int y, Blob currentBlob, Color c, int t)
         {
             double de = DeltaE(img.GetPixel(y, x), c);
             if (!boo[x, y])
@@ -139,7 +135,7 @@ namespace ShapeDetector
         }
 
         //Uses the Euclidian Distance Formular to calculate distance between colors "Delta E"
-        public double DeltaE(Color c1, Color c2)
+        private double DeltaE(Color c1, Color c2)
         {
             double deltaE = Math.Sqrt(Math.Pow(c1.R - c2.R, 2) + Math.Pow(c1.G - c2.G, 2) + Math.Pow(c1.B - c2.B, 2));
 

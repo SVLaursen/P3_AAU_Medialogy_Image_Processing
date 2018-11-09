@@ -27,7 +27,7 @@ namespace ShapeDetector
         }
 
         //Determines wether the blob is withing a certain distance of a specified point
-        public Boolean isNear(int _x, int _y, int _threshold)
+        public bool isNear(int _x, int _y, int _threshold)
         {
             Vector2 point = new Vector2(_x, _y);
             double d = double.MaxValue;
