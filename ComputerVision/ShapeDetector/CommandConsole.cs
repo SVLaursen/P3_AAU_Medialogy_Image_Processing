@@ -10,10 +10,10 @@ namespace ShapeDetector
         private static bool running;
         private static string versionNumber = "0.1";
         private static int threshold = 50;
-        private static String import = "image.png";
-        private static String export = "image.bmp";
+        private static string import = "image.png";
+        private static string export = "image.bmp";
         
-        private static readonly Dictionary<string, string> _command = new Dictionary<string, string>()
+        private static readonly Dictionary<string, string> _command = new Dictionary<string, string>
         {
             {"-help", "Displays all commands"},
             {"-clear", "Clears the console"},
@@ -30,7 +30,7 @@ namespace ShapeDetector
         public static void Run()
         {
             Console.Clear();
-            Header();
+            Console.WriteLine("MTA-18336 Image Processing Software; Version " + versionNumber);
             CurrentSettings();
             Console.WriteLine("For list of commands write '-help'.");
             Console.Write(": ");
@@ -136,11 +136,8 @@ namespace ShapeDetector
             Console.WriteLine("you choose what color you want to set by writing '-color_#'.");
             Console.WriteLine("There are 6 colors to be set in total --");
         }
-        public static void Header()
-        {
-            Console.WriteLine("MTA-18336 Image Processing Software; Version " + versionNumber);
-        }
-        public static void CurrentSettings()
+
+        private static void CurrentSettings()
         {
             Console.WriteLine("");
             Console.WriteLine("Current Settings: ");
@@ -149,14 +146,16 @@ namespace ShapeDetector
             Console.WriteLine("Export File Name: " + export);
             Console.WriteLine("");
         }
-        public static void Import()
+
+        private static void Import()
         {
             Console.Write("Set image import path: ");
             import = Console.ReadLine();
             Console.WriteLine("New image import path set to " + import);
             Console.Write(": ");
         }
-        public static void Debug()
+
+        private static void Debug()
         {
             Console.WriteLine("Running System Debug...");
 
@@ -164,6 +163,7 @@ namespace ShapeDetector
             List<Color> _c = new List<Color>();
             _c.Add(Color.Red);
             _c.Add(Color.Blue);
+            
             Color green = Color.FromArgb(000, 255, 000);
             _c.Add(green);
 

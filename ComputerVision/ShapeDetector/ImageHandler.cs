@@ -12,21 +12,11 @@ namespace ShapeDetector
     internal class ImageHandler
     {
         //Returns a bitmap with the loaded image
-        public static Bitmap LoadImage(String filepath)
+        public static Bitmap LoadImage(string filepath)
         {
-            Bitmap _bitmap = (Bitmap)Bitmap.FromFile(@filepath);
+            var _bitmap = (Bitmap)Bitmap.FromFile(filepath);
             
-            if(_bitmap != null)
-            {
-                return _bitmap;
-            }
-            else
-            {
-                Console.WriteLine("Image at " + filepath + "is null");
-                return null;
-            }
+            return _bitmap ?? null;
         }
-
-
     }
 }

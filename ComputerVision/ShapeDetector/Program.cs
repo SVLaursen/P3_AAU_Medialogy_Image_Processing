@@ -16,10 +16,10 @@ namespace ShapeDetector
         }
 
 
-        public static void StartProgram(List<Color> _c, int threshold, String imagePath, String fileName)
+        public static void StartProgram(List<Color> _c, int threshold, string imagePath, string fileName)
         {
-            String root = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            String rootPath = Path.GetFullPath(Path.Combine(root, "..")) + "/Export/";
+            string root = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string rootPath = Path.GetFullPath(Path.Combine(root, "..")) + "/Export/";
             List<Blob> _b = new List<Blob>();
 
             Bitmap _img = ImageHandler.LoadImage(imagePath);
