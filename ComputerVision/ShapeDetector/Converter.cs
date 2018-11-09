@@ -30,22 +30,17 @@ namespace ShapeDetector
                     const float degrees = 60 * (float)Math.PI / 180;
                     var min = Math.Min(Math.Min(red, green), blue);
 
-                    if (value[y, x] == red && green >= blue)
-                    {
+                    if (value[y, x] == red && green >= blue) 
                         hue[y, x] = (green - blue) / (value[y, x] - min) * degrees;
-                    }
-                    else if (green == value[y, x])
-                    {
+                    
+                    else if (green == value[y, x]) 
                         hue[y, x] = ((blue - red) / (value[y, x] - min) + 2) * degrees;
-                    }
-                    else if (blue == value[y, x])
-                    {
+                    
+                    else if (blue == value[y, x]) 
                         hue[y, x] = ((red - green) / (value[y, x] - min) + 4) * degrees;
-                    }
-                    else if (value[y, x] == red && green < blue)
-                    {
+                    
+                    else if (value[y, x] == red && green < blue) 
                         hue[y, x] = ((red - blue) / (value[y, x] - min) + 5) * degrees;
-                    }
                 }
             }
 
