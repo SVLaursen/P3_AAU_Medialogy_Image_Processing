@@ -52,10 +52,10 @@ namespace ShapeDetector
             return hue;
         }
 
-        public int[,] GetValue(Bitmap img)
+        public float[,] GetValue(Bitmap img)
         {
             var src = Split(img);
-            var value = new int[img.Height, img.Width];
+            var value = new float[img.Height, img.Width];
             
             for (var y = 0; y < img.Height; y++)
             {
@@ -113,9 +113,9 @@ namespace ShapeDetector
 
         public ImageChannels Split(Bitmap img)
         {
-            var red = new int[img.Width, img.Height];
-            var green = new int[img.Width, img.Height];
-            var blue = new int[img.Width, img.Height];
+            var red = new float[img.Width, img.Height];
+            var green = new float[img.Width, img.Height];
+            var blue = new float[img.Width, img.Height];
             
             for (var y = 0; y < img.Height; y++)
             {
@@ -145,9 +145,9 @@ namespace ShapeDetector
             {
                 for (var x = 0; x < splitImg.width; x++)
                 {
-                    var red = splitImg.channel_one[y, x];
-                    var green = splitImg.channel_two[y, x];
-                    var blue = splitImg.channel_three[y, x];
+                    var red = (int)splitImg.channel_one[y, x];
+                    var green = (int)splitImg.channel_two[y, x];
+                    var blue = (int)splitImg.channel_three[y, x];
 
                     var clr = Color.FromArgb(red, green, blue);
                     bmp.SetPixel(y, x, clr);
@@ -160,14 +160,14 @@ namespace ShapeDetector
 
     public struct ImageChannels
     {
-        public int[,] channel_one;
-        public int[,] channel_two;
-        public int[,] channel_three;
+        public float[,] channel_one;
+        public float[,] channel_two;
+        public float[,] channel_three;
 
         public int height;
         public int width;
 
-        public void SetAllValues(int[,] c_one, int[,] c_two, int[,] c_three)
+        public void SetAllValues(float[,] c_one, float[,] c_two, float[,] c_three)
         {
             channel_one = c_one;
             channel_two = c_two;
@@ -181,16 +181,9 @@ namespace ShapeDetector
 
         public void SetSize(int height, int width)
         {
-            channel_one = new int[height, width];
-            channel_two = new int[height, width];
-            channel_three = new int[height, width];
-        }
-
-        public void SetSize(int[,] size)
-        {
-            channel_one = size;
-            channel_two = size;
-            channel_three = size;
+            channel_one = new float[height, width];
+            channel_two = new float[height, width];
+            channel_three = new float[height, width];
         }
     }
 }
