@@ -10,7 +10,7 @@ namespace ShapeDetector
         private static bool running;
         private const string versionNumber = "0.1";
         private static int _threshold = 50;
-        private static string import = "image.png";
+        private static string import = "test2.png";
         private static string export = "image.bmp";
         
         private static readonly Dictionary<string, string> _command = new Dictionary<string, string>
@@ -67,20 +67,23 @@ namespace ShapeDetector
                     Program.StartProgram(_colors, _threshold, import, export);
                     break;
                 case "-import":
-                    Console.WriteLine("Set image import path:");
+                    Console.WriteLine("Set image import file::");
                     import = Console.ReadLine();
-                    Console.WriteLine("New image import path set to " + import);
+                    Console.WriteLine("New image import file: " + import);
                     break;
                 case "-export":
-                    Console.WriteLine("Set image export path:");
+                    Console.WriteLine("Set image export file:");
                     export = Console.ReadLine();
-                    Console.WriteLine("Will now export to: " + export);
+                    Console.WriteLine("New export file: " + export);
                     break;
                 case "-threshold":
                     Console.WriteLine("Set threshold:");
                     var thresholdInput = Console.ReadLine();
-                    
-                    if (int.TryParse(thresholdInput, out var value)) _threshold = value;
+                    if (int.TryParse(thresholdInput, out var value))
+                    {
+                        _threshold = value;
+                        Console.WriteLine("New Threshold: " + _threshold);
+                    }
                     else Console.WriteLine("--Invalid Input--");
                     break;
                 case "-debug":
@@ -111,8 +114,26 @@ namespace ShapeDetector
 
                 Console.WriteLine("Compiling color");
                 _colors.Add(Color.FromArgb(red, green, blue));
-                Console.WriteLine("COMPLETE - Returning to main menu");
-                setting = false;
+                Console.WriteLine("Add another color? Y/N");
+                String k = Console.ReadLine();
+                if (k == "Y" || k == "y")
+                {
+                    setting = false;
+                    SetColors();
+                }
+                else if(k == "N" || k == "n")
+                {
+                    setting = false;
+                    Console.WriteLine("COMPLETE - Returning to main menu");
+                    
+                }
+                else
+                {
+                    Console.WriteLine("--Invalid Input--");
+                    Console.WriteLine("Returning to main menu");
+                    setting = false;
+                }
+
 
             }
 
@@ -149,7 +170,7 @@ namespace ShapeDetector
             var _c = new List<Color>(new[]{
                 Color.FromArgb(255,0,0), Color.FromArgb(0,255,0), Color.FromArgb(0,0,255)});
 
-            Program.StartProgram(_c, 50, "test2.png", "debug");
+            Program.StartProgram(_c, 250, "test2.png", "debug");
             Console.WriteLine("Debugging complete..");
         }
     }
