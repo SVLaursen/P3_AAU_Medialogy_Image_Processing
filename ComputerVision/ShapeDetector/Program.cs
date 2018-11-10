@@ -34,16 +34,18 @@ namespace ShapeDetector
             Blob.DrawBlobs(_timg, _b);
 
 
-            if (File.Exists(rootPath + fileName + ".bmp"))
+            if (File.Exists(rootPath + fileName))
             {
                 Console.WriteLine("Image Already Exists. Overwriting");
-                File.Delete(rootPath + fileName + ".bmp");
+                File.Delete(rootPath + fileName);
             }
             Console.WriteLine("Exporting Bitmap");
-            _timg.Save(rootPath + fileName +".bmp");
+            _timg.Save(rootPath + fileName);
             Console.WriteLine("Blob Detection Execution: Success!");
             Console.WriteLine("Press Any Key to Continue");
             Console.ReadKey();
+            Console.Clear();
+            CommandConsole.Run();
 
         }
     }
