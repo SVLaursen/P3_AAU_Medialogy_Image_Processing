@@ -6,10 +6,10 @@ namespace ShapeDetector
 {
     public static class CommandConsole
     {
-        private static List<Color> _colors = new List<Color>();
+        private static Color c;
         private static bool running;
         private const string versionNumber = "0.1";
-        private static int _threshold = 50;
+        private static int _threshold = 0;
         private static string import = "test2.png";
         private static string export = "image.bmp";
         
@@ -41,7 +41,7 @@ namespace ShapeDetector
             while (running) DetectInput(Console.ReadLine());
         }
 
-        public static List<Color> GetColors => _colors;
+        //public static List<Color> GetColors => _colors;
 
         private static void DetectInput(string input)
         {
@@ -64,7 +64,7 @@ namespace ShapeDetector
                     Calibration();
                     break;
                 case "-run":
-                    Program.StartProgram(_colors, _threshold, import, export);
+                    Program.StartProgram(c, _threshold, import, export);
                     break;
                 case "-import":
                     Console.WriteLine("Set image import file::");
@@ -113,7 +113,7 @@ namespace ShapeDetector
                 var blue = SetVal(Console.ReadLine());
 
                 Console.WriteLine("Compiling color");
-                _colors.Add(Color.FromArgb(red, green, blue));
+                //_colors.Add(Color.FromArgb(red, green, blue));
                 Console.WriteLine("Add another color? Y/N");
                 String k = Console.ReadLine();
                 if (k == "Y" || k == "y")
@@ -150,6 +150,7 @@ namespace ShapeDetector
         {
             //TODO: Calibration code get called from here.
             Console.WriteLine("Not yet implemented"); //Remove later
+            //Console.WriteLine(CCHandler.DeltaEDebug(ImageHandler.LoadImage("test2.png"), Color.Black));
         }
 
         private static void DisplayHelp()
@@ -167,10 +168,8 @@ namespace ShapeDetector
             Console.WriteLine("Running System Debug...");
 
             //Add debug colors to the debug color list
-            var _c = new List<Color>(new[]{
-                Color.FromArgb(255,0,0), Color.FromArgb(0,255,0), Color.FromArgb(0,0,255)});
-
-            Program.StartProgram(_c, 250, "test2.png", "debug");
+            Color _c = Color.FromArgb(255, 255, 255);
+            Program.StartProgram(_c, 25, "test2.png", "debug.bmp");
             Console.WriteLine("Debugging complete..");
         }
     }
