@@ -33,7 +33,7 @@ namespace ShapeDetector
 
                 for (var y = yMin; y < yMax; y++)
                 {
-                    for (var x = xMin; y < xMax; x++)
+                    for (var x = xMin; x < xMax; x++)
                     {
                         float pixelIntensity = intensity[x, y];
                         if (pixelIntensity > blackThreshold)
@@ -64,16 +64,21 @@ namespace ShapeDetector
                         }
                     }
                     //bottom
+                    //tmp
+                    if (x == 147 && y == 151)
+                    {
+                        Console.WriteLine("test");
+                    }
                     if (y + 1 < yMax)
                     {
                         float bottom = intensity[x, y + 1];
-                        if (bottom > color + colorThreshold && bottom > color - colorThreshold)
+                        if (bottom <= color + colorThreshold && bottom >= color - colorThreshold)
                         {
                             CheckConnectivity(x, y + 1, color);
                         }
                     }
                     //left
-                    if (x - 1 < xMin)
+                    if (x - 1 >= xMin)
                     {
                         float left = intensity[x - 1, y];
                         if (left <= color + colorThreshold && left >= color - colorThreshold)
@@ -82,12 +87,12 @@ namespace ShapeDetector
                         }
                     }
                     //top
-                    if (y - 1 < yMin)
+                    if (y - 1 >= yMin)
                     {
                         float top = intensity[x, y - 1];
                         if (top <= color + colorThreshold && top >= color - colorThreshold)
                         {
-                            CheckConnectivity(x, y + 1, color);
+                            CheckConnectivity(x, y - 1, color);
                         }
                     }
                 }

@@ -13,8 +13,8 @@ namespace ShapeDetector
         public static void Main(string[] args)
         {
             //This block was made for testing the Grassfire class. Remove when we've tested it fully.
-            /*
-            Bitmap testImage = new Bitmap(@"D:\3SemesterImageProcessingProject\P3_AAU_Medialogy_Image_Processing\ComputerVision\ShapeDetector\test.jpg");
+            
+            Bitmap testImage = new Bitmap(@"D:\3SemesterImageProcessingProject\P3_AAU_Medialogy_Image_Processing\ComputerVision\ShapeDetector\SingleDot.png");
             Grassfire grassfire = new Grassfire();
 
             int[,] result = grassfire.RunGrassfire(testImage, 125, 10);
@@ -28,9 +28,10 @@ namespace ShapeDetector
                 }
                 Console.WriteLine(message);
             }
-            */
 
-            CommandConsole.Run();
+            //NOTE: Main consoloe program is commented out for testing purposes, and replaced with a ReadKey
+            Console.ReadKey();
+            //CommandConsole.Run();
         }
 
 
