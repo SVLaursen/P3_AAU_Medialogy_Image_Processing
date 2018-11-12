@@ -11,8 +11,8 @@ namespace ShapeDetector
         //Blob Detection Resources
         List<Blob> _b = new List<Blob>();
         Blob blob;
-        bool[,] boo;
-        bool[,] boo2;
+        private static bool[,] boo;
+        private static bool[,] boo2;
 
         //Public Constructor. Requires an image and a list of colors.
         public CCHandler(Bitmap _img)
@@ -22,7 +22,7 @@ namespace ShapeDetector
         }
 
         //Creates a boolean array of the supplied image. Used for the grassfire algorithm
-        private bool[,] Binary(Bitmap _img)
+        private static bool[,] Binary(Bitmap _img)
         {
             int h = _img.Height;
             int w = _img.Width;
@@ -52,7 +52,7 @@ namespace ShapeDetector
             return _b;
         }
 
-        public List<Blob> Compare(Bitmap bImg, Bitmap img)
+        public List<Blob> Compare(Bitmap img)
         {
             Console.WriteLine("Comparing Images...");
             var stopwatch = new Stopwatch();
@@ -61,9 +61,9 @@ namespace ShapeDetector
             {
                 for (int x = 0; x < img.Width; x++)
                 {
-                    if (img.GetPixel(x, y) != bImg.GetPixel(x, y))
+                    if (img.GetPixel(x, y) != Color.FromArgb(0,0,0))
                     {
-                        CGrassfire(bImg, img, x, y, null);
+                        CGrassfire(img, x, y, null);
                     }
                 }
             }
@@ -71,6 +71,7 @@ namespace ShapeDetector
             Console.WriteLine(" Time Elapsed: " + stopwatch.ElapsedMilliseconds + " Milliseconds");
             return _b;
         }
+
         //Blob detection grassfire algorithm. The meat of the Blob detection. Finds colors within the threshold of our specified colors, and creates blobs accordingly.
         private void Grassfire(Bitmap img, int x, int y, Blob currentBlob, int t)
         {
@@ -82,11 +83,10 @@ namespace ShapeDetector
 
                 if (currentBlob == null)
                 {
-                    _b.Add(new Blob(x, y, img.GetPixel(x, y)));
+                    _b.Add(new Blob(x, y));
                     int i = _b.Count - 1;
                     blob = _b[i];
                     Console.WriteLine(" New Blob!");
-                    Console.WriteLine(" "+img.GetPixel(x, y)+ "\n");
                 }
 
                 if (blob != null)
@@ -119,8 +119,22 @@ namespace ShapeDetector
             }
 
         }
-
-        private void CGrassfire(Bitmap bImg, Bitmap img, int x, int y, Blob currentBlob)
+        private List<Blob> BDetect(Bitmap img)
+        {
+            for(int x = 0; x < img.Width; x++)
+            {
+                for(int y = 0; y < img.Height; y++)
+                {
+                    if(img.GetPixel(x, y) != Color.FromArgb(0, 0, 0) && !boo[x, y])
+                    {
+                       
+                    }
+                }
+            }
+            return _b;
+        }
+        //Grassfire that compares the background of the base image and the new image, and marks all differences as blobs
+        private void CGrassfire(Bitmap img, int x, int y, Blob currentBlob)
         {
             if (!boo[x, y])
             {
@@ -129,36 +143,35 @@ namespace ShapeDetector
 
                 if (currentBlob == null)
                 {
-                    _b.Add(new Blob(x, y, img.GetPixel(x, y)));
+                    _b.Add(new Blob(x, y));
                     int i = _b.Count - 1;
                     blob = _b[i];
                     Console.WriteLine(" New Blob!");
-                    Console.WriteLine(" " + img.GetPixel(x, y) + "\n");
                 }
 
                 if (blob != null)
                 {
-                    if (img.GetPixel(x, y) != bImg.GetPixel(x, y))
+                    if (img.GetPixel(x, y) != Color.FromArgb(0, 0, 0))
                     {
                         blob.Add(x, y);
                         if (x + 1 < img.Width && k == 0)
                         {
-                            CGrassfire(bImg, img, x + 1, y, blob);
+                            CGrassfire(img, x + 1, y, blob);
                             k++;
                         }
                         if (y + 1 < img.Height && k == 1)
                         {
-                            CGrassfire(bImg, img, x, y + 1, blob);
+                            CGrassfire(img, x, y + 1, blob);
                             k++;
                         }
                         if (x - 1 >= 0 && k == 2)
                         {
-                            CGrassfire(bImg, img, x - 1, y, blob);
+                            CGrassfire(img, x - 1, y, blob);
                             k++;
                         }
                         if (y - 1 >= img.Height && k == 3)
                         {
-                            CGrassfire(bImg, img, x, y - 1, blob);
+                            CGrassfire(img, x, y - 1, blob);
                             k = 0;
                         }
                     }
@@ -167,7 +180,7 @@ namespace ShapeDetector
 
         }
         //Removes any color that is not within the threshold of our specified colors.
-        public Bitmap BackgroundThreshold(Bitmap img, Color c, int threshold)
+        public static Bitmap BackgroundThreshold(Bitmap bImg, Bitmap img, int t)
         {
             Bitmap _img = new Bitmap(img);
 
@@ -175,21 +188,20 @@ namespace ShapeDetector
             {
                 for (int y = 0; y < _img.Height; y++)
                 {
-                    double de = DeltaE(_img.GetPixel(x, y), c);
-                    if (!boo2[x, y] && de > threshold)
+                    if (!boo2[x, y] && DeltaE(bImg.GetPixel(x, y), img.GetPixel(x, y)) > t)
                     {
                         boo2[x, y] = true;
 
                     }
-                    if (!boo2[x, y] && de <= threshold)
+                    if (!boo2[x, y] && DeltaE(bImg.GetPixel(x, y), img.GetPixel(x, y)) <= t)
                     {
-                        img.SetPixel(x, y, Color.Black);
+                        _img.SetPixel(x, y, Color.Black);
                         boo2[x, y] = true;
 
                     }
                 }
             }
-            return img;
+            return _img;
         }
 
         //Uses the Euclidian Distance Formular to calculate distance between colors "Delta E"

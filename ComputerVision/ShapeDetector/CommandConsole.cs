@@ -170,8 +170,8 @@ namespace ShapeDetector
             stop.Start();
             Console.WriteLine("Running System Debug...");
 
-            Program.StartProgram("test22.png", "test2.png", "debug1.bmp");
-            Program.StartProgram(25, "test2.png", "debug2.bmp");
+            Program.StartProgram("test44.bmp", "test444.bmp", "debug1.bmp");
+            //Program.StartProgram(25, "test2.png", "debug2.bmp");
             stop.Stop();
             Console.WriteLine(stop.ElapsedMilliseconds);
             Console.WriteLine("Debugging complete..");

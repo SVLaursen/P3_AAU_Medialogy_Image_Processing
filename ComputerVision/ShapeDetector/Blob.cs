@@ -16,12 +16,10 @@ namespace ShapeDetector
         public Vector2 maxP;
         public Vector2 minP;
         private List<Vector2> points = new List<Vector2>();
-        private Color _c;
 
         //Public constructor
-        public Blob(int _x, int _y, Color c)
+        public Blob(int _x, int _y)
         {
-            _c = c;
             maxP = new Vector2(_x, _y);
             minP = new Vector2(_x, _y);
             points.Add(new Vector2(_x, _y));
@@ -84,14 +82,9 @@ namespace ShapeDetector
             return corners;
         }
 
-        //Returns the blob color;
-        public Color GetColor()
-        {
-            return _c;
-        }
         public static void DrawBlobs(Bitmap _img, List<Blob> _b)
         {
-            Pen pen = new Pen(Color.Black, 5);
+            Pen pen = new Pen(Color.White, 5);
             var graphics = Graphics.FromImage(_img);
 
             foreach (Blob b in _b)

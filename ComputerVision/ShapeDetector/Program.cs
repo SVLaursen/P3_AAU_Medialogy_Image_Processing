@@ -53,11 +53,12 @@ namespace ShapeDetector
             Bitmap _bImg = ImageHandler.LoadImage(bImagePath);
             CCHandler CC = new CCHandler(_img);
 
+            Bitmap _timg = CCHandler.BackgroundThreshold(_bImg, _img, 60);
             Console.WriteLine("\nDetecting Blobs...");
-            _b = CC.Compare(_bImg, _img);
+           // _b = CC.Compare(_timg);
             Console.WriteLine(" Blobs Found: "+_b.Count);
             Console.WriteLine(" Drawing Blobs...");
-            Blob.DrawBlobs(_img, _b);
+            Blob.DrawBlobs(_timg, _b);
             Console.WriteLine("\nSaving file...");
 
 
@@ -67,7 +68,7 @@ namespace ShapeDetector
                 File.Delete(rootPath + fileName);
             }
             Console.WriteLine(" Exporting Bitmap...");
-            _img.Save(rootPath + fileName);
+            _timg.Save(rootPath + fileName);
             Console.WriteLine("\nBlob Detection Execution: Success!");
 
         }
