@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace ShapeDetector
 {
     public static class CommandConsole
     {
-        private static Color c;
         private static bool running;
         private const string versionNumber = "0.1";
         private static int _threshold = 0;
         private static string import = "test2.png";
         private static string export = "image.bmp";
+        private static Color c = Color.White;
         
         private static readonly Dictionary<string, string> _command = new Dictionary<string, string>
         {
@@ -64,7 +65,7 @@ namespace ShapeDetector
                     Calibration();
                     break;
                 case "-run":
-                    Program.StartProgram(c, _threshold, import, export);
+                    Program.StartProgram(_threshold, import, export);
                     break;
                 case "-import":
                     Console.WriteLine("Set image import file::");
@@ -165,11 +166,14 @@ namespace ShapeDetector
 
         private static void Debug()
         {
+            Stopwatch stop = new Stopwatch();
+            stop.Start();
             Console.WriteLine("Running System Debug...");
 
-            //Add debug colors to the debug color list
-            Color _c = Color.FromArgb(255, 255, 255);
-            Program.StartProgram(_c, 25, "test2.png", "debug.bmp");
+            Program.StartProgram("test22.png", "test2.png", "debug1.bmp");
+            Program.StartProgram(25, "test2.png", "debug2.bmp");
+            stop.Stop();
+            Console.WriteLine(stop.ElapsedMilliseconds);
             Console.WriteLine("Debugging complete..");
         }
     }

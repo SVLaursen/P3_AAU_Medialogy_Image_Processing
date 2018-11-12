@@ -9,7 +9,6 @@ namespace ShapeDetector
     class CCHandler
     {
         //Blob Detection Resources
-        Color _c = Color.Black;
         List<Blob> _b = new List<Blob>();
         Blob blob;
         bool[,] boo;
@@ -34,6 +33,7 @@ namespace ShapeDetector
         //Blob Detection executer.
         public List<Blob> Detect(Bitmap img, int threshold)
         {
+            Console.WriteLine("Filtering Whites");
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             for (int y = 0; y < img.Height; y++)
@@ -41,7 +41,7 @@ namespace ShapeDetector
                 for (int x = 0; x < img.Width; x++)
                 {
                     Color clr = img.GetPixel(x, y);
-                    if (clr != Color.FromArgb(0, 0, 0))
+                    if (DeltaE(clr, Color.FromArgb(255, 255, 255)) > threshold)
                     {
                         Grassfire(img, x, y, null, threshold);
                     }
@@ -52,10 +52,29 @@ namespace ShapeDetector
             return _b;
         }
 
+        public List<Blob> Compare(Bitmap bImg, Bitmap img)
+        {
+            Console.WriteLine("Comparing Images...");
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            for (int y = 0; y < img.Height; y++)
+            {
+                for (int x = 0; x < img.Width; x++)
+                {
+                    if (img.GetPixel(x, y) != bImg.GetPixel(x, y))
+                    {
+                        CGrassfire(bImg, img, x, y, null);
+                    }
+                }
+            }
+            stopwatch.Stop();
+            Console.WriteLine(" Time Elapsed: " + stopwatch.ElapsedMilliseconds + " Milliseconds");
+            return _b;
+        }
         //Blob detection grassfire algorithm. The meat of the Blob detection. Finds colors within the threshold of our specified colors, and creates blobs accordingly.
         private void Grassfire(Bitmap img, int x, int y, Blob currentBlob, int t)
         {
-            double de = DeltaE(img.GetPixel(x, y), _c);
+            double de = DeltaE(img.GetPixel(x, y), Color.FromArgb(255, 255, 255));
             if (!boo[x, y])
             {
                 boo[x, y] = true;
@@ -101,8 +120,52 @@ namespace ShapeDetector
 
         }
 
+        private void CGrassfire(Bitmap bImg, Bitmap img, int x, int y, Blob currentBlob)
+        {
+            if (!boo[x, y])
+            {
+                boo[x, y] = true;
+                int k = 0;
 
+                if (currentBlob == null)
+                {
+                    _b.Add(new Blob(x, y, img.GetPixel(x, y)));
+                    int i = _b.Count - 1;
+                    blob = _b[i];
+                    Console.WriteLine(" New Blob!");
+                    Console.WriteLine(" " + img.GetPixel(x, y) + "\n");
+                }
 
+                if (blob != null)
+                {
+                    if (img.GetPixel(x, y) != bImg.GetPixel(x, y))
+                    {
+                        blob.Add(x, y);
+                        if (x + 1 < img.Width && k == 0)
+                        {
+                            CGrassfire(bImg, img, x + 1, y, blob);
+                            k++;
+                        }
+                        if (y + 1 < img.Height && k == 1)
+                        {
+                            CGrassfire(bImg, img, x, y + 1, blob);
+                            k++;
+                        }
+                        if (x - 1 >= 0 && k == 2)
+                        {
+                            CGrassfire(bImg, img, x - 1, y, blob);
+                            k++;
+                        }
+                        if (y - 1 >= img.Height && k == 3)
+                        {
+                            CGrassfire(bImg, img, x, y - 1, blob);
+                            k = 0;
+                        }
+                    }
+                }
+            }
+
+        }
         //Removes any color that is not within the threshold of our specified colors.
         public Bitmap BackgroundThreshold(Bitmap img, Color c, int threshold)
         {
@@ -137,6 +200,7 @@ namespace ShapeDetector
             return deltaE;
 
         }
+
         public static long DeltaEDebug(Bitmap img, Color c1)
         {
             var stop = new Stopwatch();
