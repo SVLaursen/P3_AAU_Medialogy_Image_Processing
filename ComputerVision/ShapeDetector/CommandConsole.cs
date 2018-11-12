@@ -6,7 +6,7 @@ namespace ShapeDetector
 {
     public static class CommandConsole
     {
-        private static List<Color> _colors = new List<Color>();
+        private static Color c;
         private static bool running;
         private const string versionNumber = "0.1";
         private static int _threshold = 50;
@@ -41,7 +41,7 @@ namespace ShapeDetector
             while (running) DetectInput(Console.ReadLine());
         }
 
-        public static List<Color> GetColors => _colors;
+        //public static List<Color> GetColors => _colors;
 
         private static void DetectInput(string input)
         {
@@ -64,7 +64,7 @@ namespace ShapeDetector
                     Calibration();
                     break;
                 case "-run":
-                    Program.StartProgram(_colors, _threshold, import, export);
+                    Program.StartProgram(c, _threshold, import, export);
                     break;
                 case "-import":
                     Console.WriteLine("Set image import file::");
@@ -129,6 +129,7 @@ namespace ShapeDetector
         {
             //TODO: Calibration code get called from here.
             Console.WriteLine("Not yet implemented"); //Remove later
+            //Console.WriteLine(CCHandler.DeltaEDebug(ImageHandler.LoadImage("test2.png"), Color.Black));
         }
 
         private static void DisplayHelp()
