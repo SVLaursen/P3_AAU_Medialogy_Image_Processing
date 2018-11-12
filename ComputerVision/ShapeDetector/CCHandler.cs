@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-
 namespace ShapeDetector
 {
     class CCHandler
