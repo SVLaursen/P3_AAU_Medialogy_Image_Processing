@@ -8,15 +8,10 @@ namespace ShapeDetector
 {   
     internal class Program
     {
-        public static int thr = 50;
-
         public static void Main(string[] args)
         {
             CommandConsole.Run();
         }
-
-
-
         public static void StartProgram(string bImagePath, string imagePath, string fileName)
         {
             string root = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -26,21 +21,22 @@ namespace ShapeDetector
             Bitmap _img = ImageHandler.LoadImage(imagePath);
             Bitmap _bImg = ImageHandler.LoadImage(bImagePath);
             CCHandler CC = new CCHandler(_img);
+            ColorProcessing colorProcess = new ColorProcessing();
 
             Console.WriteLine("\nThresholding...");
-            Bitmap _timg = CC.BackgroundThreshold(_bImg, _img, 60);
+            Bitmap _timg = CC.BackgroundThreshold(_bImg, _img, CommandConsole.Threshold);
 
             Console.WriteLine("\nDetecting Blobs...");
-            //Bitmap _gimg = CC.MaskInverse();
             _b = CC.FindBlobs();
             Console.WriteLine(" Blobs Found: "+_b.Count);
 
             Console.WriteLine("\nCreating Mask...");
             Bitmap _mimg = CC.MaskInverse(_b);
 
+            Console.WriteLine("\nCleaning colors");
+            _timg = colorProcess.CleanImage(_timg);
+            
             Console.WriteLine("\nSaving files...");
-
-
             if (File.Exists(rootPath + fileName))
             {
                 Console.WriteLine(" File Already Exists. Overwriting");

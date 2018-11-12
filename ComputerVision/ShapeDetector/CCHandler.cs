@@ -63,6 +63,8 @@ namespace ShapeDetector
             Console.WriteLine(" Background removal time: " + stop.ElapsedMilliseconds + " Milliseconds");
             return _img;
         }
+
+        //Grassfire to detect blobs based on binary array
         public void Grassfire(Point point, bool[,] arr, Blob blob)
         {
             int x = point.X;
@@ -95,6 +97,7 @@ namespace ShapeDetector
                 }
         }
 
+        //Finds blobs in the binary array isNotBlack
         public List<Blob> FindBlobs()
         {
             Stopwatch stop = new Stopwatch();
@@ -120,6 +123,8 @@ namespace ShapeDetector
             Console.WriteLine(" Finding Blobs time: " + stop.ElapsedMilliseconds + " Milliseconds");
             return _b;
         }
+
+        //Not in use at the moment
         public Bitmap MaskInverse()
         {
             Bitmap _b = new Bitmap(isNotBlack.GetLength(0), isNotBlack.GetLength(1));
@@ -135,6 +140,8 @@ namespace ShapeDetector
               }
             return _b;
         }
+
+        //Creates an output image with inverse masks of the found blobs
         public Bitmap MaskInverse(List<Blob> b)
         {
             Stopwatch stop = new Stopwatch();
@@ -151,6 +158,8 @@ namespace ShapeDetector
             Console.WriteLine(" Masking time: " + stop.ElapsedMilliseconds + " Milliseconds");
             return _b;
         }
+
+
         //Uses the Euclidian Distance Formular to calculate distance between colors "Delta E"
         public static double DeltaE(Color c1, Color c2)
         {
@@ -160,6 +169,7 @@ namespace ShapeDetector
 
         }
 
+        //Used to get the time it would take to deltaE an entire image to a specified color. Used for debugging
         public static long DeltaEDebug(Bitmap img, Color c1)
         {
             var stop = new Stopwatch();

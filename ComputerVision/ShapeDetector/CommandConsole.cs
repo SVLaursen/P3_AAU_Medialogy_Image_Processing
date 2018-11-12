@@ -9,10 +9,9 @@ namespace ShapeDetector
     {
         private static bool running;
         private const string versionNumber = "0.2";
-        private static int _threshold = 0;
         private static string import = "test2.png";
         private static string export = "image.bmp";
-        private static Color c = Color.White;
+        private static int _threshold = 60;
         
         private static readonly Dictionary<string, string> _command = new Dictionary<string, string>
         {
@@ -65,7 +64,7 @@ namespace ShapeDetector
                     Calibration();
                     break;
                 case "-run":
-                    //Program.StartProgram(_threshold, import, export);
+                    Console.WriteLine("Not yet implemented, use the debug command");
                     break;
                 case "-import":
                     Console.WriteLine("Set image import file::");
@@ -82,8 +81,8 @@ namespace ShapeDetector
                     var thresholdInput = Console.ReadLine();
                     if (int.TryParse(thresholdInput, out var value))
                     {
-                        _threshold = value;
-                        Console.WriteLine("New Threshold: " + _threshold);
+                        Threshold = value;
+                        Console.WriteLine("New Threshold: " + Threshold);
                     }
                     else Console.WriteLine("--Invalid Input--");
                     break;
@@ -151,7 +150,6 @@ namespace ShapeDetector
         {
             //TODO: Calibration code get called from here.
             Console.WriteLine("Not yet implemented"); //Remove later
-            //Console.WriteLine(CCHandler.DeltaEDebug(ImageHandler.LoadImage("test2.png"), Color.Black));
         }
 
         private static void DisplayHelp()
@@ -170,11 +168,16 @@ namespace ShapeDetector
             stop.Start();
             Console.WriteLine("Running System Debug...");
 
-            Program.StartProgram("test44.bmp", "test4.bmp", "debug3.bmp");
-            //Program.StartProgram(25, "test2.png", "debug2.bmp");
+            Program.StartProgram("debugBackground.bmp", "debugShapesOverlay.bmp", "debugOutput.bmp");
             stop.Stop();
             Console.WriteLine(" Debugging time: " + stop.ElapsedMilliseconds + " Milliseconds");
             Console.WriteLine("\nDebugging complete..");
+        }
+        
+        public static int Threshold
+        {
+            get => _threshold;
+            set => _threshold = value;
         }
     }
 }

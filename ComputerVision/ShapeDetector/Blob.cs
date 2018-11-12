@@ -12,6 +12,8 @@ namespace ShapeDetector
 {
     public class Blob
     {
+        //TODO. Revise Blob class...
+
         //Class Variables
         public Vector2 maxP;
         public Vector2 minP;
