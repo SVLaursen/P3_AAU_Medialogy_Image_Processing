@@ -99,7 +99,7 @@ namespace ShapeDetector
                     var green = src.channel_two[x, y];
                     var blue = src.channel_three[x, y];
 
-                    intensity[x, y] = 1 / 3 * (red + green + blue);
+                    intensity[x, y] = (red + green + blue) / 3;
                 }
             }
 
