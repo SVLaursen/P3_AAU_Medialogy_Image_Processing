@@ -16,7 +16,7 @@ namespace ShapeDetector
         //Runs a grassfire algorithm within an area of an image, and returns an int channel with BLOBS. If returnOnlyAreaOfInterest is true, the result is only the size of the area examined, else the result is the same size as the original image.
         public int[,] RunGrassfire(Bitmap img, int xMin, int xMax, int yMin, int yMax, int blackThreshold, int colorThreshold, bool returnOnlyAreaOfInterest)
         {
-            float[,] intensity = _converter.GetIntensity(img);
+            var intensity = _converter.GetIntensity(img);
 
             int[,] result = new int[
                 returnOnlyAreaOfInterest ? xMax : img.Width,
@@ -33,8 +33,10 @@ namespace ShapeDetector
 
                 for (var y = yMin; y < yMax; y++)
                 {
-                    for (var x = xMin; y < xMax; x++)
+                    for (var x = xMin; x < xMax; x++)
                     {
+                        Console.WriteLine("X is: "+ x);
+                        Console.WriteLine("Y is: " + y);
                         float pixelIntensity = intensity[x, y];
                         if (pixelIntensity > blackThreshold)
                         {
@@ -46,6 +48,7 @@ namespace ShapeDetector
 
                 void CheckConnectivity(int x, int y, float color)
                 {
+                    Console.WriteLine("Checking Connectivity");
                     //NOTE: Recursive calls use the original color (intensity) that started the recursion. Theoretically, it wouldn't be able to handle gradients..?
                     //Set current information - Current intensity pixel is set to zero to avoid registering it multiple times, and current result pixel is given current object number
                     intensity[x, y] = 0;

@@ -23,24 +23,24 @@ namespace ShapeDetector
             {
                 for (var x = 0; x < img.Width; x++)
                 {
-                    var red = src.channel_one[y, x];
-                    var green = src.channel_two[y, x];
-                    var blue = src.channel_three[y, x];
+                    var red = src.channel_one[x, y];
+                    var green = src.channel_two[x, y];
+                    var blue = src.channel_three[x, y];
 
                     const float degrees = 60 * (float)Math.PI / 180;
                     var min = Math.Min(Math.Min(red, green), blue);
 
-                    if (value[y, x] == red && green >= blue) 
-                        hue[y, x] = (green - blue) / (value[y, x] - min) * degrees;
+                    if (value[x, y] == red && green >= blue) 
+                        hue[x, y] = (green - blue) / (value[x, y] - min) * degrees;
                     
-                    else if (green == value[y, x]) 
-                        hue[y, x] = ((blue - red) / (value[y, x] - min) + 2) * degrees;
+                    else if (green == value[x, y]) 
+                        hue[x, y] = ((blue - red) / (value[x, y] - min) + 2) * degrees;
                     
-                    else if (blue == value[y, x]) 
-                        hue[y, x] = ((red - green) / (value[y, x] - min) + 4) * degrees;
+                    else if (blue == value[x, y]) 
+                        hue[x, y] = ((red - green) / (value[x, y] - min) + 4) * degrees;
                     
-                    else if (value[y, x] == red && green < blue) 
-                        hue[y, x] = ((red - blue) / (value[y, x] - min) + 5) * degrees;
+                    else if (value[x, y] == red && green < blue) 
+                        hue[x, y] = ((red - blue) / (value[x, y] - min) + 5) * degrees;
                 }
             }
 
@@ -56,8 +56,8 @@ namespace ShapeDetector
             {
                 for (var x = 0; x < img.Width; x++)
                 {
-                    value[y, x] = Math.Max(Math.Max(src.channel_one[y, x], src.channel_two[y, x]),
-                        src.channel_three[y, x]);
+                    value[x, y] = Math.Max(Math.Max(src.channel_one[x, y], src.channel_two[x, y]),
+                        src.channel_three[x, y]);
                 }
             }
 
@@ -74,12 +74,12 @@ namespace ShapeDetector
             {
                 for (var x = 0; x < img.Width; x++)
                 {
-                    var red = src.channel_one[y, x];
-                    var green = src.channel_two[y, x];
-                    var blue = src.channel_three[y, x];
+                    var red = src.channel_one[x, y];
+                    var green = src.channel_two[x, y];
+                    var blue = src.channel_three[x, y];
 
                     var min = Math.Min(Math.Min(red, green), blue);
-                    saturation[y, x] = value[y, x] - min / value[y, x];
+                    saturation[x, y] = value[x, y] - min / value[x, y];
                 }
             }
             
@@ -89,17 +89,17 @@ namespace ShapeDetector
         public float[,] GetIntensity(Bitmap img)
         {
             var src = Split(img);
-            var intensity = new float[img.Height, img.Width];
+            var intensity = new float[img.Width, img.Height];
 
             for (var y = 0; y < img.Height; y++)
             {
                 for (var x = 0; x < img.Width; x++)
                 {
-                    var red = src.channel_one[y, x];
-                    var green = src.channel_two[y, x];
-                    var blue = src.channel_three[y, x];
+                    var red = src.channel_one[x, y];
+                    var green = src.channel_two[x, y];
+                    var blue = src.channel_three[x, y];
 
-                    intensity[y, x] = 1 / 3 + (red + green + blue);
+                    intensity[x, y] = 1 / 3 * (red + green + blue);
                 }
             }
 
@@ -116,11 +116,11 @@ namespace ShapeDetector
             {
                 for (var x = 0; x < img.Width; x++)
                 {
-                    var clr = img.GetPixel(y, x);
+                    var clr = img.GetPixel(x, y);
                     
-                    red[y, x] = clr.R;
-                    green[y, x] = clr.G;
-                    blue[y, x] = clr.B;
+                    red[x, y] = clr.R;
+                    green[x, y] = clr.G;
+                    blue[x, y] = clr.B;
                 }
             }
             
@@ -140,12 +140,12 @@ namespace ShapeDetector
             {
                 for (var x = 0; x < splitImg.width; x++)
                 {
-                    var red = (int)splitImg.channel_one[y, x];
-                    var green = (int)splitImg.channel_two[y, x];
-                    var blue = (int)splitImg.channel_three[y, x];
+                    var red = (int)splitImg.channel_one[x, y];
+                    var green = (int)splitImg.channel_two[x, y];
+                    var blue = (int)splitImg.channel_three[x, y];
 
                     var clr = Color.FromArgb(red, green, blue);
-                    bmp.SetPixel(y, x, clr);
+                    bmp.SetPixel(x, y, clr);
                 }
             }
             

@@ -10,7 +10,7 @@ namespace ShapeDetector
         private static bool running;
         private const string versionNumber = "0.1";
         private static int _threshold = 50;
-        private static string import = "test2.png";
+        private static string import = "test.png";
         private static string export = "image.bmp";
         
         private static readonly Dictionary<string, string> _command = new Dictionary<string, string>
@@ -114,27 +114,6 @@ namespace ShapeDetector
 
                 Console.WriteLine("Compiling color");
                 _colors.Add(Color.FromArgb(red, green, blue));
-                Console.WriteLine("Add another color? Y/N");
-                String k = Console.ReadLine();
-                if (k == "Y" || k == "y")
-                {
-                    setting = false;
-                    SetColors();
-                }
-                else if(k == "N" || k == "n")
-                {
-                    setting = false;
-                    Console.WriteLine("COMPLETE - Returning to main menu");
-                    
-                }
-                else
-                {
-                    Console.WriteLine("--Invalid Input--");
-                    Console.WriteLine("Returning to main menu");
-                    setting = false;
-                }
-
-
             }
 
             int SetVal(string input)
