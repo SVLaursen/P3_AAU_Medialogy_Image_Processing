@@ -15,7 +15,7 @@ namespace ShapeDetector
         //Class Variables
         public Vector2 maxP;
         public Vector2 minP;
-        private List<Vector2> points = new List<Vector2>();
+        public List<Vector2> points = new List<Vector2>();
 
         //Public constructor
         public Blob(int _x, int _y)
@@ -84,7 +84,7 @@ namespace ShapeDetector
 
         public static void DrawBlobs(Bitmap _img, List<Blob> _b)
         {
-            Pen pen = new Pen(Color.White, 5);
+            Pen pen = new Pen(Color.White, 1);
             var graphics = Graphics.FromImage(_img);
 
             foreach (Blob b in _b)

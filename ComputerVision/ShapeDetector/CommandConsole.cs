@@ -8,7 +8,7 @@ namespace ShapeDetector
     public static class CommandConsole
     {
         private static bool running;
-        private const string versionNumber = "0.1";
+        private const string versionNumber = "0.2";
         private static int _threshold = 0;
         private static string import = "test2.png";
         private static string export = "image.bmp";
@@ -65,7 +65,7 @@ namespace ShapeDetector
                     Calibration();
                     break;
                 case "-run":
-                    Program.StartProgram(_threshold, import, export);
+                    //Program.StartProgram(_threshold, import, export);
                     break;
                 case "-import":
                     Console.WriteLine("Set image import file::");
@@ -170,11 +170,11 @@ namespace ShapeDetector
             stop.Start();
             Console.WriteLine("Running System Debug...");
 
-            Program.StartProgram("test44.bmp", "test444.bmp", "debug1.bmp");
+            Program.StartProgram("test44.bmp", "test4.bmp", "debug3.bmp");
             //Program.StartProgram(25, "test2.png", "debug2.bmp");
             stop.Stop();
-            Console.WriteLine(stop.ElapsedMilliseconds);
-            Console.WriteLine("Debugging complete..");
+            Console.WriteLine(" Debugging time: " + stop.ElapsedMilliseconds + " Milliseconds");
+            Console.WriteLine("\nDebugging complete..");
         }
     }
 }
