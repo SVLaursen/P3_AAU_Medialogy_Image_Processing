@@ -11,6 +11,7 @@ namespace ShapeDetector
         private const string versionNumber = "0.2";
         private static string import = "test2.png";
         private static string export = "image.bmp";
+        
         private static int _threshold = 60;
         
         private static readonly Dictionary<string, string> _command = new Dictionary<string, string>
