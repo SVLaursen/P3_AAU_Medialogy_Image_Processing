@@ -13,6 +13,7 @@ namespace ShapeDetector
         private static string export = "image.bmp";
         
         private static int _threshold = 60;
+        private static int _colorThreshold = 190;
         
         private static readonly Dictionary<string, string> _command = new Dictionary<string, string>
         {
@@ -21,7 +22,7 @@ namespace ShapeDetector
             {"-exit", "Exit the program"},
             {"-calibrate", "Calibrates the software"},
             {"-run", "Runs the shape detection software"},
-            {"-colors", "Sets the colors for the detection software"},
+            {"-colorThreshold", "Sets the threshold for the color cleanup"},
             {"-import", "Sets the image import path"},
             {"-export", "Sets the file export name."},
             {"-threshold", "Sets the color threshold value"},
@@ -58,8 +59,15 @@ namespace ShapeDetector
                     Console.Clear();
                     Run();
                     break;
-                case "-colors":
-                    SetColors();
+                case "-colorThreshold":
+                    Console.WriteLine("Enter new color threshold: ");
+                    var colInput = Console.ReadLine();
+                    if (int.TryParse(colInput, out var colVal))
+                    {
+                        ColorThreshold = colVal;
+                        Console.WriteLine("New Threshold: " + ColorThreshold);
+                    }
+                    else Console.WriteLine("--Invalid Input--");
                     break;
                 case "-calibrate":
                     Calibration();
@@ -96,57 +104,6 @@ namespace ShapeDetector
             }
         }
 
-        //This is the function used for manually adding colors to the list of detectable colors
-        //Let's hope we don't have to use it and that we can automate as much as possible
-        private static void SetColors()
-        {
-            var setting = true;
-
-            while (setting)
-            {
-                Console.WriteLine("Please write the R-value");
-                var red = SetVal(Console.ReadLine());
-
-                Console.WriteLine("Please write the G-value");
-                var green = SetVal(Console.ReadLine());
-
-                Console.WriteLine("Please write the B-value");
-                var blue = SetVal(Console.ReadLine());
-
-                Console.WriteLine("Compiling color");
-                //_colors.Add(Color.FromArgb(red, green, blue));
-                Console.WriteLine("Add another color? Y/N");
-                String k = Console.ReadLine();
-                if (k == "Y" || k == "y")
-                {
-                    setting = false;
-                    SetColors();
-                }
-                else if(k == "N" || k == "n")
-                {
-                    setting = false;
-                    Console.WriteLine("COMPLETE - Returning to main menu");
-                    
-                }
-                else
-                {
-                    Console.WriteLine("--Invalid Input--");
-                    Console.WriteLine("Returning to main menu");
-                    setting = false;
-                }
-
-
-            }
-
-            int SetVal(string input)
-            {
-                if (int.TryParse(input, out var value)) return value;
-                
-                Console.WriteLine("-- Invalid Input -- \nValue automatically signed to 0");
-                return 0;
-            }
-        }
-
         private static void Calibration()
         {
             //TODO: Calibration code get called from here.
@@ -179,6 +136,12 @@ namespace ShapeDetector
         {
             get => _threshold;
             set => _threshold = value;
+        }
+
+        public static int ColorThreshold
+        {
+            get => _colorThreshold;
+            set => _colorThreshold = value;
         }
     }
 }
