@@ -12,7 +12,7 @@ namespace ShapeDetector
         {
             CommandConsole.Run();
         }
-        
+
         public static void StartProgram(string bImagePath, string imagePath, string fileName)
         {
             string root = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -24,26 +24,21 @@ namespace ShapeDetector
             CCHandler CC = new CCHandler(_img);
             ColorProcessing colorProcess = new ColorProcessing();
 
-            Console.WriteLine("\nThresholding...");
-            Bitmap _timg = CC.BackgroundThreshold(_bImg, _img, CommandConsole.Threshold);
-
-            Console.WriteLine("\nDetecting Blobs...");
-            _b = CC.FindBlobs();
-            Console.WriteLine(" Blobs Found: "+_b.Count);
-
-            Console.WriteLine("\nCreating Mask...");
-            Bitmap _mimg = CC.MaskInverse(_b);
-
+            Bitmap _timg = CCHandler.BackgroundThreshold(_bImg, _img, CommandConsole.Threshold);
+            
+            //Console.WriteLine("\nDetecting Blobs...");
+            //_b = CC.Compare(_timg);
+            //Console.WriteLine(" Blobs Found: "+_b.Count);
+            //Console.WriteLine(" Drawing Blobs...");
+            //Blob.DrawBlobs(_timg, _b);
+            
             Console.WriteLine("\nCleaning colors");
             _timg = colorProcess.CleanImage(_timg);
             
-            Console.WriteLine("\nSaving files...");
+            Console.WriteLine("\nSaving file...");
+
+
             if (File.Exists(rootPath + fileName))
-            {
-                Console.WriteLine(" File Already Exists. Overwriting");
-                File.Delete(rootPath + fileName);
-            }
-            if (File.Exists(rootPath + "Mask.bmp"))
             {
                 File.Delete(rootPath + "Mask.bmp");
             }
