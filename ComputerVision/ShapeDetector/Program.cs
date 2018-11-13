@@ -12,6 +12,7 @@ namespace ShapeDetector
         {
             CommandConsole.Run();
         }
+        
         public static void StartProgram(string bImagePath, string imagePath, string fileName)
         {
             string root = System.Reflection.Assembly.GetExecutingAssembly().Location;

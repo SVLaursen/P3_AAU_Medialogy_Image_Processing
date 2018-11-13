@@ -13,7 +13,7 @@ namespace ShapeDetector
             Color.FromArgb(0, 0, 255), //BLUE
             Color.FromArgb(0, 255, 255), //CYAN
             Color.FromArgb(255, 0, 255), //MAGENTA
-            Color.FromArgb(255, 255, 0) //Yellow
+            Color.FromArgb(255, 255, 0) //YELLOW
         });
         
         public Bitmap CleanImage(Bitmap src)
@@ -31,10 +31,8 @@ namespace ShapeDetector
                     }
 
                     foreach (var t in debugColors)
-                    {
                         if (ColorsAreClose(src.GetPixel(x, y), t, CommandConsole.ColorThreshold)) 
                             cleanImg.SetPixel(x, y, t);
-                    }
                 }
             }
 
@@ -49,9 +47,8 @@ namespace ShapeDetector
                 return red * red + green * green + blue * blue <= threshold * threshold;
             }
         }
-        
-        
-        /*
+
+        /* ----------------------------------------
          * BELOW IS THE CONVERSION ALGORITHMS
          * SOME OF THE CODE IS NO LONGER BEING USED
          */
