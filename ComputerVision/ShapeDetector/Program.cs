@@ -24,7 +24,7 @@ namespace ShapeDetector
             ColorProcessing colorProcess = new ColorProcessing();
 
             Console.WriteLine("\nThresholding...");
-            Bitmap _timg = CC.BackgroundThreshold(_bImg, _img, CommandConsole.Threshold);
+            Bitmap _timg = CC.BackgroundSubtraction(_bImg, _img, CommandConsole.Threshold);
 
             Console.WriteLine("\nDetecting Blobs...");
             _b = CC.FindBlobs();

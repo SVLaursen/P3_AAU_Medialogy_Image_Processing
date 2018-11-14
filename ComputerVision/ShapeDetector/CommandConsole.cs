@@ -167,7 +167,6 @@ namespace ShapeDetector
             Stopwatch stop = new Stopwatch();
             stop.Start();
             Console.WriteLine("Running System Debug...");
-
             Program.StartProgram("debugBackground.bmp", "debugShapesOverlay.bmp", "debugOutput.bmp");
             stop.Stop();
             Console.WriteLine(" Debugging time: " + stop.ElapsedMilliseconds + " Milliseconds");

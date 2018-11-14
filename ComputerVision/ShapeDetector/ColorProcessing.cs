@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace ShapeDetector
 {
@@ -18,6 +19,8 @@ namespace ShapeDetector
         
         public Bitmap CleanImage(Bitmap src)
         {
+            Stopwatch stop = new Stopwatch();
+            stop.Start();
             var cleanImg = src;
             var thr = 190;
 
@@ -31,13 +34,15 @@ namespace ShapeDetector
                         continue;
                     }
 
+
                     foreach (var t in debugColors)
                     {
                         if (ColorsAreClose(src.GetPixel(x, y), t, thr)) cleanImg.SetPixel(x, y, t);
                     }
                 }
             }
-
+            stop.Stop();
+            Console.WriteLine(" Image Cleaned in: " + stop.ElapsedMilliseconds + " Milliseconds");
             return cleanImg;
             
             bool ColorsAreClose(Color imgColor, Color listColor, int threshold)

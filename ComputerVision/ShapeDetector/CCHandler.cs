@@ -35,16 +35,17 @@ namespace ShapeDetector
         }
       
         //Compares two images and blacks out the pixels that are equal
-        public Bitmap BackgroundThreshold(Bitmap bImg, Bitmap img, int t)
+        public Bitmap BackgroundSubtraction(Bitmap bImg, Bitmap img, int t)
         {
             Bitmap _img = new Bitmap(img);
             Stopwatch stop = new Stopwatch();
             stop.Start();
+            int _t =(int)Math.Pow(t, 2);
             for (int x = 0; x < _img.Width; x++)
             {
                 for (int y = 0; y < _img.Height; y++)
                 {
-                    if (!isChecked[x, y] && DeltaE(bImg.GetPixel(x, y), img.GetPixel(x, y)) > t)
+                    if (!isChecked[x, y] && DeltaESqr(bImg.GetPixel(x, y), img.GetPixel(x, y)) > _t)
                     {
                         isNotBlack[x, y] = true;
                         isChecked[x, y] = true;
@@ -161,9 +162,9 @@ namespace ShapeDetector
 
 
         //Uses the Euclidian Distance Formular to calculate distance between colors "Delta E"
-        public static double DeltaE(Color c1, Color c2)
+        public static double DeltaESqr(Color c1, Color c2)
         {
-            double deltaE = Math.Sqrt(Math.Pow(c1.R - c2.R, 2) + Math.Pow(c1.G - c2.G, 2) + Math.Pow(c1.B - c2.B, 2));
+            double deltaE = Math.Pow(c1.R - c2.R, 2) + Math.Pow(c1.G - c2.G, 2) + Math.Pow(c1.B - c2.B, 2);
 
             return deltaE;
 
@@ -178,7 +179,7 @@ namespace ShapeDetector
             {
                 for(int j = 0; j < img.Height; j++)
                 {
-                    double k = DeltaE(c1, img.GetPixel(i, j));
+                    double k = DeltaESqr(c1, img.GetPixel(i, j));
                 }
             }
             stop.Stop();
