@@ -29,7 +29,6 @@ namespace ShapeDetector
                 {
                     if (src.GetPixel(x, y) == Color.FromArgb(0, 0, 0))
                     {
-                        cleanImg.SetPixel(x, y, Color.FromArgb(0, 0, 0));
                         continue;
                     }
 
