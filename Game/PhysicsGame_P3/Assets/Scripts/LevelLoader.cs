@@ -77,7 +77,7 @@ public class LevelLoader : MonoBehaviour
     //public static string streamingAssetsPath = Application.dataPath + "/StreamingAssets";
     //public static string blobImageFileName = "testImg.bmp";
 
-    public static Texture2D loadImage(string filePath)
+    public static Texture2D LoadImage(string filePath)
     { //NOTE: Sadly, the Unity Engine (not editor!) cannot load .bmp's, only .png's and .jpg's. If given anything else, it will return a standard 8x8 texture with a question mark.
       //Other than that, this function works, and will load images from a given filepath
         Debug.Log("Looking for image: " + filePath);

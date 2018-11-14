@@ -17,7 +17,7 @@ public class UseTestImgAsTexture : MonoBehaviour
 
         Renderer myRenderer = GetComponent<Renderer>();
 
-        Texture tex = LevelLoader.loadImage(streamingAssetsPath + "/" + blobImageFileName);
+        Texture tex = LevelLoader.LoadImage(streamingAssetsPath + "/" + blobImageFileName);
         Debug.Log(tex.dimension);
         
 
