@@ -26,7 +26,12 @@ public class Manager : MonoBehaviour
 		_player = GameObject.FindWithTag("Player").GetComponent<Player>();
 	}
 	#endregion
-	
+
+	private void Start()
+	{
+		GetComponent<LevelLoader>().LoadLevel();
+	}
+
 	private void Update()
 	{
 		if(Input.GetMouseButtonDown(0)) gameActive = !gameActive;
