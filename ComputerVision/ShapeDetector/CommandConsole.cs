@@ -8,12 +8,12 @@ namespace ShapeDetector
     public static class CommandConsole
     {
         private static bool running;
-        private const string versionNumber = "0.2";
+        private const string versionNumber = "0.4 DEBUG";
         private static string import = "test2.png";
         private static string export = "image.bmp";
         
-        private static int _threshold = 60;
-        private static int _colorThreshold = 190;
+        private static int _threshold = -1;
+        private static int _colorThreshold = -1;
         
         private static readonly Dictionary<string, string> _command = new Dictionary<string, string>
         {
@@ -106,8 +106,42 @@ namespace ShapeDetector
 
         private static void Calibration()
         {
-            //TODO: Calibration code get called from here.
-            Console.WriteLine("Not yet implemented"); //Remove later
+            while (Threshold == -1) { 
+                Console.WriteLine("Enter Background Subtraction Threshold: ");
+                Console.Write(": ");
+                var thresholdInput = Console.ReadLine();
+                if (int.TryParse(thresholdInput, out var value))
+                {
+                    Threshold = value;
+                    Console.WriteLine("Threshold Set: " + Threshold);
+                }
+                else Console.WriteLine("--Invalid Input--");
+            }
+
+            while (ColorThreshold == -1)
+            {
+                Console.WriteLine("\nSet Color Cleaning Threshold: ");
+                Console.Write(": ");
+                var colInput = Console.ReadLine();
+                if (int.TryParse(colInput, out var colVal))
+                {
+                    ColorThreshold = colVal;
+                    Console.WriteLine("Threshold Set: " + ColorThreshold);
+                }
+                else Console.WriteLine("--Invalid Input--");
+            }
+
+            Console.WriteLine("Set File Input Name: ");
+            Console.WriteLine("ATTENTION: Loading file needs to be located in the .EXE Root folder");
+            Console.Write(": ");
+            import = Console.ReadLine();
+            Console.WriteLine("Import file set to: " + import);
+
+            Console.WriteLine("Set Export File Name: ");
+            Console.WriteLine("ATTENTION: File will be exported to the Export folder in the .EXE Root directory");
+            Console.Write(": ");
+            export = Console.ReadLine();
+            Console.WriteLine("Export file set to: " + export);
         }
 
         private static void DisplayHelp()
