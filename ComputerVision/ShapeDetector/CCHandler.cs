@@ -11,7 +11,7 @@ namespace ShapeDetector
     {
         //Blob Detection Resources
         private static List<Blob> _b = new List<Blob>();
-        Blob blob;
+        private Blob blob;
         private static bool[,] isNotBlack;
         private static bool[,] isChecked;
         private static bool[,] isGrass;
@@ -30,7 +30,7 @@ namespace ShapeDetector
         {
             int h = _img.Height;
             int w = _img.Width;
-            Boolean[,] b = new Boolean[w, h];
+            bool[,] b = new bool[w, h];
             return b;
         }
       

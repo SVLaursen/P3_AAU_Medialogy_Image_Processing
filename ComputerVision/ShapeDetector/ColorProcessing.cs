@@ -22,7 +22,6 @@ namespace ShapeDetector
             Stopwatch stop = new Stopwatch();
             stop.Start();
             var cleanImg = src;
-            var thr = 190;
 
             for (var y = 0; y < src.Height; y++)
             {
@@ -37,7 +36,7 @@ namespace ShapeDetector
 
                     foreach (var t in debugColors)
                     {
-                        if (ColorsAreClose(src.GetPixel(x, y), t, thr)) cleanImg.SetPixel(x, y, t);
+                        if (ColorsAreClose(src.GetPixel(x, y), t, CommandConsole.ColorThreshold)) cleanImg.SetPixel(x, y, t);
                     }
                 }
             }

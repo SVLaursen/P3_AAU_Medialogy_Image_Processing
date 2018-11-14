@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LevelLoader : MonoBehaviour
 {
-	private Texture2D levelMap;
+	public Texture2D levelMap;
 	public bool loadFromBytes;
 	public string levelFileName;
 
