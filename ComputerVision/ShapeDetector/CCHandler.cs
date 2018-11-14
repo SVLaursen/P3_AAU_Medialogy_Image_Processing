@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Diagnostics;
 using System.Numerics;
+using System.Runtime.InteropServices;
 
 
 namespace ShapeDetector
@@ -35,7 +37,7 @@ namespace ShapeDetector
         }
       
         //Compares two images and blacks out the pixels that are equal
-        public Bitmap BackgroundSubtraction(Bitmap bImg, Bitmap img, int t)
+        public Bitmap BackgroundSubtractionOld(Bitmap bImg, Bitmap img, int t)
         {
             Bitmap _img = new Bitmap(img);
             Stopwatch stop = new Stopwatch();
@@ -51,7 +53,7 @@ namespace ShapeDetector
                         isChecked[x, y] = true;
 
                     }
-                    else
+                    else if(!isChecked[x, y])
                     {
                         _img.SetPixel(x, y, Color.Black);
                         isChecked[x, y] = true;
@@ -63,6 +65,39 @@ namespace ShapeDetector
             stop.Stop();
             Console.WriteLine(" Background removal time: " + stop.ElapsedMilliseconds + " Milliseconds");
             return _img;
+        }
+        public Bitmap BackgroundSubtraction(Bitmap bImg, Bitmap img, int t)
+        {
+            Stopwatch stop = new Stopwatch();
+            stop.Start();
+            PixelHandler _bImg = new PixelHandler(bImg);
+            PixelHandler _img = new PixelHandler(img);
+            int _t = (int)Math.Pow(t, 2);
+            int bpp = _img.BytesPerPixel();
+            for (int y = 0; y < img.Height; y++)
+            {
+                for (int _x = 0; _x < _img.Width(); _x += bpp)
+                {
+                    int x = _x / bpp;
+                    if (!isChecked[x, y] && DeltaESqr(_bImg.GetPixel(_x, y), _img.GetPixel(_x, y)) > _t)
+                    {
+                        isNotBlack[x, y] = true;
+                        isChecked[x, y] = true;
+
+                    }
+                    else
+                    {
+                        _img.SetPixel(_x, y, Color.Black);
+                        isChecked[x, y] = true;
+                        isNotBlack[x, y] = false;
+                    } 
+                }
+            }
+            _bImg.Close();
+            Bitmap fimg = _img.Return();
+            stop.Stop();
+            Console.WriteLine(" Background removal time: " + stop.ElapsedMilliseconds + " Milliseconds");
+            return fimg;
         }
 
         //Grassfire to detect blobs based on binary array
@@ -185,5 +220,6 @@ namespace ShapeDetector
             stop.Stop();
             return stop.ElapsedMilliseconds;
         }
+           
     }
 }

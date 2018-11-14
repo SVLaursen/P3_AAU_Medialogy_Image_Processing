@@ -17,16 +17,19 @@ namespace ShapeDetector
             Color.FromArgb(255, 255, 0) //Yellow
         });
         
-        public Bitmap CleanImage(Bitmap src)
+        public Bitmap CleanImage(Bitmap _src)
         {
             Stopwatch stop = new Stopwatch();
             stop.Start();
-            var cleanImg = src;
 
-            for (var y = 0; y < src.Height; y++)
+            PixelHandler src = new PixelHandler(_src);
+            int bpp = Bitmap.GetPixelFormatSize(_src.PixelFormat) / 8;
+
+            for (var y = 0; y < _src.Height; y++)
             {
-                for (var x = 0; x < src.Width; x++)
+                for (var _x = 0; _x < src.Width(); _x += bpp)
                 {
+                    int x = _x / bpp;
                     if (src.GetPixel(x, y) == Color.FromArgb(0, 0, 0))
                     {
                         continue;
@@ -35,13 +38,13 @@ namespace ShapeDetector
 
                     foreach (var t in debugColors)
                     {
-                        if (ColorsAreClose(src.GetPixel(x, y), t, CommandConsole.ColorThreshold)) cleanImg.SetPixel(x, y, t);
+                        if (ColorsAreClose(src.GetPixel(x, y), t, CommandConsole.ColorThreshold)) src.SetPixel(x, y, t);
                     }
                 }
             }
             stop.Stop();
             Console.WriteLine(" Image Cleaned in: " + stop.ElapsedMilliseconds + " Milliseconds");
-            return cleanImg;
+            return src.Return();
             
             bool ColorsAreClose(Color imgColor, Color listColor, int threshold)
             {
