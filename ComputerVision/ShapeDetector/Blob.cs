@@ -12,14 +12,15 @@ namespace ShapeDetector
 {
     public class Blob
     {
+
+
         //Class Variables
         public Vector2 maxP;
         public Vector2 minP;
-        private List<Vector2> points = new List<Vector2>();
-        public int id;
+        public List<Vector2> points = new List<Vector2>();
 
         //Public constructor
-        public Blob(int _x, int _y, int id)
+        public Blob(int _x, int _y)
         {
             maxP = new Vector2(_x, _y);
             minP = new Vector2(_x, _y);
@@ -34,14 +35,14 @@ namespace ShapeDetector
 
             Parallel.ForEach(points, v =>
             {
-                float _d = Vector2.DistanceSquared(point, v);
+                float _d = Vector2.Distance(point, v);
                 if (_d < d)
                 {
                     d = _d;
                 }
             });
 
-            if (d < Math.Pow(_threshold, 2)) { return true; }
+            if (d < _threshold) { return true; }
             else { return false; }
         }
 
@@ -85,7 +86,7 @@ namespace ShapeDetector
 
         public static void DrawBlobs(Bitmap _img, List<Blob> _b)
         {
-            Pen pen = new Pen(Color.White, 5);
+            Pen pen = new Pen(Color.White, 1);
             var graphics = Graphics.FromImage(_img);
 
             foreach (Blob b in _b)

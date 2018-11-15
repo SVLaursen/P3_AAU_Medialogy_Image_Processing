@@ -8,43 +8,49 @@ namespace ShapeDetector
 {   
     internal class Program
     {
-        public static int thr = 50;
-
         public static void Main(string[] args)
         {
             CommandConsole.Run();
         }
-
-
-        public static void StartProgram(List<Color> _c, int threshold, string imagePath, string fileName)
+        public static void StartProgram(string bImagePath, string imagePath, string fileName)
         {
             string root = System.Reflection.Assembly.GetExecutingAssembly().Location;
             string rootPath = Path.GetFullPath(Path.Combine(root, "..")) + "/Export/";
             List<Blob> _b = new List<Blob>();
 
             Bitmap _img = ImageHandler.LoadImage(imagePath);
-            CCHandler CC = new CCHandler(_c, _img);
+            Bitmap _bImg = ImageHandler.LoadImage(bImagePath);
+            CCHandler CC = new CCHandler(_img);
+            ColorProcessing colorProcess = new ColorProcessing();
 
-            Console.WriteLine("Thresholding...");
-            Bitmap _timg = CC.BackgroundThreshold(_img, thr);
-            Console.WriteLine("Detecting Blobs...");
-            _b = CC.Detect(_timg, thr);
-            Console.WriteLine(_b.Count);
-            Console.WriteLine("Drawing Blobs...");
-            Blob.DrawBlobs(_timg, _b);
+            Console.WriteLine("\nThresholding...");
+            Bitmap _timg = CC.BackgroundSubtraction(_bImg, _img, CommandConsole.Threshold);
 
+            Console.WriteLine("\nDetecting Blobs...");
+            _b = CC.FindBlobs();
+            Console.WriteLine(" Blobs Found: "+_b.Count);
 
+            Console.WriteLine("\nCreating Mask...");
+            Bitmap _mimg = CC.MaskInverse(_b);
+
+            Console.WriteLine("\nCleaning colors");
+            _timg = colorProcess.CleanImage(_timg);
+            
+            Console.WriteLine("\nSaving files...");
             if (File.Exists(rootPath + fileName))
             {
-                Console.WriteLine("Image Already Exists. Overwriting");
+                Console.WriteLine(" File Already Exists. Overwriting");
                 File.Delete(rootPath + fileName);
             }
-            Console.WriteLine("Exporting Bitmap");
+            if (File.Exists(rootPath + "Mask.bmp"))
+            {
+                File.Delete(rootPath + "Mask.bmp");
+            }
+            Console.WriteLine(" Exporting Bitmap...");
+            _mimg.Save(rootPath + "Mask.bmp");
             _timg.Save(rootPath + fileName);
-            Console.WriteLine("Blob Detection Execution: Success!");
-            Console.WriteLine("Press Any Key to Continue");
-            Console.ReadKey();
-            Console.Clear();
+            Console.WriteLine("\nBlob Detection Execution: Success!");
+
         }
     }
 }

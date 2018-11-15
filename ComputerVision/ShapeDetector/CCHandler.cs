@@ -1,145 +1,224 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.Diagnostics;
+using System.Numerics;
+using System.Runtime.InteropServices;
 
 namespace ShapeDetector
 {
     class CCHandler
     {
         //Blob Detection Resources
-        List<Color> _c;
-        List<Blob> _b = new List<Blob>();
-        Blob blob;
-        bool[,] boo;
-        bool[,] boo2;
+        private static List<Blob> _b = new List<Blob>();
+        private Blob blob;
+        private static bool[,] isNotBlack;
+        private static bool[,] isChecked;
+        private static bool[,] isGrass;
+        private static List<Point> queue = new List<Point>();
 
         //Public Constructor. Requires an image and a list of colors.
         public CCHandler(List<Color> c, Bitmap _img)
         {
-            _c = c;
-            boo = Binary(_img);
-            boo2 = Binary(_img);
+            isNotBlack = Binary(_img);
+            isChecked = Binary(_img);
+            isGrass = Binary(_img);
         }
 
         //Creates a boolean array of the supplied image. Used for the grassfire algorithm
-        private bool[,] Binary(Bitmap _img)
+        private static bool[,] Binary(Bitmap _img)
         {
             int h = _img.Height;
             int w = _img.Width;
-            Boolean[,] b = new Boolean[h, w];
+            bool[,] b = new bool[w, h];
             return b;
         }
-
-        //Blob detection grassfire algorithm. The meat of the Blob detection. Finds colors within the threshold of our specified colors, and creates blobs accordingly.
-        private void Grassfire(Bitmap img, int x, int y, Blob currentBlob, Color c, int t)
+      
+        //Compares two images and blacks out the pixels that are equal
+        public Bitmap BackgroundSubtractionOld(Bitmap bImg, Bitmap img, int t)
         {
-            double de = DeltaE(img.GetPixel(y, x), c);
-            if (!boo[x, y])
+            Bitmap _img = new Bitmap(img);
+            Stopwatch stop = new Stopwatch();
+            stop.Start();
+            int _t =(int)Math.Pow(t, 2);
+            for (int x = 0; x < _img.Width; x++)
             {
-                boo[x, y] = true;
-                int k = 0;
-
-                if (currentBlob == null)
+                for (int y = 0; y < _img.Height; y++)
                 {
-                    _b.Add(new Blob(x, y, _b.Count));
-                    int i = _b.Count - 1;
-                    blob = _b[i];
-                    Console.WriteLine("New Blob!");
-                    Console.WriteLine(c);
-                }
-                if (blob != null)
-                {
-                    if (de <= t)
+                    if (!isChecked[x, y] && DeltaESqr(bImg.GetPixel(x, y), img.GetPixel(x, y)) > _t)
                     {
-                        blob.Add(x, y);
-                        if (x + 1 < img.Height && k == 0)
-                        {
-                            Grassfire(img, x + 1, y, blob, c, t);
-                            k++;
-                        }
-                        if (y + 1 < img.Width && k == 1)
-                        {
-                            Grassfire(img, x, y + 1, blob, c, t);
-                            k++;
-                        }
-                        if (x - 1 >= 0 && k == 2)
-                        {
-                            Grassfire(img, x - 1, y, blob, c, t);
-                            k++;
-                        }
-                        if (y - 1 >= img.Width && k == 3)
-                        {
-                            Grassfire(img, x, y + 1, blob, c, t);
-                            k = 0;
-                        }
+                        isNotBlack[x, y] = true;
+                        isChecked[x, y] = true;
+
+                    }
+                    else if(!isChecked[x, y])
+                    {
+                        _img.SetPixel(x, y, Color.Black);
+                        isChecked[x, y] = true;
+                        isNotBlack[x, y] = false;
 
                     }
                 }
             }
+            stop.Stop();
+            Console.WriteLine(" Background removal time: " + stop.ElapsedMilliseconds + " Milliseconds");
+            return _img;
+        }
+        public Bitmap BackgroundSubtraction(Bitmap bImg, Bitmap img, int t)
+        {
+            Stopwatch stop = new Stopwatch();
+            stop.Start();
+            PixelHandler _bImg = new PixelHandler(bImg);
+            PixelHandler _img = new PixelHandler(img);
+            int _t = (int)Math.Pow(t, 2);
+            int bpp = _img.BytesPerPixel();
+            for (int y = 0; y < img.Height; y++)
+            {
+                for (int _x = 0; _x < _img.Width(); _x += bpp)
+                {
+                    int x = _x / bpp;
+                    if (!isChecked[x, y] && DeltaESqr(_bImg.GetPixel(_x, y), _img.GetPixel(_x, y)) > _t)
+                    {
+                        isNotBlack[x, y] = true;
+                        isChecked[x, y] = true;
+
+                    }
+                    else
+                    {
+                        _img.SetPixel(_x, y, Color.Black);
+                        isChecked[x, y] = true;
+                        isNotBlack[x, y] = false;
+                    } 
+                }
+            }
+            _bImg.Close();
+            Bitmap fimg = _img.Return();
+            stop.Stop();
+            Console.WriteLine(" Background removal time: " + stop.ElapsedMilliseconds + " Milliseconds");
+            return fimg;
         }
 
-        //Blob Detection executer.
-        public List<Blob> Detect(Bitmap img, int threshold)
+        //Grassfire to detect blobs based on binary array
+        public void Grassfire(Point point, bool[,] arr, Blob blob)
         {
-            for (int x = 0; x < img.Height; x++)
-            {
-                for (int y = 0; y < img.Width; y++)
+            int x = point.X;
+            int y = point.Y;
+            
+                blob.Add(x, y);
+                if (x + 1 < arr.GetLength(0) && !isGrass[x + 1, y] && isNotBlack[x + 1, y])
                 {
-                    Color clr = img.GetPixel(y, x);
-                    foreach(Color c in _c)
+                    queue.Add(new Point(x + 1, y));
+                    blob.Add(x + 1, y);
+                    isGrass[x + 1, y] = true;
+                }
+                if (y + 1 < arr.GetLength(1) && !isGrass[x, y + 1] && isNotBlack[x, y + 1])
+                {
+                    queue.Add(new Point(x, y + 1));
+                    blob.Add(x, y + 1);
+                    isGrass[x, y + 1] = true;
+                }
+                if (x - 1 >= 0 && !isGrass[x - 1, y] && isNotBlack[x - 1, y])
+                {
+                    queue.Add(new Point(x - 1, y));
+                    blob.Add(x - 1, y);
+                    isGrass[x - 1, y] = true;
+                }
+                if (y - 1 >= 0 && !isGrass[x, y - 1] && isNotBlack[x, y - 1])
+                {
+                    queue.Add(new Point(x, y - 1)); 
+                    blob.Add(x, y - 1);
+                    isGrass[x, y - 1] = true;
+                }
+        }
+
+        //Finds blobs in the binary array isNotBlack
+        public List<Blob> FindBlobs()
+        {
+            Stopwatch stop = new Stopwatch();
+            stop.Start();
+            for (int x = 0; x < isNotBlack.GetLength(0); x++)
+            {
+                for(int y = 0; y < isNotBlack.GetLength(1); y++)
+                {
+                    if(isNotBlack[x, y] && !isGrass[x, y])
                     {
-                        if(DeltaE(clr, c) <= threshold)
+                        blob = new Blob(x, y);
+                        queue.Add(new Point(x, y));
+                        while (queue.Count != 0)
                         {
-                            Grassfire(img, x, y, null, c, threshold);
+                            Grassfire(queue[0], isNotBlack, blob);
+                            queue.RemoveAt(0);
                         }
+                        _b.Add(blob);
                     }
                 }
             }
+            stop.Stop(); 
+            Console.WriteLine(" Finding Blobs time: " + stop.ElapsedMilliseconds + " Milliseconds");
             return _b;
         }
 
-        //Removes any color that is not within the threshold of our specified colors.
-        public Bitmap BackgroundThreshold(Bitmap img, int threshold)
+        //Not in use at the moment
+        public Bitmap MaskInverse()
         {
-            Bitmap _img = new Bitmap(img);
-           
-            for (int y = 0; y < _img.Width; y++)
+            Bitmap _b = new Bitmap(isNotBlack.GetLength(0), isNotBlack.GetLength(1));
+            for (int x = 0; x < isNotBlack.GetLength(0); x++)
             {
-                for (int x = 0; x < _img.Height; x++)
+                for (int y = 0; y < isNotBlack.GetLength(1); y++)
                 {
-                    int k = _c.Count;
-                    foreach (Color c in _c)
+                    if(isNotBlack[x, y])
                     {
-                        double de = DeltaE(_img.GetPixel(y, x), c);
-                        if (!boo2[x, y] && de <= threshold)
-                        {
-                            boo2[x, y] = true;
-                            break;
-
-                        }
-                        if (!boo2[x, y] && de > threshold && k > 1)
-                        {
-                            k--;
-                            continue;
-                        }
-                        if (!boo2[x, y] && de > threshold && k <= 1){
-                            img.SetPixel(y, x, Color.Black);
-                            boo2[x, y] = true;
-                            
-                        }
+                        _b.SetPixel(x, y, Color.Black);
                     }
                 }
-            }
-            return img;
+              }
+            return _b;
         }
 
-        //Uses the Euclidian Distance Formular to calculate distance between colors "Delta E"
-        private double DeltaE(Color c1, Color c2)
+        //Creates an output image with inverse masks of the found blobs
+        public Bitmap MaskInverse(List<Blob> b)
         {
-            double deltaE = Math.Sqrt(Math.Pow(c1.R - c2.R, 2) + Math.Pow(c1.G - c2.G, 2) + Math.Pow(c1.B - c2.B, 2));
+            Stopwatch stop = new Stopwatch();
+            stop.Start();
+            Bitmap _b = new Bitmap(isNotBlack.GetLength(0), isNotBlack.GetLength(1));
+            foreach(Blob bl in b)
+            {
+                foreach(Vector2 p in bl.points)
+                {
+                    _b.SetPixel((int)p.X, (int)p.Y, Color.Black);
+                }
+            }
+            stop.Stop();
+            Console.WriteLine(" Masking time: " + stop.ElapsedMilliseconds + " Milliseconds");
+            return _b;
+        }
+
+
+        //Uses the Euclidian Distance Formular to calculate distance between colors "Delta E"
+        public static double DeltaESqr(Color c1, Color c2)
+        {
+            double deltaE = Math.Pow(c1.R - c2.R, 2) + Math.Pow(c1.G - c2.G, 2) + Math.Pow(c1.B - c2.B, 2);
 
             return deltaE;
 
         }
+
+        //Used to get the time it would take to deltaE an entire image to a specified color. Used for debugging
+        public static long DeltaEDebug(Bitmap img, Color c1)
+        {
+            var stop = new Stopwatch();
+            stop.Start();
+            for(int i = 0; i < img.Width; i++)
+            {
+                for(int j = 0; j < img.Height; j++)
+                {
+                    double k = DeltaESqr(c1, img.GetPixel(i, j));
+                }
+            }
+            stop.Stop();
+            return stop.ElapsedMilliseconds;
+        }
+           
     }
 }
