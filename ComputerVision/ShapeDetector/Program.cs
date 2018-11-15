@@ -30,6 +30,11 @@ namespace ShapeDetector
             _b = CC.FindBlobs();
             Console.WriteLine(" Blobs Found: "+_b.Count);
 
+            foreach(Blob b in _b)
+            {
+                b.DrawCorners(_timg, b.getCorners());
+            }
+
             Console.WriteLine("\nCreating Mask...");
             Bitmap _mimg = CC.MaskInverse(_b);
 
