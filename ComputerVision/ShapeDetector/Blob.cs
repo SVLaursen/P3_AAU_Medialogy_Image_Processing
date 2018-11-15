@@ -76,10 +76,10 @@ namespace ShapeDetector
         public Point[] getCorners()
         {
             Point[] corners = new Point[4];
-            corners[0] = new Point((int)minP.X, (int)minP.Y);
-            corners[1] = new Point((int)minP.X, (int)maxP.Y);
-            corners[2] = new Point((int)maxP.X, (int)maxP.Y);
-            corners[3] = new Point((int)maxP.X, (int)minP.Y);
+            corners[0] = new Point((int)minP.Y, (int)minP.X);
+            corners[1] = new Point((int)minP.Y, (int)maxP.X);
+            corners[2] = new Point((int)maxP.Y, (int)maxP.X);
+            corners[3] = new Point((int)maxP.Y, (int)minP.X);
 
             return corners;
         }
