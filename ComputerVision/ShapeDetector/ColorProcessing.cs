@@ -14,7 +14,7 @@ namespace ShapeDetector
             Color.FromArgb(0, 0, 255), //BLUE
             Color.FromArgb(0, 255, 255), //CYAN
             Color.FromArgb(255, 0, 255), //MAGENTA
-            Color.FromArgb(255, 255, 0) //Yellow
+            Color.FromArgb(255, 255, 0) //YELLOW
         });
         
         public Bitmap CleanImage(Bitmap _src)
