@@ -12,7 +12,7 @@ namespace ShapeDetector
 {
     public class Blob
     {
-        //TODO. Revise Blob class...
+
 
         //Class Variables
         public Vector2 maxP;
@@ -35,14 +35,14 @@ namespace ShapeDetector
 
             Parallel.ForEach(points, v =>
             {
-                float _d = Vector2.DistanceSquared(point, v);
+                float _d = Vector2.Distance(point, v);
                 if (_d < d)
                 {
                     d = _d;
                 }
             });
 
-            if (d < Math.Pow(_threshold, 2)) { return true; }
+            if (d < _threshold) { return true; }
             else { return false; }
         }
 
