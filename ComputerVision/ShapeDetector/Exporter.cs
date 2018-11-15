@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 
 
 namespace ShapeDetector
 {
-
+    //Exports blob information as a binary file.
     public class Exporter
     {
-        public void Run(Blob[] blobs, string target, string filename)
+
+        public static void Run(List<Blob> blobs, string target, string filename, Bitmap colorImage)
         {
             BinaryWriter bw;
 
@@ -15,15 +18,29 @@ namespace ShapeDetector
             {
                 bw = new BinaryWriter(new FileStream(target + "\\" + filename, FileMode.Create));
             }
-            catch (IOException e){
+            catch (IOException e)
+            {
                 Console.WriteLine(e.Message + "\n Cannot write file.");
                 return;
             }
 
-            try {
+            try
+            {
+                //For each blob, 11 integers are exported: Corner x y locations, and rgb color.
                 foreach (Blob b in blobs)
                 {
+                    Point[] locations = b.getCorners();
+                    foreach (Point p in locations)
+                    {
+                        bw.Write(p.X);
+                        bw.Write(p.Y);
+                    }
 
+                    Point centerPoint = Blob.findCenterByCorners(locations);
+                    Color sample = Blob.sampleColor(centerPoint, colorImage);
+                    bw.Write(sample.R);
+                    bw.Write(sample.G);
+                    bw.Write(sample.B);
                 }
             }
             catch (IOException e)

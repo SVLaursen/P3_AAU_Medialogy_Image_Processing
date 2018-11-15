@@ -5,7 +5,7 @@ using System.Windows;
 using System.IO;
 
 namespace ShapeDetector
-{   
+{
     internal class Program
     {
         public static void Main(string[] args)
@@ -28,9 +28,9 @@ namespace ShapeDetector
 
             Console.WriteLine("\nDetecting Blobs...");
             _b = CC.FindBlobs();
-            Console.WriteLine(" Blobs Found: "+_b.Count);
+            Console.WriteLine(" Blobs Found: " + _b.Count);
 
-            foreach(Blob b in _b)
+            foreach (Blob b in _b)
             {
                 b.DrawCorners(_timg, b.getCorners());
             }
@@ -40,7 +40,7 @@ namespace ShapeDetector
 
             Console.WriteLine("\nCleaning colors");
             _timg = colorProcess.CleanImage(_timg);
-            
+
             Console.WriteLine("\nSaving files...");
             if (File.Exists(rootPath + fileName))
             {
@@ -56,6 +56,10 @@ namespace ShapeDetector
             _timg.Save(rootPath + fileName);
             Console.WriteLine("\nBlob Detection Execution: Success!");
 
+            Console.WriteLine("Exporting binary file...");
+            //TODO: For now, the exporter spits out binaries into rootPath. Eventually, this should be into StreamingAssets.
+            Exporter.Run(_b, rootPath, "binary", _timg);
+            Console.WriteLine("Export complete.");
         }
     }
 }
