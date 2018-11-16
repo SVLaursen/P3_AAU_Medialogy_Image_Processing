@@ -26,7 +26,10 @@ namespace ShapeDetector
 
             try
             {
-                //For each blob, 11 integers are exported: Corner x y locations, and rgb color.
+                //First, the number of blobs are stored.
+                bw.Write(blobs.Count);
+
+                //For each blob, 11 integers are exported: 4 corner x y locations, and rgb color.
                 foreach (Blob b in blobs)
                 {
                     Point[] locations = b.getCorners();

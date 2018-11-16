@@ -61,10 +61,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\BlobLoaderTest.cs" />
+    <Compile Include="Assets\Scripts\BlobStructure.cs" />
     <Compile Include="Assets\Scripts\LevelLoader.cs" />
     <Compile Include="Assets\Scripts\Manager.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
-    <Compile Include="Assets\Scripts\UseTestImgAsTexture.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>D:/3SemesterImageProcessingProject/P3_AAU_Medialogy_Image_Processing/Game/PhysicsGame_P3/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
