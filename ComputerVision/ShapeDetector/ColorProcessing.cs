@@ -46,13 +46,13 @@ namespace ShapeDetector
             Console.WriteLine(" Image Cleaned in: " + stop.ElapsedMilliseconds + " Milliseconds");
             return src.Return();
             
+            //Below is the new Hue comparing that Joakim wanted us to use instead, still needs a bit of tinkering but it is better
             bool ColorsAreClose(Color imgColor, Color listColor, int threshold)
             {
-                int red = imgColor.R - listColor.R,
-                    green = imgColor.G - listColor.G,
-                    blue = imgColor.B - listColor.B;
+                var imgHue = GetHuePixel(imgColor);
+                var listHue = GetHuePixel(listColor);
                 
-                return red * red + green * green + blue * blue <= threshold * threshold;
+                return Math.Abs(imgHue - listHue) <= threshold;
             }
         }
         
@@ -100,6 +100,38 @@ namespace ShapeDetector
 
             return hue;
         }
+
+        public float GetHuePixel(Color pixelColor)
+        {
+            int red = pixelColor.R,
+                green = pixelColor.G,
+                blue = pixelColor.B;
+            
+            const float degrees = 60 * (float) Math.PI / 180;
+            var  min = Math.Min(Math.Min(red, green), blue);
+            var value = GetValuePixel(pixelColor);
+
+            if (value == red && green >= blue)
+                return (green - blue) / (value - min) * degrees;
+            if (green == value)
+                return ((blue - red) / (value - min) + 2) * degrees;
+            if (blue == value)
+                return ((red - green) / (value - min) + 4) * degrees;
+            if (value == red && green < blue)
+                return ((red - blue) / (value - min) + 5) * degrees;
+
+            return 0; //Error catcher
+        }
+
+        public float GetValuePixel(Color pixelColor)
+        {
+            int red = pixelColor.R,
+                green = pixelColor.G,
+                blue = pixelColor.B;
+
+            return Math.Max(Math.Max(red, green), blue);
+        }
+        
 
         public float[,] GetValue(Bitmap img)
         {
