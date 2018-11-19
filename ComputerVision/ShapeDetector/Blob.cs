@@ -12,8 +12,6 @@ namespace ShapeDetector
 {
     public class Blob
     {
-
-
         //Class Variables
         public Vector2 maxP;
         public Vector2 minP;
@@ -76,7 +74,7 @@ namespace ShapeDetector
         public Point[] getCorners()
         {
             Point[] corners = new Point[4];
-            for(int i = 0; i < corners.Length; i++)
+            for (int i = 0; i < corners.Length; i++)
             {
                 corners[i] = new Point(-1, -1);
             }
@@ -157,5 +155,22 @@ namespace ShapeDetector
             graphics.DrawImage(_img, _img.Height, _img.Width);
         }
 
+        public static Point findCenterByCorners(Point[] corners)
+        {
+            int x = 0, y = 0;
+            foreach (Point p in corners)
+            {
+                x += p.X;
+                y += p.Y;
+            }
+            x /= corners.Length;
+            y /= corners.Length;
+            return new Point(x, y);
+        }
+
+        public static Color sampleColor(Point point, Bitmap colorImage)
+        {
+            return colorImage.GetPixel(point.X, point.Y);
+        }
     }
 }
