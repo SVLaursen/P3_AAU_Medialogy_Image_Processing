@@ -19,7 +19,7 @@ namespace ShapeDetector
         private static List<Point> queue = new List<Point>();
 
         //Public Constructor. Requires an image and a list of colors.
-        public CCHandler(List<Color> c, Bitmap _img)
+        public CCHandler(Bitmap _img)
         {
             isNotBlack = Binary(_img);
             isChecked = Binary(_img);
