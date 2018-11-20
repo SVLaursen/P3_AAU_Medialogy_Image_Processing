@@ -13,9 +13,9 @@ namespace ShapeDetector
         private static string import = "N/A";
         private static string export = "N/A";
         
-        private static int _threshold = -1;
-        private static int _colorThreshold = -1;
-        
+        public static int Threshold { get; set; } = -1;
+        public static int ColorThreshold { get; set; } = -1;
+
         private static readonly Dictionary<string, string> _command = new Dictionary<string, string>
         {
             {"-help", "Displays all commands"},
@@ -33,31 +33,24 @@ namespace ShapeDetector
 
         public static void Run()
         {
-            if (File.Exists("savestate.ini"))
-            {
-                Load();
-            }
-            else
-            {
-                File.Create("savestate.ini");
-            }
+            if (File.Exists("savestate.ini")) Load();
+            else File.Create("savestate.ini");
+            
             Load();
             Console.Clear();
             Console.WriteLine("MTA-18336 Image Processing Software; Version " + versionNumber);
             
-            Console.WriteLine("\nCurrent Settings: ");
-            Console.WriteLine("Threshold: " + Threshold);
-            Console.WriteLine("Import File: " + import);
-            Console.WriteLine("Export File: " + export+ "\n");
+            Console.WriteLine("\nCurrent Settings: " + "\nThreshold: " + Threshold);
+            Console.WriteLine("Import File: " + import + "\nExport File: " + export + "\n");
             
             Console.WriteLine("For list of commands write '-help'.");
-            if(_threshold <= 0)
+            if(Threshold <= 0 || ColorThreshold <= 0)
             {
                 Console.WriteLine("\nATTENTION: System not calibrated. Calibration is required for system to run as intended.");
                 Console.WriteLine("To calibrate, run process: -calibrate");
             } 
-            running = true;
             
+            running = true;
             while (running) DetectInput(Console.ReadLine());
         }
 
@@ -68,14 +61,16 @@ namespace ShapeDetector
                 case "-help":
                     DisplayHelp();
                     break;
+                
                 case "-exit":
                     Save();
                     running = false;
                     break;
+                
                 case "-clear":
                     Console.Clear();
-                    Run();
                     break;
+                
                 case "-colorThreshold":
                     Console.WriteLine("Enter new color threshold: ");
                     var colInput = Console.ReadLine();
@@ -87,24 +82,29 @@ namespace ShapeDetector
                     else Console.WriteLine("--Invalid Input--");
                     Save();
                     break;
+                
                 case "-calibrate":
                     Calibration();
                     break;
+                
                 case "-run":
                     Console.WriteLine("Not yet implemented, use the debug command");
                     break;
+                
                 case "-import":
                     Console.WriteLine("Set image import file::");
                     import = Console.ReadLine();
                     Console.WriteLine("New image import file: " + import);
                     Save();
                     break;
+                
                 case "-export":
                     Console.WriteLine("Set image export file:");
                     export = Console.ReadLine();
                     Console.WriteLine("New export file: " + export);
                     Save();
                     break;
+                
                 case "-threshold":
                     Console.WriteLine("Set threshold:");
                     var thresholdInput = Console.ReadLine();
@@ -116,12 +116,15 @@ namespace ShapeDetector
                     else Console.WriteLine("--Invalid Input--");
                     Save();
                     break;
+                
                 case "-debug":
                     Debug();
                     break;
+                
                 case "-reset":
                     Reset();
                     break;
+                
                 default:
                     Console.WriteLine("--Invalid input--");
                     break;
@@ -132,28 +135,38 @@ namespace ShapeDetector
         {
             while (Threshold <= 0) { 
                 Console.WriteLine("\nEnter Background Subtraction Threshold: ");
-                Console.Write(": ");
-                var thresholdInput = Console.ReadLine();
-                if (int.TryParse(thresholdInput, out var value))
-                {
-                    Threshold = value;
-                    Console.WriteLine("Threshold Set: " + Threshold);
-                }
-                else Console.WriteLine("--Invalid Input--");
+                Threshold = SetThreshold(Console.ReadLine());
             }
 
-            Console.WriteLine("\n Set Input File Name: ");
+            while (ColorThreshold <= 0)
+            {
+                Console.WriteLine("\nEnter Color Cleaning Threshold: ");
+                ColorThreshold = SetThreshold(Console.ReadLine());
+            }
+
+            Console.WriteLine("\nSet Input File Name: ");
             Console.WriteLine("ATTENTION: Loading file needs to be located in the .EXE Root folder");
-            Console.Write(": ");
             import = Console.ReadLine();
             Console.WriteLine("Import file set to: " + import);
 
             Console.WriteLine("\nSet Export File Name: ");
             Console.WriteLine("ATTENTION: File will be exported to the Export folder in the .EXE Root directory");
-            Console.Write(": ");
             export = Console.ReadLine();
-            Console.WriteLine("Export file set to: " + export);
+            Console.WriteLine("Export file set to: " + export +"\n--Calibration Done--");
             Save();
+            
+
+            int SetThreshold(string consoleInput)
+            {
+                if (int.TryParse(consoleInput, out var value))
+                {
+                    Console.WriteLine("Threshold set: " + value);
+                    return value;
+                }
+                
+                Console.WriteLine("--Invalid Input--");
+                return 0;
+            }
         }
 
         private static void DisplayHelp()
@@ -162,7 +175,7 @@ namespace ShapeDetector
 
             foreach (var t in _command)
             {
-                Console.WriteLine("' " + t.Key+ " '" + " -- " + t.Value);
+                Console.WriteLine("' " + t.Key+ " '" + " --> " + t.Value);
             }
         }
 
@@ -171,22 +184,10 @@ namespace ShapeDetector
             Stopwatch stop = new Stopwatch();
             stop.Start();
             Console.WriteLine("Running System Debug...");
-            Program.StartProgram("debugBackground.bmp", "debugShapesOverlay.bmp", "debugOutput.bmp");
+            Program.StartProgram("debugBackground.bmp", "debugShapes.bmp", "debugOutput.bmp");
             stop.Stop();
             Console.WriteLine(" Debugging time: " + stop.ElapsedMilliseconds + " Milliseconds");
             Console.WriteLine("\nDebugging complete..");
-        }
-        
-        public static int Threshold
-        {
-            get => _threshold;
-            set => _threshold = value;
-        }
-
-        public static int ColorThreshold
-        {
-            get => _colorThreshold;
-            set => _colorThreshold = value;
         }
 
         private static void Save()

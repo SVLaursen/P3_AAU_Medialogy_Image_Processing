@@ -12,8 +12,6 @@ namespace ShapeDetector
 {
     public class Blob
     {
-
-
         //Class Variables
         public Vector2 maxP;
         public Vector2 minP;
@@ -76,30 +74,103 @@ namespace ShapeDetector
         public Point[] getCorners()
         {
             Point[] corners = new Point[4];
-            corners[0] = new Point((int)minP.Y, (int)minP.X);
-            corners[1] = new Point((int)minP.Y, (int)maxP.X);
-            corners[2] = new Point((int)maxP.Y, (int)maxP.X);
-            corners[3] = new Point((int)maxP.Y, (int)minP.X);
+            for (int i = 0; i < corners.Length; i++)
+            {
+                corners[i] = new Point(-1, -1);
+            }
+            foreach (Vector2 pixel in points)
+            {
+                //Topmost corner
+                if (corners[0].Y != -1)
+                {
+                    if (corners[0].Y > pixel.Y)
+                    {
+                        corners[0].Y = (int)pixel.Y;
+                        corners[0].X = (int)pixel.X;
+                    }
+                }
+                else
+                {
+                    corners[0].Y = (int)pixel.Y;
+                    corners[0].X = (int)pixel.X;
+                }
+                //Leftmost corner
+                if (corners[1].X != -1)
+                {
+                    if (corners[1].X >= pixel.X)
+                    {
+                        corners[1].Y = (int)pixel.Y;
+                        corners[2].X = (int)pixel.X;
+                    }
+                }
+                else
+                {
+                    corners[1].Y = (int)pixel.Y;
+                    corners[1].X = (int)pixel.X;
+                }
 
+                //Bottom corner
+                if (corners[2].Y != -1)
+                {
+                    if (corners[2].Y <= pixel.Y)
+                    {
+                        corners[2].Y = (int)pixel.Y;
+                        corners[2].X = (int)pixel.X;
+                    }
+                }
+                else
+                {
+                    corners[2].Y = (int)pixel.Y;
+                    corners[2].X = (int)pixel.X;
+                }
+
+                //Rightmost corner
+                if (corners[3].X != -1)
+                {
+                    if (corners[3].X <= pixel.X)
+                    {
+                        corners[3].Y = (int)pixel.Y;
+                        corners[3].X = (int)pixel.X;
+                    }
+                }
+                else
+                {
+                    corners[3].Y = (int)pixel.Y;
+                    corners[3].X = (int)pixel.X;
+                }
+            }
             return corners;
         }
 
-        public static void DrawBlobs(Bitmap _img, List<Blob> _b)
+        //Draws lines between 4 points supplied in a point array
+        public void DrawCorners(Bitmap _img, Point[] points)
         {
-            Pen pen = new Pen(Color.White, 1);
+            Pen pen = new Pen(Color.White, 2);
             var graphics = Graphics.FromImage(_img);
 
-            foreach (Blob b in _b)
-            {
-                Point[] k = b.getCorners();
-                graphics.DrawLine(pen, k[0], k[1]);
-                graphics.DrawLine(pen, k[1], k[2]);
-                graphics.DrawLine(pen, k[2], k[3]);
-                graphics.DrawLine(pen, k[3], k[0]);
-          
-            }
+            graphics.DrawLine(pen, points[0], points[1]);
+            graphics.DrawLine(pen, points[1], points[2]);
+            graphics.DrawLine(pen, points[2], points[3]);
+            graphics.DrawLine(pen, points[3], points[0]);
             graphics.DrawImage(_img, _img.Height, _img.Width);
         }
 
+        public static Point findCenterByCorners(Point[] corners)
+        {
+            int x = 0, y = 0;
+            foreach (Point p in corners)
+            {
+                x += p.X;
+                y += p.Y;
+            }
+            x /= corners.Length;
+            y /= corners.Length;
+            return new Point(x, y);
+        }
+
+        public static Color sampleColor(Point point, Bitmap colorImage)
+        {
+            return colorImage.GetPixel(point.X, point.Y);
+        }
     }
 }

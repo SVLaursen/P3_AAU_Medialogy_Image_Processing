@@ -57,6 +57,7 @@
     <Compile Include="Blob.cs" />
     <Compile Include="ColorProcessing.cs" />
     <Compile Include="CommandConsole.cs" />
+    <Compile Include="Exporter.cs" />
     <Compile Include="ImageHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
