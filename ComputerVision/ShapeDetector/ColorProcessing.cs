@@ -27,18 +27,14 @@ namespace ShapeDetector
 
             for (var y = 0; y < _src.Height; y++)
             {
-                for (var _x = 0; _x < src.Width(); _x += bpp)
+                for (var x = 0; x < src.Width(); x += bpp)
                 {
-                    int x = _x / bpp;
-                    if (src.GetPixel(x, y) == Color.FromArgb(0, 0, 0))
-                    {
-                        continue;
-                    }
-
+                    int _x = x / bpp;
+                    if (src.GetPixel(_x, y) == Color.FromArgb(0, 0, 0)) continue;
 
                     foreach (var t in debugColors)
                     {
-                        if (ColorsAreClose(src.GetPixel(x, y), t, CommandConsole.ColorThreshold)) src.SetPixel(x, y, t);
+                        if (ColorsAreClose(src.GetPixel(_x, y), t, CommandConsole.ColorThreshold)) src.SetPixel(_x, y, t);
                     }
                 }
             }
