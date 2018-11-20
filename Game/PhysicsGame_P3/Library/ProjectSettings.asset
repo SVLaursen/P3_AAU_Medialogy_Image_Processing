@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 15
-  productGUID: 6e79d29a7848e43c8a5042b491f116e0
+  productGUID: e38037a0f3f4345d2b322ed004f48329
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -125,6 +125,7 @@ PlayerSettings:
   m_HolographicPauseOnTrackingLoss: 1
   xboxOneDisableKinectGpuReservation: 0
   xboxOneEnable7thCore: 0
+  isWsaHolographicRemotingEnabled: 0
   vrSettings:
     cardboard:
       depthFormat: 0
@@ -392,6 +393,7 @@ PlayerSettings:
   switchAllowsVideoCapturing: 1
   switchAllowsRuntimeAddOnContentInstall: 0
   switchDataLossConfirmation: 0
+  switchUserAccountLockEnabled: 0
   switchSupportedNpadStyles: 3
   switchNativeFsCacheSize: 32
   switchIsHoldTypeHorizontal: 0
@@ -617,8 +619,8 @@ PlayerSettings:
     UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
-  cloudProjectId: 42b2c296-4d98-460a-b534-095070ba6dca
-  projectName: PhysicsGame_P3
+  cloudProjectId: 1a164051-4067-4c95-9084-2241f7e3a90f
+  projectName: PhysicsGame_P3 (1)
   organizationId: simonvestergaardlaursen
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
