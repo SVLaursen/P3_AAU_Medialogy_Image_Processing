@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using DirectShowLib;
 
 namespace ShapeDetector
 {
