@@ -8,6 +8,9 @@ namespace ShapeDetector
 {
     internal class Program
     {
+        public static Bitmap backgroundImage;
+        public static Bitmap shapeImage;
+        
         public static void Main(string[] args)
         {
             CommandConsole.Run();
@@ -61,5 +64,54 @@ namespace ShapeDetector
             Exporter.Run(_b, rootPath, "binary", _timg);
             Console.WriteLine("Export complete.");
         }
+
+        public static void StartProgram(Bitmap bgImg, Bitmap shapeImg, string fileName)
+        {
+            string root = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string rootPath = Path.GetFullPath(Path.Combine(root, "..")) + "/Export/";
+            List<Blob> _b = new List<Blob>();
+
+            CCHandler CC = new CCHandler(shapeImg);
+            ColorProcessing colorProcess = new ColorProcessing();
+
+            Console.WriteLine("\nThresholding...");
+            Bitmap _timg = CC.BackgroundSubtraction(bgImg, shapeImg, CommandConsole.Threshold);
+
+            Console.WriteLine("\nDetecting Blobs...");
+            _b = CC.FindBlobs();
+            Console.WriteLine(" Blobs Found: " + _b.Count);
+
+            foreach (Blob b in _b)
+            {
+                b.DrawCorners(_timg, b.getCorners());
+            }
+
+            Console.WriteLine("\nCreating Mask...");
+            Bitmap _mimg = CC.MaskInverse(_b);
+
+            Console.WriteLine("\nCleaning colors");
+            _timg = colorProcess.CleanImage(_timg);
+
+            Console.WriteLine("\nSaving files...");
+            if (File.Exists(rootPath + fileName))
+            {
+                Console.WriteLine(" File Already Exists. Overwriting");
+                File.Delete(rootPath + fileName);
+            }
+            if (File.Exists(rootPath + "Mask.bmp"))
+            {
+                File.Delete(rootPath + "Mask.bmp");
+            }
+            Console.WriteLine(" Exporting Bitmap...");
+            _mimg.Save(rootPath + "Mask.bmp");
+            _timg.Save(rootPath + fileName);
+            Console.WriteLine("\nBlob Detection Execution: Success!");
+
+            Console.WriteLine("Exporting binary file...");
+            //TODO: For now, the exporter spits out binaries into rootPath. Eventually, this should be into StreamingAssets.
+            Exporter.Run(_b, rootPath, "binary", _timg);
+            Console.WriteLine("Export complete.");
+        }
+        
     }
 }
