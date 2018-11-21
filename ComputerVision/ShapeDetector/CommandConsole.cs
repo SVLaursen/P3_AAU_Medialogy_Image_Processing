@@ -183,14 +183,15 @@ namespace ShapeDetector
         {
             Console.WriteLine("Press any key to take a picture");
             var input = Console.ReadLine();
-            Bitmap image = ImageHandler.CaptureImage();
+          //  Bitmap image = ImageHandler.CaptureImage();
             
-            if (File.Exists("Background.png"))
-            {
-                File.Delete("Background.png");
-            }
+          //  if (File.Exists("Background.png"))
+            //{
+              //  File.Delete("Background.png");
+            //}
             
-            image.Save("Background.png");
+            //image.Save("Background.png");
+            Program.backgroundImage = ImageHandler.CaptureImage();
             Console.WriteLine("Background Set");
             
         }
@@ -217,22 +218,29 @@ namespace ShapeDetector
         
         private static void RunDetection()
         {
-            Stopwatch stop = new Stopwatch();
-            stop.Start();
-            Console.WriteLine("Running Detection...");
-            Bitmap shapes = ImageHandler.CaptureImage();
-            
-            if (File.Exists("Shapes.png"))
+            if (Program.backgroundImage != null)
             {
-                File.Delete("Shapes.png");
+                Stopwatch stop = new Stopwatch();
+                stop.Start();
+                Console.WriteLine("Running Detection...");
+                // Bitmap shapes = ImageHandler.CaptureImage();
+                // 
+                // if (File.Exists("Shapes.png"))
+                //{
+                //   File.Delete("Shapes.png");
+                //}
+                //shapes.Save("Shapes.png");
+                Program.shapeImage = ImageHandler.CaptureImage();
+                Program.StartProgram(Program.backgroundImage, Program.shapeImage, "Output.png");
+
+                stop.Stop();
+                Console.WriteLine(" Run Time: " + stop.ElapsedMilliseconds + " Milliseconds");
+                Console.WriteLine("\n Detection Complete!");
             }
-           
-            shapes.Save("Shapes.png");
-            Program.StartProgram("Background.png", "Shapes.png", "Output.png");
-            
-            stop.Stop();
-            Console.WriteLine(" Run Time: " + stop.ElapsedMilliseconds + " Milliseconds");
-            Console.WriteLine("\n Detection Complete!" );
+            else
+            {
+                Console.WriteLine("ERROR: Background image not set!");                    
+            }
         }
 
 
