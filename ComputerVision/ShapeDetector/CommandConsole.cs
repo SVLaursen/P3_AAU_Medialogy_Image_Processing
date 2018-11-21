@@ -184,8 +184,15 @@ namespace ShapeDetector
             Console.WriteLine("Press any key to take a picture");
             var input = Console.ReadLine();
             Bitmap image = ImageHandler.CaptureImage();
+            
+            if (File.Exists("Background.png"))
+            {
+                File.Delete("Background.png");
+            }
+            
             image.Save("Background.png");
             Console.WriteLine("Background Set");
+            
         }
         private static void DisplayHelp()
         {
@@ -214,6 +221,12 @@ namespace ShapeDetector
             stop.Start();
             Console.WriteLine("Running Detection...");
             Bitmap shapes = ImageHandler.CaptureImage();
+            
+            if (File.Exists("Shapes.png"))
+            {
+                File.Delete("Shapes.png");
+            }
+           
             shapes.Save("Shapes.png");
             Program.StartProgram("Background.png", "Shapes.png", "Output.png");
             

@@ -14,7 +14,8 @@ namespace ShapeDetector
 {
     internal class ImageHandler
     {
-     
+     private static VideoCapture capture = new VideoCapture(0); //create a camera capture
+
         //Returns a bitmap with the loaded image
         public static Bitmap LoadImage(string filepath)
         {
@@ -24,9 +25,7 @@ namespace ShapeDetector
         }
 
         public static Bitmap CaptureImage()
-        {
-            VideoCapture capture = new VideoCapture(); //create a camera capture
-            
+        {            
             return capture.QueryFrame().Bitmap; //take a picture
         }
         
