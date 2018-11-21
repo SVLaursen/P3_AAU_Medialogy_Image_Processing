@@ -26,6 +26,7 @@ namespace ShapeDetector
             {"-import", "Sets the image import path"},
             {"-export", "Sets the file export name."},
             {"-threshold", "Sets the color threshold value"},
+            {"-background", "Set the background image for substraction" },
             {"-debug", "Runs system with default debugging values"},
             {"-reset", "Resets system to empty values"},
             {"-exit", "Exit the program"},
@@ -89,6 +90,7 @@ namespace ShapeDetector
                 
                 case "-run":
                     Console.WriteLine("Not yet implemented, use the debug command");
+                    RunDetection();
                     break;
                 
                 case "-import":
@@ -117,6 +119,11 @@ namespace ShapeDetector
                     Save();
                     break;
                 
+                case  "-background":
+                    Console.WriteLine("Set background: ");
+                    SetBackground();
+                    break;
+                
                 case "-debug":
                     Debug();
                     break;
@@ -143,6 +150,9 @@ namespace ShapeDetector
                 Console.WriteLine("\nEnter Color Cleaning Threshold: ");
                 ColorThreshold = SetThreshold(Console.ReadLine());
             }
+            
+            Console.WriteLine("Set background: ");
+            SetBackground();
 
             Console.WriteLine("\nSet Input File Name: ");
             Console.WriteLine("ATTENTION: Loading file needs to be located in the .EXE Root folder");
@@ -169,6 +179,22 @@ namespace ShapeDetector
             }
         }
 
+        private static void SetBackground()
+        {
+            Console.WriteLine("Press any key to take a picture");
+            var input = Console.ReadLine();
+          //  Bitmap image = ImageHandler.CaptureImage();
+            
+          //  if (File.Exists("Background.png"))
+            //{
+              //  File.Delete("Background.png");
+            //}
+            
+            //image.Save("Background.png");
+            Program.backgroundImage = ImageHandler.CaptureImage();
+            Console.WriteLine("Background Set");
+            
+        }
         private static void DisplayHelp()
         {
             Console.WriteLine("List of Commands: ");
@@ -189,6 +215,34 @@ namespace ShapeDetector
             Console.WriteLine(" Debugging time: " + stop.ElapsedMilliseconds + " Milliseconds");
             Console.WriteLine("\nDebugging complete..");
         }
+        
+        private static void RunDetection()
+        {
+            if (Program.backgroundImage != null)
+            {
+                Stopwatch stop = new Stopwatch();
+                stop.Start();
+                Console.WriteLine("Running Detection...");
+                // Bitmap shapes = ImageHandler.CaptureImage();
+                // 
+                // if (File.Exists("Shapes.png"))
+                //{
+                //   File.Delete("Shapes.png");
+                //}
+                //shapes.Save("Shapes.png");
+                Program.shapeImage = ImageHandler.CaptureImage();
+                Program.StartProgram(Program.backgroundImage, Program.shapeImage, "Output.png");
+
+                stop.Stop();
+                Console.WriteLine(" Run Time: " + stop.ElapsedMilliseconds + " Milliseconds");
+                Console.WriteLine("\n Detection Complete!");
+            }
+            else
+            {
+                Console.WriteLine("ERROR: Background image not set!");                    
+            }
+        }
+
 
         private static void Save()
         {
