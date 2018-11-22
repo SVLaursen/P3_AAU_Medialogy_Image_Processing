@@ -16,7 +16,7 @@ namespace ShapeDetector
             Color.FromArgb(255, 0, 255), //MAGENTA
             Color.FromArgb(255, 255, 0) //YELLOW
         });
-        
+
         public Bitmap CleanImage(Bitmap _src)
         {
             Stopwatch stop = new Stopwatch();
@@ -41,26 +41,27 @@ namespace ShapeDetector
             stop.Stop();
             Console.WriteLine(" Image Cleaned in: " + stop.ElapsedMilliseconds + " Milliseconds");
             return src.Return();
-            
+
             //Below is the new Hue comparing that Joakim wanted us to use instead, still needs a bit of tinkering but it is better
             bool ColorsAreClose(Color imgColor, Color listColor, int threshold)
             {
                 var imgHue = GetHuePixel(imgColor);
                 var listHue = GetHuePixel(listColor);
-                
+
                 return Math.Abs(imgHue - listHue) <= threshold;
             }
         }
-        
-        
+
+
         /*
          * BELOW IS THE CONVERSION ALGORITHMS
          * SOME OF THE CODE IS NO LONGER BEING USED
          */
-        public void RGB2HSV(Bitmap img)
+        public Bitmap RGB2HSV(Bitmap img)
         {
             Console.WriteLine("This function has not been implemented");
             //TODO: Make full image conversion
+            return null;
         }
 
         public float[,] GetHue(Bitmap img)
@@ -80,16 +81,16 @@ namespace ShapeDetector
                     const float degrees = 60 * (float)Math.PI / 180;
                     var min = Math.Min(Math.Min(red, green), blue);
 
-                    if (value[x, y] == red && green >= blue) 
+                    if (value[x, y] == red && green >= blue)
                         hue[x, y] = (green - blue) / (value[x, y] - min) * degrees;
-                    
-                    else if (green == value[x, y]) 
+
+                    else if (green == value[x, y])
                         hue[x, y] = ((blue - red) / (value[x, y] - min) + 2) * degrees;
-                    
-                    else if (blue == value[x, y]) 
+
+                    else if (blue == value[x, y])
                         hue[x, y] = ((red - green) / (value[x, y] - min) + 4) * degrees;
-                    
-                    else if (value[x, y] == red && green < blue) 
+
+                    else if (value[x, y] == red && green < blue)
                         hue[x, y] = ((red - blue) / (value[x, y] - min) + 5) * degrees;
                 }
             }
@@ -102,7 +103,7 @@ namespace ShapeDetector
             int red = pixelColor.R,
                 green = pixelColor.G,
                 blue = pixelColor.B;
-            
+
             const float degrees = 60 * (float) Math.PI / 180;
             var  min = Math.Min(Math.Min(red, green), blue);
             var value = GetValuePixel(pixelColor);
@@ -127,13 +128,13 @@ namespace ShapeDetector
 
             return Math.Max(Math.Max(red, green), blue);
         }
-        
+
 
         public float[,] GetValue(Bitmap img)
         {
             var src = Split(img);
             var value = new float[img.Width, img.Height];
-            
+
             for (var y = 0; y < img.Height; y++)
             {
                 for (var x = 0; x < img.Width; x++)
@@ -164,7 +165,7 @@ namespace ShapeDetector
                     saturation[x, y] = value[x, y] - min / value[x, y];
                 }
             }
-            
+
             return saturation;
         }
 
@@ -193,7 +194,7 @@ namespace ShapeDetector
             var red = new float[img.Width, img.Height];
             var green = new float[img.Width, img.Height];
             var blue = new float[img.Width, img.Height];
-            
+
             for (var y = 0; y < img.Height; y++)
             {
                 for (var x = 0; x < img.Width; x++)
@@ -204,7 +205,7 @@ namespace ShapeDetector
                     blue[x, y] = clr.B;
                 }
             }
-            
+
             var splitImg = new ImageChannels();
             splitImg.SetAllValues(red, green, blue);
             splitImg.height = img.Height;
@@ -216,7 +217,7 @@ namespace ShapeDetector
         public Bitmap Merge(ImageChannels splitImg)
         {
             var bmp = new Bitmap(splitImg.width, splitImg.height);
-            
+
             for (var y = 0; y < splitImg.height; y++)
             {
                 for (var x = 0; x < splitImg.width; x++)
@@ -229,7 +230,7 @@ namespace ShapeDetector
                     bmp.SetPixel(x, y, clr);
                 }
             }
-            
+
             return bmp;
         }
     }
