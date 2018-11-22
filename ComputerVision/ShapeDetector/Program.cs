@@ -15,6 +15,7 @@ namespace ShapeDetector
         {
             CommandConsole.Run();
         }
+
         public static void StartProgram(string bImagePath, string imagePath, string fileName)
         {
             string root = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -65,6 +66,7 @@ namespace ShapeDetector
             Console.WriteLine("Export complete.");
         }
 
+        //NOTE: There are critical AccessViolationExceptions happening when this is run.
         public static void StartProgram(Bitmap bgImg, Bitmap shapeImg, string fileName)
         {
             string root = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -81,10 +83,12 @@ namespace ShapeDetector
             _b = CC.FindBlobs();
             Console.WriteLine(" Blobs Found: " + _b.Count);
 
-            foreach (Blob b in _b)
-            {
-                b.DrawCorners(_timg, b.getCorners());
-            }
+            //NOTE: Throws an AccessViolationException in Graphics.DrawLine for some reason. The reason is unclear, but it has something to do with the memory allocated for the image.
+            //The problem seemingly only happens when we are working with Bitmaps stored in ram instead of a file. Thus, it is deactivated for now.
+            //foreach (Blob b in _b)
+            //{
+            //    b.DrawCorners(_timg, b.getCorners());
+            //}
 
             Console.WriteLine("\nCreating Mask...");
             Bitmap _mimg = CC.MaskInverse(_b);
