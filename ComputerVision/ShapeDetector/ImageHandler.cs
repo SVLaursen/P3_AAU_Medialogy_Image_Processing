@@ -9,7 +9,7 @@ namespace ShapeDetector
 {
     internal class ImageHandler
     {
-        public static VideoCapture capture = new VideoCapture(0);
+        public static VideoCapture capture = new VideoCapture(1);
         //Returns a bitmap with the loaded image
         public static Bitmap LoadImage(string filepath)
         {
