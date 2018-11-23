@@ -22,26 +22,26 @@ namespace ShapeDetector
             Stopwatch stop = new Stopwatch();
             stop.Start();
 
-            PixelHandler src = new PixelHandler(_src);
+           // PixelHandler src = new PixelHandler(_src);
             int bpp = Bitmap.GetPixelFormatSize(_src.PixelFormat) / 8;
 
             for (var y = 0; y < _src.Height; y++)
             {
-                for (var x = 0; x < src.Width(); x += bpp)
+                for (var x = 0; x < _src.Width; x++)
                 {
-                    int _x = x / bpp;
-                    if (src.GetPixel(_x, y) == Color.FromArgb(0, 0, 0)) continue;
+                    //int _x = x / bpp;
+                    if (_src.GetPixel(x, y) == Color.FromArgb(0, 0, 0)) continue;
 
                     foreach (var t in debugColors)
                     {
-                        if (ColorsAreClose(src.GetPixel(_x, y), t, CommandConsole.ColorThreshold)) src.SetPixel(_x, y, t);
+                        if (ColorsAreClose(_src.GetPixel(x, y), t, CommandConsole.ColorThreshold)) _src.SetPixel(x, y, t);
                     }
                 }
             }
             stop.Stop();
             Console.WriteLine(" Image Cleaned in: " + stop.ElapsedMilliseconds + " Milliseconds");
            // _src.Dispose();
-            return src.Return();
+            return _src;
 
             bool ColorsAreClose(Color imgColor, Color listColor, int threshold)
             {

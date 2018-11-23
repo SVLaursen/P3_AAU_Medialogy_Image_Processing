@@ -40,11 +40,6 @@ namespace ShapeDetector
                     bb.Add(b);
                 }
             }
-            foreach (Blob b in bb)
-            {
-
-                b.DrawCorners(_timg, b.getCorners());
-            }
 
             Console.WriteLine("\nCreating Mask...");
             Bitmap _mimg = CC.MaskInverse(bb);
@@ -52,6 +47,11 @@ namespace ShapeDetector
             Console.WriteLine("\nCleaning colors");
             _timg = colorProcess.CleanImage(_timg);
 
+            foreach (Blob b in bb)
+            {
+
+                b.DrawCorners(_timg, b.getCorners());
+            }
             Console.WriteLine("\nSaving files...");
             if (File.Exists(rootPath + fileName))
             {
