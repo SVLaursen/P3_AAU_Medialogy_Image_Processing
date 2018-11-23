@@ -40,6 +40,7 @@ namespace ShapeDetector
             }
             stop.Stop();
             Console.WriteLine(" Image Cleaned in: " + stop.ElapsedMilliseconds + " Milliseconds");
+           // _src.Dispose();
             return src.Return();
 
             //Below is the new Hue comparing that Joakim wanted us to use instead, still needs a bit of tinkering but it is better
@@ -51,7 +52,6 @@ namespace ShapeDetector
                 return Math.Abs(imgHue - listHue) <= threshold;
             }
         }
-
 
         /*
          * BELOW IS THE CONVERSION ALGORITHMS

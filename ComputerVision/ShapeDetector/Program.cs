@@ -57,12 +57,17 @@ namespace ShapeDetector
             Console.WriteLine(" Exporting Bitmap...");
             _mimg.Save(rootPath + "Mask.bmp");
             _timg.Save(rootPath + fileName);
+           
             Console.WriteLine("\nBlob Detection Execution: Success!");
 
             Console.WriteLine("Exporting binary file...");
             //TODO: For now, the exporter spits out binaries into rootPath. Eventually, this should be into StreamingAssets.
             Exporter.Run(_b, rootPath, "binary", _timg);
             Console.WriteLine("Export complete.");
+            _mimg.Dispose();
+            _timg.Dispose();
+            _img.Dispose();
+            _bImg.Dispose();
         }
 
         public static void StartProgram(Bitmap bgImg, Bitmap shapeImg, string fileName)
@@ -70,12 +75,13 @@ namespace ShapeDetector
             string root = System.Reflection.Assembly.GetExecutingAssembly().Location;
             string rootPath = Path.GetFullPath(Path.Combine(root, "..")) + "/Export/";
             List<Blob> _b = new List<Blob>();
-
+            Bitmap _bgImg = bgImg;
+            Bitmap _shapeImg = shapeImg;
             CCHandler CC = new CCHandler(shapeImg);
             ColorProcessing colorProcess = new ColorProcessing();
 
             Console.WriteLine("\nThresholding...");
-            Bitmap _timg = CC.BackgroundSubtraction(bgImg, shapeImg, CommandConsole.Threshold);
+            Bitmap _timg = CC.BackgroundSubtraction(_bgImg, _shapeImg, CommandConsole.Threshold);
 
             Console.WriteLine("\nDetecting Blobs...");
             _b = CC.FindBlobs();

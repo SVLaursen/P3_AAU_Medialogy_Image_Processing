@@ -1,34 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
-using System.Drawing.Text;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
+using System.IO;
 using Emgu.CV;
 using Emgu.CV.Structure;
-using DirectShowLib;
 
 namespace ShapeDetector
 {
     internal class ImageHandler
     {
-     private static VideoCapture capture = new VideoCapture(0); //create a camera capture
+ //create a camera capture
 
         //Returns a bitmap with the loaded image
         public static Bitmap LoadImage(string filepath)
         {
-            var _bitmap = (Bitmap)Bitmap.FromFile(filepath);
-            
-            return _bitmap ?? null;
+            using (FileStream fs = new FileStream(filepath, FileMode.Open, FileAccess.Read))
+            using (BinaryReader br = new BinaryReader(fs))
+            {
+                var ms = new MemoryStream(br.ReadBytes((int)fs.Length));
+                var _bitmap = new Bitmap(ms);
+                return _bitmap ?? null;
+            }
         }
 
-        public static Bitmap CaptureImage()
-        {            
-            return capture.QueryFrame().Bitmap; //take a picture
+        public static void CaptureImage(string file)
+        {
+            VideoCapture capture = new VideoCapture(0);
+            if (File.Exists(file))
+            {
+                File.Delete(file);
+            }
+            Bitmap img = capture.QueryFrame().Bitmap;
+            img.Save(file);
         }
-        
     }    
 }
 

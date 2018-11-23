@@ -12,7 +12,8 @@ namespace ShapeDetector
         private const string versionNumber = "0.5 DEBUG";
         private static string import = "N/A";
         private static string export = "N/A";
-        
+        private static Bitmap background;
+        private static Bitmap foreground;
         public static int Threshold { get; set; } = -1;
         public static int ColorThreshold { get; set; } = -1;
 
@@ -94,10 +95,7 @@ namespace ShapeDetector
                     break;
                 
                 case "-import":
-                    Console.WriteLine("Set image import file::");
-                    import = Console.ReadLine();
-                    Console.WriteLine("New image import file: " + import);
-                    Save();
+                    ImageHandler.CaptureImage("background.bmp");
                     break;
                 
                 case "-export":
@@ -191,7 +189,7 @@ namespace ShapeDetector
             //}
             
             //image.Save("Background.png");
-            Program.backgroundImage = ImageHandler.CaptureImage();
+           // Program.backgroundImage = ImageHandler.CaptureImage();
             Console.WriteLine("Background Set");
             
         }
@@ -208,9 +206,32 @@ namespace ShapeDetector
         private static void Debug()
         {
             Stopwatch stop = new Stopwatch();
-            stop.Start();
+
+            
             Console.WriteLine("Running System Debug...");
-            Program.StartProgram("debugBackground.bmp", "debugShapes.bmp", "debugOutput.bmp");
+            Console.WriteLine("Press any key to capture background image");
+            Console.ReadKey();
+            ImageHandler.CaptureImage("background.bmp");
+            if(File.Exists("background.bmp"))
+            {
+                Console.WriteLine("Background Image set");
+            }
+            Console.WriteLine("Press any key to capture foreground image");
+            Console.ReadKey();
+            ImageHandler.CaptureImage("foreground.bmp");
+            if(File.Exists("foreground.bmp"))
+            {
+                Console.WriteLine("Foreground image set, ready to process");
+            }
+            else
+            {
+                Console.WriteLine("Foreground image not found, terminating debug sequence");
+                return;
+            }
+            Console.WriteLine("Press any key to start image processing sequence");
+            Console.ReadKey();
+            stop.Start();
+            Program.StartProgram("background.bmp", "foreground.bmp", "debugOutput.bmp");
             stop.Stop();
             Console.WriteLine(" Debugging time: " + stop.ElapsedMilliseconds + " Milliseconds");
             Console.WriteLine("\nDebugging complete..");
@@ -230,7 +251,7 @@ namespace ShapeDetector
                 //   File.Delete("Shapes.png");
                 //}
                 //shapes.Save("Shapes.png");
-                Program.shapeImage = ImageHandler.CaptureImage();
+                //Program.shapeImage = ImageHandler.CaptureImage();
                 Program.StartProgram(Program.backgroundImage, Program.shapeImage, "Output.png");
 
                 stop.Stop();
