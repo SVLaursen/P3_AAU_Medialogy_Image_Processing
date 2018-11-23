@@ -43,13 +43,13 @@ namespace ShapeDetector
            // _src.Dispose();
             return src.Return();
 
-            //Below is the new Hue comparing that Joakim wanted us to use instead, still needs a bit of tinkering but it is better
             bool ColorsAreClose(Color imgColor, Color listColor, int threshold)
             {
-                var imgHue = GetHuePixel(imgColor);
-                var listHue = GetHuePixel(listColor);
-
-                return Math.Abs(imgHue - listHue) <= threshold;
+                int red = imgColor.R - listColor.R,
+                    green = imgColor.G - listColor.G,
+                    blue = imgColor.B - listColor.B;
+                
+                return red * red + green * green + blue * blue <= threshold * threshold;
             }
         }
 
