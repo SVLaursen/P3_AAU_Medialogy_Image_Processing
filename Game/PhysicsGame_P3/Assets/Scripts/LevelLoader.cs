@@ -32,7 +32,7 @@ public class LevelLoader : MonoBehaviour
             try
             {
                 //NOTE: scale info is sent to BlobLoaderTest. May need change.
-                BlobLoaderTest.scale = br.ReadSingle();
+                BlobLoader.scale = br.ReadSingle();
                 blobCount = br.ReadInt32();
                 //Debug.Log(" Reading " + blobCount + " blobs...");
                 readBlobs = new BlobStructure[blobCount];
