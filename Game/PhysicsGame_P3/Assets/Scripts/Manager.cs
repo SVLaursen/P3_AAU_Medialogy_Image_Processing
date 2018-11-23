@@ -29,7 +29,7 @@ public class Manager : MonoBehaviour
 
 	private void Start()
 	{
-		GetComponent<LevelLoader>().LoadLevel();
+		DontDestroyOnLoad(gameObject); //Makes this object persistent through all levels
 	}
 
 	private void Update()
