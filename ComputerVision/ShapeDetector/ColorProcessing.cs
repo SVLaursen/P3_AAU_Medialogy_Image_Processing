@@ -26,7 +26,7 @@ namespace ShapeDetector
             {
                 for (var x = 0; x < _src.Width; x++)
                 {
-                    if (_mask.GetPixel(x, y) == Color.FromArgb(255, 255, 255)) continue;
+                    if (_mask.GetPixel(x, y) == Color.FromArgb(0, 255, 255, 255)) continue;
 
                     foreach (var t in debugColors)
                     {

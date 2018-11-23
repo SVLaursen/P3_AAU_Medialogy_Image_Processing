@@ -45,7 +45,7 @@ namespace ShapeDetector
             Bitmap _mimg = CC.MaskInverse(bb);
 
             Console.WriteLine("\nCleaning colors");
-            _timg = colorProcess.CleanImage(_timg);
+            _timg = colorProcess.CleanImage(_timg, _mimg);
 
             foreach (Blob b in bb)
             {
@@ -109,7 +109,7 @@ namespace ShapeDetector
             Bitmap _mimg = CC.MaskInverse(_b);
 
             Console.WriteLine("\nCleaning colors");
-            _timg = colorProcess.CleanImage(_timg);
+            _timg = colorProcess.CleanImage(_timg, _mimg);
 
             Console.WriteLine("\nSaving files...");
             if (File.Exists(rootPath + fileName))
