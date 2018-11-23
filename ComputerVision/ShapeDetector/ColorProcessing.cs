@@ -45,11 +45,10 @@ namespace ShapeDetector
 
             bool ColorsAreClose(Color imgColor, Color listColor, int threshold)
             {
-                int red = imgColor.R - listColor.R,
-                    green = imgColor.G - listColor.G,
-                    blue = imgColor.B - listColor.B;
-                
-                return red * red + green * green + blue * blue <= threshold * threshold;
+                var imgHue = GetHuePixel(imgColor);
+                var listHue = GetHuePixel(listColor);
+
+                return Math.Abs(imgHue - listHue) <= threshold;
             }
         }
 
@@ -57,7 +56,7 @@ namespace ShapeDetector
          * BELOW IS THE CONVERSION ALGORITHMS
          * SOME OF THE CODE IS NO LONGER BEING USED
          */
-        public Bitmap RGB2HSV(Bitmap img)
+        public Bitmap RGB2HSI(Bitmap img)
         {
             Console.WriteLine("This function has not been implemented");
             //TODO: Make full image conversion
@@ -66,7 +65,6 @@ namespace ShapeDetector
 
         public float[,] GetHue(Bitmap img)
         {
-            var value = GetValue(img);
             var src = Split(img);
             var hue = new float[img.Width, img.Height];
 
@@ -78,20 +76,18 @@ namespace ShapeDetector
                     var green = src.channel_two[x, y];
                     var blue = src.channel_three[x, y];
 
-                    const float degrees = 60 * (float)Math.PI / 180;
-                    var min = Math.Min(Math.Min(red, green), blue);
+                    var pow = Math.Pow(red - green, 2);
+                    var sqrt = Math.Sqrt((float) pow + (red - blue) * (green - blue));
+                    var calc = (float) Math.Acos((0.5f * (red - green) + (red - blue)) / sqrt);
 
-                    if (value[x, y] == red && green >= blue)
-                        hue[x, y] = (green - blue) / (value[x, y] - min) * degrees;
-
-                    else if (green == value[x, y])
-                        hue[x, y] = ((blue - red) / (value[x, y] - min) + 2) * degrees;
-
-                    else if (blue == value[x, y])
-                        hue[x, y] = ((red - green) / (value[x, y] - min) + 4) * degrees;
-
-                    else if (value[x, y] == red && green < blue)
-                        hue[x, y] = ((red - blue) / (value[x, y] - min) + 5) * degrees;
+                    if (blue < green)
+                    {
+                        hue[x, y] = calc;
+                    }
+                    else
+                    {
+                        hue[x, y] = (float)(360 * Math.PI) / 180 - calc;
+                    }
                 }
             }
 
@@ -103,55 +99,24 @@ namespace ShapeDetector
             int red = pixelColor.R,
                 green = pixelColor.G,
                 blue = pixelColor.B;
+            
+            var pow = Math.Pow(red - green, 2);
+            var sqrt = Math.Sqrt((float) pow + (red - blue) * (green - blue));
+            var calc = (float) Math.Acos((0.5f * (red - green) + (red - blue)) / sqrt);
 
-            const float degrees = 60 * (float) Math.PI / 180;
-            var  min = Math.Min(Math.Min(red, green), blue);
-            var value = GetValuePixel(pixelColor);
-
-            if (value == red && green >= blue)
-                return (green - blue) / (value - min) * degrees;
-            if (green == value)
-                return ((blue - red) / (value - min) + 2) * degrees;
-            if (blue == value)
-                return ((red - green) / (value - min) + 4) * degrees;
-            if (value == red && green < blue)
-                return ((red - blue) / (value - min) + 5) * degrees;
-
-            return 0; //Error catcher
-        }
-
-        public float GetValuePixel(Color pixelColor)
-        {
-            int red = pixelColor.R,
-                green = pixelColor.G,
-                blue = pixelColor.B;
-
-            return Math.Max(Math.Max(red, green), blue);
-        }
-
-
-        public float[,] GetValue(Bitmap img)
-        {
-            var src = Split(img);
-            var value = new float[img.Width, img.Height];
-
-            for (var y = 0; y < img.Height; y++)
+            if (blue < green)
             {
-                for (var x = 0; x < img.Width; x++)
-                {
-                    value[x, y] = Math.Max(Math.Max(src.channel_one[x, y], src.channel_two[x, y]),
-                        src.channel_three[x, y]);
-                }
+                return calc;
             }
 
-            return value;
+            return (float)(360 * Math.PI) / 180 - calc; //Error catcher
         }
 
         public float[,] GetSaturation(Bitmap img)
         {
             var src = Split(img);
-            var value = GetValue(img);
             var saturation = new float[img.Width, img.Height];
+            
 
             for (var y = 0; y < img.Height; y++)
             {
@@ -160,9 +125,10 @@ namespace ShapeDetector
                     var red = src.channel_one[x, y];
                     var green = src.channel_two[x, y];
                     var blue = src.channel_three[x, y];
+                    
+                    var min =  Math.Min(Math.Min(red, green), blue);
 
-                    var min = Math.Min(Math.Min(red, green), blue);
-                    saturation[x, y] = value[x, y] - min / value[x, y];
+                    saturation[x, y] = (float)(1 - 3 / (red + green + blue + 0.001) * min);
                 }
             }
 
