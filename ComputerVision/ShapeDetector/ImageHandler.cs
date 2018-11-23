@@ -9,8 +9,7 @@ namespace ShapeDetector
 {
     internal class ImageHandler
     {
- //create a camera capture
-
+        public static VideoCapture capture = new VideoCapture(0);
         //Returns a bitmap with the loaded image
         public static Bitmap LoadImage(string filepath)
         {
@@ -25,7 +24,6 @@ namespace ShapeDetector
 
         public static void CaptureImage(string file)
         {
-            VideoCapture capture = new VideoCapture(0);
             if (File.Exists(file))
             {
                 File.Delete(file);

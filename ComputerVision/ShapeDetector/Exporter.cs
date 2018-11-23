@@ -26,7 +26,12 @@ namespace ShapeDetector
 
             try
             {
-                //First, the number of blobs are stored.
+                //First, write the scale factor 
+                //TODO: not quite implemented, replace placeholder value when done
+                float scaleFactor = 0.01f;
+                bw.Write(scaleFactor);
+
+                //Then, the number of blobs are stored.
                 bw.Write(blobs.Count);
 
                 //For each blob, 11 integers are exported: 4 corner x y locations, and rgb color.
@@ -36,7 +41,7 @@ namespace ShapeDetector
                     foreach (Point p in locations)
                     {
                         bw.Write(p.X);
-                        bw.Write(p.Y);
+                        bw.Write((p.Y));
                     }
 
                     Point centerPoint = Blob.findCenterByCorners(locations);

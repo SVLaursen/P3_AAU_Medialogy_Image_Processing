@@ -100,6 +100,8 @@ public class LevelLoader : MonoBehaviour
 
             try
             {
+                //NOTE: scale info is sent to BlobLoaderTest. May need change.
+                BlobLoaderTest.scale = br.ReadSingle();
                 blobCount = br.ReadInt32();
                 //Debug.Log(" Reading " + blobCount + " blobs...");
                 readBlobs = new BlobStructure[blobCount];
@@ -109,25 +111,26 @@ public class LevelLoader : MonoBehaviour
                     //Debug.Log("Reading nr. " + (i + 1));
                     Vector2[] corners = new Vector2[4];
 
+                    //NOTE: In Unity, positive y goes upwards, while in screen space, it is reverse.
                     int x = br.ReadInt32();
                     int y = br.ReadInt32();
                     //Debug.Log("First point: " + x + ", " + y);
-                    corners[0] = new Vector2(x, y);
+                    corners[0] = new Vector2(x, -y);
 
                     x = br.ReadInt32();
                     y = br.ReadInt32();
                     //Debug.Log("Second point: " + x + ", " + y);
-                    corners[1] = new Vector2(x, y);
+                    corners[1] = new Vector2(x, -y);
 
                     x = br.ReadInt32();
                     y = br.ReadInt32();
                     //Debug.Log("Third point: " + x + ", " + y);
-                    corners[2] = new Vector2(x, y);
+                    corners[2] = new Vector2(x, -y);
 
                     x = br.ReadInt32();
                     y = br.ReadInt32();
                     //Debug.Log("Fourth point: " + x + ", " + y);
-                    corners[3] = new Vector2(x, y);
+                    corners[3] = new Vector2(x, -y);
 
                     //NOTE: color values are uint8. They are read as bytes.
                     byte r = br.ReadByte();

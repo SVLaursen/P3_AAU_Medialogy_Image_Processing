@@ -181,15 +181,12 @@ namespace ShapeDetector
         {
             Console.WriteLine("Press any key to take a picture");
             var input = Console.ReadLine();
-          //  Bitmap image = ImageHandler.CaptureImage();
-            
-          //  if (File.Exists("Background.png"))
-            //{
-              //  File.Delete("Background.png");
-            //}
-            
-            //image.Save("Background.png");
-           // Program.backgroundImage = ImageHandler.CaptureImage();
+            if (File.Exists("background.bmp"))
+            {
+                File.Delete("background.bmp");
+            }
+            ImageHandler.CaptureImage("background.bmp");
+            Program.backgroundImage = ImageHandler.LoadImage("background.bmp");
             Console.WriteLine("Background Set");
             
         }
@@ -244,15 +241,12 @@ namespace ShapeDetector
                 Stopwatch stop = new Stopwatch();
                 stop.Start();
                 Console.WriteLine("Running Detection...");
-                // Bitmap shapes = ImageHandler.CaptureImage();
-                // 
-                // if (File.Exists("Shapes.png"))
-                //{
-                //   File.Delete("Shapes.png");
-                //}
-                //shapes.Save("Shapes.png");
-                //Program.shapeImage = ImageHandler.CaptureImage();
-                Program.StartProgram(Program.backgroundImage, Program.shapeImage, "Output.png");
+                if (File.Exists("foreground.bmp"))
+                {
+                    File.Delete("foreground.bmp");
+                }
+                ImageHandler.CaptureImage("foreground.bmp");
+                Program.StartProgram(Program.backgroundImage, Program.shapeImage, "Output.bmp");
 
                 stop.Stop();
                 Console.WriteLine(" Run Time: " + stop.ElapsedMilliseconds + " Milliseconds");
