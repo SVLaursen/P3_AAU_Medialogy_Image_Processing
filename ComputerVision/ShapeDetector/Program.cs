@@ -10,7 +10,7 @@ namespace ShapeDetector
     {
         public static Bitmap backgroundImage;
         public static Bitmap shapeImage;
-        
+        public static List<Blob> bb = new List<Blob>();
         public static void Main(string[] args)
         {
             CommandConsole.Run();
@@ -33,14 +33,21 @@ namespace ShapeDetector
             Console.WriteLine("\nDetecting Blobs...");
             _b = CC.FindBlobs();
             Console.WriteLine(" Blobs Found: " + _b.Count);
-
             foreach (Blob b in _b)
             {
+                if (b.points.Count > 2000)
+                {
+                    bb.Add(b);
+                }
+            }
+            foreach (Blob b in bb)
+            {
+
                 b.DrawCorners(_timg, b.getCorners());
             }
 
             Console.WriteLine("\nCreating Mask...");
-            Bitmap _mimg = CC.MaskInverse(_b);
+            Bitmap _mimg = CC.MaskInverse(bb);
 
             Console.WriteLine("\nCleaning colors");
             _timg = colorProcess.CleanImage(_timg);
@@ -66,6 +73,7 @@ namespace ShapeDetector
             Exporter.Run(_b, rootPath, "binary", _timg);
             Console.WriteLine("Export complete.");
             _b.Clear();
+            bb.Clear();
             _mimg.Dispose();
             _timg.Dispose();
             _img.Dispose();

@@ -12,7 +12,7 @@ namespace ShapeDetector
             Color.FromArgb(255, 0, 255), //RED
             Color.FromArgb(0, 255, 0), //GREEN
             Color.FromArgb(0, 0, 255), //BLUE
-            Color.FromArgb(0, 255, 255), //CYAN
+           // Color.FromArgb(0, 255, 255), //CYAN
             Color.FromArgb(255, 0, 255), //MAGENTA
             Color.FromArgb(255, 255, 0) //YELLOW
         });

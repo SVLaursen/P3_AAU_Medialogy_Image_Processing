@@ -145,7 +145,7 @@ namespace ShapeDetector
         //Draws lines between 4 points supplied in a point array
         public void DrawCorners(Bitmap _img, Point[] points)
         {
-            Pen pen = new Pen(Color.White, 2);
+            Pen pen = new Pen(Color.Magenta, 2);
             var graphics = Graphics.FromImage(_img);
 
             graphics.DrawLine(pen, points[0], points[1]);
