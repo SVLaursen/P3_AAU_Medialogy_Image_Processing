@@ -65,6 +65,7 @@ namespace ShapeDetector
             //TODO: For now, the exporter spits out binaries into rootPath. Eventually, this should be into StreamingAssets.
             Exporter.Run(_b, rootPath, "binary", _timg);
             Console.WriteLine("Export complete.");
+            _b.Clear();
             _mimg.Dispose();
             _timg.Dispose();
             _img.Dispose();
