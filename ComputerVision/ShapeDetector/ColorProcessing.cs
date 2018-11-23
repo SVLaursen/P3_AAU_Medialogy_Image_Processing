@@ -9,7 +9,7 @@ namespace ShapeDetector
     {
         private List<Color> debugColors = new List<Color>(new []
         {
-            Color.FromArgb(255, 0, 255), //RED
+            Color.FromArgb(255, 0, 0), //RED
             Color.FromArgb(0, 255, 0), //GREEN
             Color.FromArgb(0, 0, 255), //BLUE
            // Color.FromArgb(0, 255, 255), //CYAN
@@ -17,20 +17,16 @@ namespace ShapeDetector
             Color.FromArgb(255, 255, 0) //YELLOW
         });
 
-        public Bitmap CleanImage(Bitmap _src)
+        public Bitmap CleanImage(Bitmap _src, Bitmap _mask)
         {
             Stopwatch stop = new Stopwatch();
             stop.Start();
-
-           // PixelHandler src = new PixelHandler(_src);
-            int bpp = Bitmap.GetPixelFormatSize(_src.PixelFormat) / 8;
 
             for (var y = 0; y < _src.Height; y++)
             {
                 for (var x = 0; x < _src.Width; x++)
                 {
-                    //int _x = x / bpp;
-                    if (_src.GetPixel(x, y) == Color.FromArgb(0, 0, 0)) continue;
+                    if (_mask.GetPixel(x, y) == Color.FromArgb(255, 255, 255)) continue;
 
                     foreach (var t in debugColors)
                     {
@@ -38,9 +34,10 @@ namespace ShapeDetector
                     }
                 }
             }
+            
             stop.Stop();
             Console.WriteLine(" Image Cleaned in: " + stop.ElapsedMilliseconds + " Milliseconds");
-           // _src.Dispose();
+            
             return _src;
 
             bool ColorsAreClose(Color imgColor, Color listColor, int threshold)
@@ -58,8 +55,7 @@ namespace ShapeDetector
          */
         public Bitmap RGB2HSI(Bitmap img)
         {
-            Console.WriteLine("This function has not been implemented");
-            //TODO: Make full image conversion
+            //NOT YET IMPLEMENTED
             return null;
         }
 
