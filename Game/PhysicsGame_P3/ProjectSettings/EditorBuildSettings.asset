@@ -6,6 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/MainMenu.unity
+    guid: de58d24e9153143e9a3cde57cd21adc6
+  - enabled: 1
+    path: Assets/Scenes/lvl1_Earth.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/lvl2_Moon.unity
+    guid: d8443d1371123b74f8455be3e0c03301
+  - enabled: 1
+    path: Assets/Scenes/lvl3_Mars.unity
+    guid: 667b3dc4838ef6c429f84abdcd1424a5
+  - enabled: 1
+    path: Assets/Scenes/lvl4_Saturn.unity
+    guid: 7c7caa33fe3a3e148826d048911ffeb0
   m_configObjects: {}
