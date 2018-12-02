@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
 		rb.isKinematic = true;
 	}
 
-	private void OnTriggerStay2D(Collider2D other)
+	private void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.tag == "Goal") hitGoal = true;
 	}
@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
 	private void LateUpdate()
 	{
 		if (hitGoal) hitGoal = false;
+
+		Time.timeScale = isPaused ? 0 : 1;
 	}
 
 	public bool isPaused

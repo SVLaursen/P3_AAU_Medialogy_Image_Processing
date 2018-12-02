@@ -1,55 +1,51 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour
 {
 	public bool gameActive;
+	public bool paused;
+	
+	public GameObject completeScreen;
+	public GameObject pauseScreen;
 
 	private Player _player;
-	
-	#region Singleton
-	private static Manager _instance;
-
-	public static Manager Instance { get { return _instance; } }
-
-	private void Awake()
-	{
-		if (_instance != null && _instance != this)
-		{
-			Destroy(gameObject);
-		} 
-		else {
-			_instance = this;
-		}
-
-		_player = GameObject.FindWithTag("Player").GetComponent<Player>();
-	}
-	#endregion
 
 	private void Start()
 	{
-		DontDestroyOnLoad(gameObject); //Makes this object persistent through all levels
+		_player = GameObject.FindWithTag("Player").GetComponent<Player>();
+		completeScreen.SetActive(false);
+		pauseScreen.SetActive(false);
 	}
 
 	private void Update()
 	{
-		if(Input.GetMouseButtonDown(0)) gameActive = !gameActive;
+		if (_player == null) return;
+		
+		if (WinCheck())
+		{
+			GameComplete();
+			return;
+		}
 
-		if (!gameActive)
+		if (Input.GetButtonDown("Cancel"))
 		{
-			_player.isPaused = true;
+			_player.isPaused = !paused;
+			paused = !paused;
 		}
-		else
-		{
-			if (WinCheck()) GameComplete();
-			_player.isPaused = false;
-		}
+		pauseScreen.SetActive(paused);
+
+		if (paused) return;
+		
+		if(Input.GetMouseButtonDown(0)) gameActive = !gameActive;
+		_player.isPaused = !gameActive;
 	}
 
 	private void GameComplete()
 	{
-		//TODO: What to do once the game is completed
+		completeScreen.SetActive(true);
 		Debug.Log("LEVEL COMPLETE");
 	}
 
@@ -57,4 +53,24 @@ public class Manager : MonoBehaviour
 	{
 		return _player.hitGoal;
 	}
+	
+	//WIN SCREEN & PAUSE SCREEN FUNCTIONS
+	public void NextLevel()
+	{
+		var current = SceneManager.GetActiveScene().buildIndex;
+		
+		if (current < SceneManager.sceneCountInBuildSettings) SceneManager.LoadScene(current + 1);
+		else SceneManager.LoadScene(0);
+	}
+
+	public void MainMenu()
+	{
+		SceneManager.LoadScene(0);
+	}
+
+	public void ResetLevel()
+	{
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+	}
+
 }
