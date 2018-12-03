@@ -747,7 +747,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blobStructures: []
   colliders: []
-  collisionInfo: []
+  collisionInfo:
+  - color:
+      serializedVersion: 2
+      rgba: 4278190335
+    physics: {fileID: 0}
+    isMagnet: 1
+  - color:
+      serializedVersion: 2
+      rgba: 4294901760
+    physics: {fileID: 6200000, guid: 9f28d8aa22cdd45979031bfe09a89a88, type: 2}
+    isMagnet: 0
+  - color:
+      serializedVersion: 2
+      rgba: 4278255360
+    physics: {fileID: 6200000, guid: 1cf9ebc8a787c43519a8e8297d0f617f, type: 2}
+    isMagnet: 0
 --- !u!114 &114749651554917452
 MonoBehaviour:
   m_ObjectHideFlags: 1

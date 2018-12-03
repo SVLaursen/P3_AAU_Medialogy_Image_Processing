@@ -353,11 +353,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114688523339979274, guid: f74058546e262465b87097b2a36f8968,
-        type: 2}
-      propertyPath: collisionInfo.Array.size
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 4569823879143006, guid: f74058546e262465b87097b2a36f8968, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -389,21 +384,6 @@ Prefab:
     - target: {fileID: 4569823879143006, guid: f74058546e262465b87097b2a36f8968, type: 2}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114688523339979274, guid: f74058546e262465b87097b2a36f8968,
-        type: 2}
-      propertyPath: collisionInfo.Array.data[0].color.rgba
-      value: 4278190335
-      objectReference: {fileID: 0}
-    - target: {fileID: 114688523339979274, guid: f74058546e262465b87097b2a36f8968,
-        type: 2}
-      propertyPath: collisionInfo.Array.data[0].isMagnet
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114688523339979274, guid: f74058546e262465b87097b2a36f8968,
-        type: 2}
-      propertyPath: collisionInfo.Array.data[0].physics
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f74058546e262465b87097b2a36f8968, type: 2}
