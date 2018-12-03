@@ -32,32 +32,30 @@ public class BlobLoader : MonoBehaviour
 
     public void CreateCollider(BlobStructure blob, string name)
     {
-        GameObject g = new GameObject(name);
-        g.AddComponent<PolygonCollider2D>();
-        PolygonCollider2D poly = g.GetComponent<PolygonCollider2D>();
+        GameObject obj = new GameObject(name);
+        obj.AddComponent<PolygonCollider2D>();
+        PolygonCollider2D poly = obj.GetComponent<PolygonCollider2D>();
         poly.SetPath(0, blob.corners);
-        g.transform.SetParent(transform);
-        
-        foreach (var t in blobStructures)
+        obj.transform.SetParent(transform);
+
+        var currentColor = blob.color;
+
+        for (var j = 0; j < collisionInfo.Count; j++)
         {
-            var currentColor = t.color;
+            if (currentColor != collisionInfo[j].color) continue;
 
-            for (var j = 0; j < collisionInfo.Count; j++)
+            if (collisionInfo[j].isMagnet)
             {
-                if (currentColor != collisionInfo[j].color) continue;
+                obj.AddComponent<AreaEffector2D>();
+                poly.usedByEffector = true;
+                var effector = obj.GetComponent<AreaEffector2D>();
 
-                if (collisionInfo[j].isMagnet)
-                {
-                    g.AddComponent<AreaEffector2D>();
-                    var effector = g.GetComponent<AreaEffector2D>();
-
-                    effector.forceAngle = 25f;
-                    effector.forceMagnitude = 100f;
-                    effector.forceVariation = 5f;
-                }
-                else poly.sharedMaterial = collisionInfo[j].physics; 
-                
+                effector.forceAngle = 25f;
+                effector.forceMagnitude = 100f;
+                effector.forceVariation = 5f;
             }
+            else poly.sharedMaterial = collisionInfo[j].physics;
+
         }
 
         //return g;

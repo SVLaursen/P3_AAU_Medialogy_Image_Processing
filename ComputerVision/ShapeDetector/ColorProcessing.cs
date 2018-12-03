@@ -26,7 +26,7 @@ namespace ShapeDetector
             {
                 for (var x = 0; x < _src.Width; x++)
                 {
-                    if (_mask.GetPixel(x, y) == Color.FromArgb(0, 255, 255, 255) || _mask.GetPixel(x,y) == Color.FromArgb(0,0,0))
+                    if (_mask.GetPixel(x, y) == Color.FromArgb(0, 0, 0, 0) )
                     {
                         _src.SetPixel(x, y, Color.FromArgb(0, 0, 0));
                         continue;
@@ -46,10 +46,13 @@ namespace ShapeDetector
 
             bool ColorsAreClose(Color imgColor, Color listColor, int threshold)
             {
-                var imgHue = GetHuePixel(imgColor);
-                var listHue = GetHuePixel(listColor);
+                int red = imgColor.R - listColor.R,
+                    green = imgColor.G - listColor.G,
+                    blue = imgColor.B - listColor.B;
 
-                return Math.Abs(imgHue - listHue) <= threshold;
+
+
+                return red * red + green * green + blue * blue <= threshold * threshold;
             }
         }
 

@@ -34,16 +34,22 @@ namespace ShapeDetector
                 //Then, the number of blobs are stored.
                 bw.Write(blobs.Count);
 
+                //For reference, half the width and height of the image is found
+                int halfWidth = colorImage.Width / 2;
+                int halfHeight = colorImage.Height / 2;
+
                 //For each blob, 11 integers are exported: 4 corner x y locations, and rgb color.
                 foreach (Blob b in blobs)
                 {
                     Point[] locations = b.getCorners();
                     foreach (Point p in locations)
                     {
-                        bw.Write(p.X);
-                        bw.Write((p.Y));
+                        //Corner coordinates, adjusted by half of the image, are written.
+                        bw.Write(p.X - halfWidth);
+                        bw.Write((p.Y - halfHeight));
                     }
 
+                    //Fetch color from center of blob
                     Point centerPoint = Blob.findCenterByCorners(locations);
                     Color sample = Blob.sampleColor(centerPoint, colorImage);
                     bw.Write(sample.R);

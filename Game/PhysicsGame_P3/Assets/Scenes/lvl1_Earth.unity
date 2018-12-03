@@ -261,7 +261,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4217517953800844, guid: dccee2501560ae7468172c91c6955d48, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 7
+      value: -3.71
       objectReference: {fileID: 0}
     - target: {fileID: 4217517953800844, guid: dccee2501560ae7468172c91c6955d48, type: 2}
       propertyPath: m_LocalPosition.y
@@ -353,13 +353,18 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114688523339979274, guid: f74058546e262465b87097b2a36f8968,
+        type: 2}
+      propertyPath: collisionInfo.Array.size
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4569823879143006, guid: f74058546e262465b87097b2a36f8968, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -8.89
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4569823879143006, guid: f74058546e262465b87097b2a36f8968, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -5.05
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4569823879143006, guid: f74058546e262465b87097b2a36f8968, type: 2}
       propertyPath: m_LocalPosition.z
@@ -385,15 +390,20 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 224200925230347322, guid: f74058546e262465b87097b2a36f8968,
+    - target: {fileID: 114688523339979274, guid: f74058546e262465b87097b2a36f8968,
         type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
+      propertyPath: collisionInfo.Array.data[0].color.rgba
+      value: 4278190335
       objectReference: {fileID: 0}
-    - target: {fileID: 224200925230347322, guid: f74058546e262465b87097b2a36f8968,
+    - target: {fileID: 114688523339979274, guid: f74058546e262465b87097b2a36f8968,
         type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
+      propertyPath: collisionInfo.Array.data[0].isMagnet
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114688523339979274, guid: f74058546e262465b87097b2a36f8968,
+        type: 2}
+      propertyPath: collisionInfo.Array.data[0].physics
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f74058546e262465b87097b2a36f8968, type: 2}
