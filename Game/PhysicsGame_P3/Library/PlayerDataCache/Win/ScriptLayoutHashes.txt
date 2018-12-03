@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-/Users/simonlaursen/Dropbox/AAU/3Semester/Semester Project/Prototype/P3_AAU_Medialogy_Image_Processing/Game/PhysicsGame_P3/Game_v1/PhysicsGame_P3.exe
+/Users/simonlaursen/Dropbox/AAU/3Semester/Semester Project/Prototype/P3_AAU_Medialogy_Image_Processing/Game/Game_V1/PhysicsGame_P3.exe
 SceneListBegin?
 Assets/Scenes/MainMenu.unity
 Assets/Scenes/lvl1_Earth.unity
