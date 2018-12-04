@@ -56,7 +56,6 @@ GameObject:
   - component: {fileID: 4569823879143006}
   - component: {fileID: 114387092108500668}
   - component: {fileID: 114674547533823764}
-  - component: {fileID: 114688523339979274}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -220,6 +219,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!1 &1859728643158192
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4525589742668700}
+  - component: {fileID: 114047028845968354}
+  m_Layer: 0
+  m_Name: Loader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1905075110549274
 GameObject:
   m_ObjectHideFlags: 1
@@ -255,6 +270,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4525589742668700
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1859728643158192}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4569823879143006}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4569823879143006
 Transform:
   m_ObjectHideFlags: 1
@@ -266,6 +294,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224340752782873814}
+  - {fileID: 4525589742668700}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -329,6 +358,35 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114047028845968354
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1859728643158192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7827c458bdaccf349a159abeae34033b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blobStructures: []
+  colliders: []
+  collisionInfo:
+  - color:
+      serializedVersion: 2
+      rgba: 4278190335
+    physics: {fileID: 0}
+    isMagnet: 1
+  - color:
+      serializedVersion: 2
+      rgba: 4294901760
+    physics: {fileID: 6200000, guid: 9f28d8aa22cdd45979031bfe09a89a88, type: 2}
+    isMagnet: 0
+  - color:
+      serializedVersion: 2
+      rgba: 4278255360
+    physics: {fileID: 6200000, guid: 1cf9ebc8a787c43519a8e8297d0f617f, type: 2}
+    isMagnet: 0
 --- !u!114 &114074928974883044
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -734,35 +792,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f264d50722a39446fb6c6dc474ace0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114688523339979274
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1134097394953618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7827c458bdaccf349a159abeae34033b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blobStructures: []
-  colliders: []
-  collisionInfo:
-  - color:
-      serializedVersion: 2
-      rgba: 4278190335
-    physics: {fileID: 0}
-    isMagnet: 1
-  - color:
-      serializedVersion: 2
-      rgba: 4294901760
-    physics: {fileID: 6200000, guid: 9f28d8aa22cdd45979031bfe09a89a88, type: 2}
-    isMagnet: 0
-  - color:
-      serializedVersion: 2
-      rgba: 4278255360
-    physics: {fileID: 6200000, guid: 1cf9ebc8a787c43519a8e8297d0f617f, type: 2}
-    isMagnet: 0
 --- !u!114 &114749651554917452
 MonoBehaviour:
   m_ObjectHideFlags: 1

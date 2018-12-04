@@ -16,10 +16,10 @@ namespace ShapeDetector
             CommandConsole.Run();
         }
 
-        public static void StartProgram(string bImagePath, string imagePath, string fileName)
+        public static void StartProgram(string bImagePath, string imagePath, string fileName, int minBlobSize)
         {
             string root = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            string rootPath = Path.GetFullPath(Path.Combine(root, "..")) + "/Export/";
+            string rootPath = Path.GetFullPath(Path.Combine(root, "..")) + "/StreamingAssets/";
             List<Blob> _b = new List<Blob>();
 
             Bitmap _img = ImageHandler.LoadImage(imagePath);
@@ -35,7 +35,7 @@ namespace ShapeDetector
             Console.WriteLine(" Blobs Found: " + _b.Count);
             foreach (Blob b in _b)
             {
-                if (b.points.Count > 2000)
+                if (b.points.Count > minBlobSize)
                 {
                     bb.Add(b);
                 }
@@ -70,7 +70,7 @@ namespace ShapeDetector
 
             Console.WriteLine("Exporting binary file...");
             //TODO: For now, the exporter spits out binaries into rootPath. Eventually, this should be into StreamingAssets.
-            Exporter.Run(_b, rootPath, "binary", _timg);
+            Exporter.Run(bb, rootPath, "binary", _timg);
             Console.WriteLine("Export complete.");
             _b.Clear();
             bb.Clear();

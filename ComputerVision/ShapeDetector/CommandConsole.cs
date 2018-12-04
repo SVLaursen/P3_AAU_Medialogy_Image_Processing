@@ -16,6 +16,7 @@ namespace ShapeDetector
         private static Bitmap foreground;
         public static int Threshold { get; set; } = -1;
         public static int ColorThreshold { get; set; } = -1;
+		public static int minBlobSize = 2000;
 
         private static readonly Dictionary<string, string> _command = new Dictionary<string, string>
         {
@@ -129,12 +130,29 @@ namespace ShapeDetector
                 case "-reset":
                     Reset();
                     break;
+
+				case "-minBlobSize":
+					Console.WriteLine("Set Min Blob Size in Pixels:");
+					minBlobSize = BlobSize(Console.ReadLine());
+					break;
                 
                 default:
                     Console.WriteLine("--Invalid input--");
                     break;
             }
-        }
+
+			int BlobSize(string consoleInput)
+			{
+				if (int.TryParse(consoleInput, out int value))
+				{
+					Console.WriteLine("Threshold set: " + value);
+					return value;
+				}
+
+				Console.WriteLine("--Invalid Input--");
+				return 0;
+			}
+		}
 
         private static void Calibration()
         {
@@ -228,7 +246,7 @@ namespace ShapeDetector
             Console.WriteLine("Press any key to start image processing sequence");
             Console.ReadKey();
             stop.Start();
-            Program.StartProgram("background.bmp", "foreground.bmp", "debugOutput.bmp");
+            Program.StartProgram("background.bmp", "foreground.bmp", "debugOutput.bmp", minBlobSize);
             stop.Stop();
             Console.WriteLine(" Debugging time: " + stop.ElapsedMilliseconds + " Milliseconds");
             Console.WriteLine("\nDebugging complete..");

@@ -6,19 +6,13 @@ public class BlobLoader : MonoBehaviour
 {
     //NOTE: This entire class may be reworkable into a collider manager
 
-    public static float scale = 1f;
+    public float scale = 0.03f;
     public BlobStructure[] blobStructures;
     public PolygonCollider2D[] colliders;
     
     public List<ColorToPrefab> collisionInfo;
 
-    // Use this for initialization
-    void Start()
-    {
-        Test();
-    }
-
-    public void Test()
+    public void LoadStructures()
     {
         blobStructures = LevelLoader.LoadBlobs(Application.streamingAssetsPath + "/binary");
 

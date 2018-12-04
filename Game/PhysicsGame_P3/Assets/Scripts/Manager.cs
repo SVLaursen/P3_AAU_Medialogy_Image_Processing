@@ -12,10 +12,12 @@ public class Manager : MonoBehaviour
 	public GameObject pauseScreen;
 
 	private Player _player;
+	private BlobLoader blobLoader;
 
 	private void Start()
 	{
 		_player = GameObject.FindWithTag("Player").GetComponent<Player>();
+		blobLoader = FindObjectOfType<BlobLoader>().GetComponent<BlobLoader>();
 		completeScreen.SetActive(false);
 		pauseScreen.SetActive(false);
 	}
@@ -38,8 +40,12 @@ public class Manager : MonoBehaviour
 		pauseScreen.SetActive(paused);
 
 		if (paused) return;
-		
-		if(Input.GetMouseButtonDown(0)) gameActive = !gameActive;
+
+		if (Input.GetMouseButtonDown(0))
+		{
+			blobLoader.LoadStructures();
+			gameActive = !gameActive;
+		}
 		_player.isPaused = !gameActive;
 	}
 
