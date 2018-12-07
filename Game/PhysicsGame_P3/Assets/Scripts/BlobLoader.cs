@@ -8,7 +8,6 @@ public class BlobLoader : MonoBehaviour
 
     public float scale = 0.03f;
     public BlobStructure[] blobStructures;
-    public PolygonCollider2D[] colliders;
     
     public List<ColorToPrefab> collisionInfo;
 
@@ -68,12 +67,12 @@ public struct ColorToPrefab
     public PhysicsMaterial2D physics;
     public bool isMagnet;
 
-    public AreaEffector2D AdjustMagnet()
-    {
-        //In order to use this, in the assigning stage check if it is a magnet
-        //If it is true then call the below code and then this function to set it up
-        //GameObject.AddComponent<AreaEffector2D>();
+    //public AreaEffector2D AdjustMagnet()
+    //{
+    //    //In order to use this, in the assigning stage check if it is a magnet
+    //    //If it is true then call the below code and then this function to set it up
+    //    //GameObject.AddComponent<AreaEffector2D>();
         
-        return new AreaEffector2D {forceAngle = 25f, forceMagnitude = 100f, forceVariation = 5f};
-    }
+    //    return new AreaEffector2D {forceAngle = 25f, forceMagnitude = 100f, forceVariation = 5f};
+    //}
 }
