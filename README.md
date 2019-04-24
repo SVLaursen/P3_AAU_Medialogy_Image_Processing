@@ -9,3 +9,8 @@ The process of this software is as follows:
 - The software runs a background substraction algorithm to remove any elements that are present in both pictures.
 - Once the previous process is done, a BLOB detection algorithm detects any BLOBS left behind, using a CCL approach.
 - The software finishes up by cleaning the colours of the BLOBS to their extreme values and then exports the data collected in a byte file
+
+## What I Learned
+- How to combine image processing algorithms and their usage
+- Image cleaning through BLOB detection and RGB cleaning
+- How to connect an external program with another (in this instance Unity) through byte data
