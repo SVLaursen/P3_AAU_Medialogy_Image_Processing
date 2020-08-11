@@ -1,4 +1,4 @@
-# P3_AAU_Medialogy_Image_Processing
+# 3rd Semester Medialogy Project - Image Processing
 Third semester project - MEA18336 Aalborg University
 
 This project was made by a group of 6 people. The goal of the project was to produce an image processing software that would interact with a game which would then be projected onto a table from which the image processing algorithm would get its data.
